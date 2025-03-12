@@ -1,0 +1,174 @@
+﻿@model List<Bloggie.Web.Models.Domain.BlogPost>
+
+@{
+    ViewBag.Title = "Blog Post List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    .border-skyblue {
+        border-color: #3387ff !important;
+    }
+
+  
+</style>
+
+
+
+<div class="container-fluid">
+
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="card border-top border-0 border-4 border-skyblue">
+                <div class="card-body" style="padding-bottom: 1px; padding-top: 1px; box-shadow: 2px 2px 5px Gray">
+                    <div class="page-title-box">
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">List of BlogPosts</a></li>
+                                <li class="breadcrumb-item active">All BlogPosts</li>
+                            </ol>
+                        </div>
+                        <h4 class="page-title">All BlogPosts</h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+      
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-top border-0 border-4 border-skyblue">
+                <div class="card-body" style=" box-shadow: 2px 2px 5px Gray">
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="row mb-2">
+                                <div class="col-sm-4">
+
+                                    <a asp-controller="AdminBlogPosts" asp-action="Add" class="btn btn-success waves-effect waves-light">
+                                            <i class="mdi mdi-plus-circle me-2"></i> Add Blogs
+                                        </a>
+
+                                
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="text-sm-end">
+                                        <button type="button" style="display:none" class="btn btn-info mb-2 me-1">Import</button>
+                                        <button type="button" style="display:none" class="btn btn-info mb-2 me-1">Export Pdf</button>
+                                        <button type="button" style="display:none" class="btn btn-blue mb-2 me-1">Export Excel</button>
+                                        <button type="button" style="display:none" class="btn btn-primary mb-2 me-1">Print</button>
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" id="RefreshModel"><i class="mdi mdi-cloud-refresh me-2"></i> Refresh</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                @if (Model != null && Model.Any())
+                                {
+                                    <table id="BlogPostList" class="table table-striped table-bordered" style="width:100% ;text-align:center; border: 1px solid rgb(216 218 219);">
+                                        <thead style="background-color:#E2E3E5">
+                                            <tr>
+                                                <th>SL No</th>
+                                                <th>Id</th>
+                                                <th>Heading</th>
+                                                <th>Tags</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @{
+                                                int count = 0;
+                                            }
+
+                                            @foreach (var blogPost in Model)
+                                            {
+                                                count++;
+                                                <tr>
+                                                    <td>@count</td>
+                                                    <td>@blogPost.Id</td>
+                                                    <td>@blogPost.Heading</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            @foreach (var tag in blogPost.Tags)
+                                                            {
+                                                                <span class="badge bg-secondary me-1">@tag.Name</span>
+                                                            }
+                                                        </div>
+
+                                                    </td>
+                                                    <td>
+                                                        <a asp-area="" asp-controller="AdminBlogPosts" asp-action="Edit" asp-route-id="@blogPost.Id">
+                                                            <i class="mdi mdi-square-edit-outline" data-toggle="tooltip" title="Edit" style="color:forestgreen; font-size: 18px;"></i>
+                                                        </a>
+                 
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <p>No BlogPost found</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+@section dateStyle
+{
+    <!--plugins-->
+
+    <link href="~/assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+}
+
+
+@section dateScript
+{
+    <!-- jQuery (MUST be first) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+}
+
+
+
+<script>
+    // Datatable
+    $(document).ready(function () {
+        $('#BlogPostList').DataTable();
+
+    });
+
+     //Referesh Button
+    var refereshButton = document.getElementById("RefreshModel");
+    refereshButton.addEventListener("click", function () {
+        location.reload();
+    });
+
+
+
+</script>

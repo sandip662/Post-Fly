@@ -1,0 +1,404 @@
+﻿@model Bloggie.Web.Models.ViewModels.HomeViewModel
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    /* Scrollable Tag Container */
+    .tags-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 10px 0;
+    background: white;
+    }
+
+    /* Scrollable Area */
+    .tags-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding: 10px;
+    white-space: nowrap;
+    scrollbar-width: none; /* Hides scrollbar in Firefox */
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    width: 100%;
+    }
+
+    /* Hide scrollbar in WebKit browsers (Chrome, Safari) */
+    .tags-scroll::-webkit-scrollbar {
+    display: none;
+    }
+
+    /* Tag Card Styling */
+    .tag-card {
+    min-width: 130px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    background: aliceblue;
+    color: #333;
+    text-align: center;
+    scroll-snap-align: start;
+    }
+
+    /* Hover Effect */
+    .tag-card:hover {
+    transform: scale(1.05);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Arrow Buttons */
+    .scroll-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    color: black;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+    }
+
+    .left-arrow {
+    left: 10px;
+    }
+
+    .right-arrow {
+    right: 10px;
+    }
+
+</style>
+
+
+
+<div class="tags-container" style="border-radius:5px;border:1px solid navajowhite; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
+    
+    <div class="card p-4">
+        <div class="row align-items-center g-5">
+
+            <!-- Text Section -->
+            <div class="col-12">
+                <h1 class="display-4 fw-bold lh-1 text-dark"
+                    style="font-size: 100px; font-family:Times New Roman; line-height: 1.2;color:rgba(0, 0, 0, 0.8);">
+                   Human
+                </h1>
+                <h1 class="display-4 fw-bold lh-1 text-dark"
+                    style="font-size: 100px; font-family:Times New Roman; line-height: 1.2;color:rgba(0, 0, 0, 0.8);">
+                    stories & Ideas
+                </h1>
+                <p class="lead text-muted" style="font-size: 18px; line-height: 1.6;">
+                   <h1 style="font-size:20px">
+
+                        A place to read, write, and deepen your understanding
+                   </h1>
+                </p>
+                <a href="#" class="btn btn-lg mt-3"
+                   style="border-radius: 50px; padding: 4px 25px; padding: 12px 25px; font-size: 18px;background-color:rgba(0, 0, 0, 0.8);color:white; margin-left:-6px">
+                   Start Reading
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- Full-Width Tag Scroller with Arrows -->
+<div class="tags-container mt-2"
+     style="border-radius:5px;border:1px solid navajowhite; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
+    <button class="scroll-arrow left-arrow" id="scrollLeft">&#10094;</button>
+
+    <div class="tags-scroll" id="tagScroller" style="margin-left: 28px;
+  margin-right: 21px;">
+        @if (Model != null && Model.Tags.Any())
+        {
+            @foreach (var tag in Model.Tags)
+            {
+                <a asp-controller="Home" asp-action="Index" asp-route-tag="@tag.Name"
+                   class="tag-card" style="box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;border:1px solid navajowhite">
+                    #@tag.Name
+                </a>
+            }
+        }
+        else
+        {
+            <p class="text-muted">No tags available</p>
+        }
+    </div>
+
+    <button class="scroll-arrow right-arrow" id="scrollRight">&#10095;</button>
+</div>
+
+<!-- JavaScript for Scrolling -->
+
+
+<div class="row mt-2">
+    <div class="col-lg-8 order-lg-1 order-2">
+        @if (Model != null && Model.BlogPosts.Any())
+        {
+            foreach (var blogPost in Model.BlogPosts.OrderByDescending(b => b.PublishedDate))
+            {
+                <div class="card mb-2 shadow-sm">
+                    <div class="card-body" style="border: 1px solid navajowhite; border-radius:7px">
+
+                        <div class="row">
+                            <!-- Blog Image -->
+                            <div class="col-sm-4">
+                                <div class="d-flex align-items-start">
+                                    <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading"
+                                    class="mb-5 d-flex align-self-center me-3"
+                                    style="height: 200px; width: 230px; border-radius: 10px; object-fit: cover;" />
+                                </div>
+                            </div>
+
+                            <!-- Blog Details -->
+                            <div class="col-sm-8">
+                                <a asp-area=""
+                                asp-controller="Blogs"
+                                asp-action="Index"
+                                asp-route-urlHandle="@blogPost.UrlHandle">
+                                    <h4 class="mb-1" style="font-size:19px; font-weight: bold;">@blogPost.Heading</h4>
+                                </a>
+                                <p class="mb-2 text-muted">
+                                    <strong>Author:</strong> @blogPost.Author <br />
+                                </p>
+                                <p class="mb-1">@blogPost.ShortDescription</p>
+                            </div>
+                        </div>
+
+                        <hr style="border-top: 1px solid navajowhite; margin-top: -2.25rem !important;" />
+
+                        <!-- Tags & Published Date Section -->
+                        <div class="row align-items-center">
+                            <div class="col-md-7">
+                                <p class="mb-1">
+                                    @foreach (var tag in blogPost.Tags)
+                                    {
+                                        <a asp-controller="Home" asp-action="Index" asp-route-tag="@tag.Name"
+                                        class="badge me-1"
+                                        style="background: navajowhite; color: black; border: 1px solid black; border-radius: 5px;">
+                                            # @tag.Name
+                                        </a>
+                                    }
+                                </p>
+                            </div>
+
+
+                            <div class="col-md-5 text-md-end">
+                                <strong>Published:</strong> @blogPost.PublishedDate.ToShortDateString()
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        }
+
+
+    </div> <!-- end col -->
+
+
+
+    <div class="col-lg-4 order-lg-2 order-1">
+        <div class="card">
+            <div class="card-body" style="border:1px solid navajowhite; border-radius:7px;">
+
+             
+                        <div class="row">
+                    <h5 class="mb-3 text-uppercase bg-light p-2" style="background: linear-gradient(to right, #f0f8fff7, #eef1f6);background: linear-gradient(to right, #f0f8fff7, #eef1f6);">Popular Posts</h5>
+
+               @if (Model != null && Model.BlogPosts.Any())
+                {
+                    foreach (var blogPost in Model.BlogPosts.OrderByDescending(b => b.PublishedDate))
+                    {
+                            <a asp-area=""
+                               asp-controller="Blogs"
+                               asp-action="Index"
+                               asp-route-urlHandle="@blogPost.UrlHandle">
+                                <ul class="list-unstyled" style="border: 1px solid navajowhite; padding:7px; border-radius:5px">
+                                    <li class="mb-2">
+
+                                        <div style="display: flex; align-items: center;">
+                                            <div style="width: 40px; height: 40px; border-radius: 50%;border: 2px solid lightgray; background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
+                                                <i class="fas fa-user" style="color: gray; font-size: 20px;"></i>
+                                            </div>
+                                            <span style="margin-left: 8px; font-size: 14px; font-weight: bold; color:slategray">@blogPost.Author</span>
+                                        </div>
+
+
+
+
+
+                                        <div>
+
+                                            <h4 class="mb-1" style="font-size:14px; font-weight: bold;">@blogPost.Heading</h4>
+
+                                        </div>
+
+                                        <div class="col-md-5">
+                                            @blogPost.PublishedDate.ToShortDateString()
+                                        </div>
+
+                                    </li>
+                                </ul>
+
+                        </a>
+                            
+
+                        }
+
+                    }
+
+                        </div>
+
+                  <div class="row mt-5">
+
+                    <h5 class="mb-3 text-uppercase bg-light p-2" style="background: linear-gradient(to right, #f0f8fff7, #eef1f6);background: linear-gradient(to right, #f0f8fff7, #eef1f6);">Recommended Tags</h5>
+
+                    <div class="d-flex flex-wrap">
+
+                           @if (Model != null && Model.BlogPosts.Any())
+                             {
+                       foreach (var blogPost in Model.BlogPosts.OrderByDescending(b => b.PublishedDate))
+                        {
+                        @foreach (var tag in blogPost.Tags)
+                        {
+                             <p>
+                            <a asp-controller="Home" asp-action="Index" asp-route-tag="@tag.Name"
+                               class="badge me-1"
+                                           style="background: linear-gradient(to right, #f0f8fff7, #eef1f6); color: black; border: 1px solid black; border-radius: 5px;">
+                                # @tag.Name
+                            </a>
+                            </p>
+                        }
+                        }
+                        }
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="row mt-5">
+
+                    <h5 class="mb-3 text-uppercase bg-light p-2" style="background: linear-gradient(to right, #f0f8fff7, #eef1f6);background: linear-gradient(to right, #f0f8fff7, #eef1f6);">Reading List</h5>
+
+                    <div class="d-flex flex-wrap">
+
+                      
+                                    <p style="font-size:15px">
+                                      Click the heading on any story to easily add it to your reading list or a custom list that you can share.
+                                    </p>
+
+                        <p style="font-size:12px">
+                            Help
+
+                            Status
+
+                            About
+
+                            Careers
+
+                            Press
+
+                            Blog
+
+                            Privacy
+
+                            Terms
+
+                            Text to speech
+
+                            Teams
+                        </p>
+                                
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div> <!-- end card-->
+        <!-- Recommended Tags Section -->
+       
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    document.getElementById("scrollLeft").addEventListener("click", function() {
+        document.getElementById("tagScroller").scrollBy({ left: -200, behavior: "smooth" });
+    });
+
+    document.getElementById("scrollRight").addEventListener("click", function() {
+        document.getElementById("tagScroller").scrollBy({ left: 200, behavior: "smooth" });
+    });
+</script>
