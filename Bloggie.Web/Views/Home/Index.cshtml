@@ -153,6 +153,8 @@
 
 
 <div class="row mt-2">
+
+
     <div class="col-lg-8 order-lg-1 order-2">
         @if (Model != null && Model.BlogPosts.Any())
         {
@@ -273,16 +275,16 @@
 
                   <div class="row mt-5">
 
-                    <h5 class="mb-3 text-uppercase bg-light p-2" style="background: linear-gradient(to right, #f0f8fff7, #eef1f6);background: linear-gradient(to right, #f0f8fff7, #eef1f6);">Recommended Tags</h5>
+                    <h5 class="mb-3 text-uppercase bg-light p-2" style="background: linear-gradient(to right, #f0f8fff7, #eef1f6);">Recommended Tags</h5>
 
                     <div class="d-flex flex-wrap">
 
-                           @if (Model != null && Model.BlogPosts.Any())
-                             {
+                      @if (Model != null && Model.BlogPosts.Any())
+                        {
                        foreach (var blogPost in Model.BlogPosts.OrderByDescending(b => b.PublishedDate))
-                        {
+                          {
                         @foreach (var tag in blogPost.Tags)
-                        {
+                            {
                              <p>
                             <a asp-controller="Home" asp-action="Index" asp-route-tag="@tag.Name"
                                class="badge me-1"
@@ -290,9 +292,9 @@
                                 # @tag.Name
                             </a>
                             </p>
+                          }
                         }
-                        }
-                        }
+                      }
                     </div>
                 </div>
 

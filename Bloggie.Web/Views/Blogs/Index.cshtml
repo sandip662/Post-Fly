@@ -4,114 +4,143 @@
 
 @model Bloggie.Web.Models.ViewModels.BlogDetailsViewModel
 
-@{
-    ViewData["Title"] = Model.PageTitle;
-}
 
 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-12 col-lg-6">
-
-            @if (Model != null)
-            {
-                <h1 class="mb-3">@Model.Heading</h1>
-
-                <div class="d-flex justify-content-between mb-3">
-                    <span class="text-secondary">@Model.Author</span>
-                    <span class="text-secondary">@Model.PublishedDate.ToShortDateString()</span>
-                </div>
-
-                <div class="mb-3">
-                    @if (signInManager.IsSignedIn(User))
-                    {
-                        if (Model.Liked)
-                        {
-                            <a style="cursor: pointer;">
-                                <i class="bi bi-hand-thumbs-up-fill"></i>
-                            </a>
-                        }
-                        else
-                        {
-                            <a id="btnLike" style="cursor: pointer;">
-                                <i class="bi bi-hand-thumbs-up"></i>
-                            </a>
-                        }
-                    }
-
-                    <span id="totalLikes">@Model.TotalLikes</span> likes
-                </div>
-
-                <div class="mb-3 d-flex">
-                    @foreach (var tag in Model.Tags)
-                    {
-                        <span class="badge bg-secondary me-1">@tag.Name</span>
-                    }
-                </div>
-
-                <img src="@Model.FeaturedImageUrl" class="d-block img-fluid mb-3" />
-
-                <div class="mb-3 blog-details-content">
-                    @Html.Raw(Model.Content)
-                </div>
 
 
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Comments</h5>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-12">
+                @if (Model != null)
+                {
+                    <div class="card shadow-lg border-0">
+                        <div class="card-body p-4">
+                            <!-- Blog Title -->
+                        <h1 class="mb-3 fw-bold" style="border-radius:5px;">@Model.Heading</h1>
 
-                        @if (signInManager.IsSignedIn(User))
-                        {
-                            <form method="post">
-                                <div class="mb-3">
-                                    <label class="form-label">Comment Description</label>
-                                    <input type="text" class="form-control" asp-for="CommentDescription" />
+                        <!-- Blog Metadata -->
+                        <div class="d-flex align-items-center gap-3 mb-3 border-bottom pb-2 p-1" style="background:linear-gradient(to right, #f0f8fff7, #eef1f6);">
+                            <!-- Profile Picture or Icon -->
+                            <div class="d-flex align-items-center">
+                                <div style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid #ddd;
+                    background: linear-gradient(135deg, #f8f9fa, #e9ecef); display: flex;
+                    align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+                                    <i class="fas fa-user" style="color: gray; font-size: 22px;"></i>
                                 </div>
-                                <div class="mb-3">
-                                    <button type="submit" class="btn btn-dark">Submit</button>
-                                    <input type="hidden" asp-for="Id" />
-                                    <input type="hidden" asp-for="UrlHandle" />
+                            </div>
+
+                            <!-- Author and Date Info -->
+                            <div class="d-flex flex-column" >
+                                <span class="text-dark fw-bold" style="font-size: 1rem;">@Model.Author</span>
+                                <span class="text-muted" style="font-size: 0.9rem;">
+                                    <i class="bi bi-calendar-event"></i> @Model.PublishedDate.ToString("MMMM dd, yyyy")
+                                </span>
+                            </div>
+                        </div>
+
+
+                            <!-- Like Section -->
+                            <div class="mb-3">
+                                @if (signInManager.IsSignedIn(User))
+                                {
+                                    <a id="btnLike" class="text-decoration-none text-dark" style="cursor: pointer;">
+                                        <i class="bi @(Model.Liked ? "bi-hand-thumbs-up-fill text-primary" : "bi-hand-thumbs-up")"></i>
+                                    </a>
+                                }
+                                <span id="totalLikes" class="fw-bold">@Model.TotalLikes</span> likes
+                            </div>
+
+                            <!-- Tags -->
+                            <div class="mb-3">
+                                @foreach (var tag in Model.Tags)
+                                {
+                                    <span class="badge bg-secondary me-1">#@tag.Name</span>
+                                }
+                            </div>
+
+                            <!-- Featured Image -->
+                            <div class="text-center mb-4">
+                                <img src="@Model.FeaturedImageUrl" class="img-fluid rounded shadow-sm" style="max-height: 450px; object-fit: cover;" />
+                            </div>
+
+                            <!-- Blog Content -->
+                            <div class="mb-4 blog-details-content text-dark fs-5">
+                                @Html.Raw(Model.Content)
+                            </div>
+
+                            <!-- Comments Section -->
+                            <div class="card shadow-sm mt-4">
+                                <div class="card-header bg-light">
+                                    <h5 class="m-0 text-dark">Comments</h5>
                                 </div>
-                            </form>
-                        }
+                                <div class="card-body">
+                                    <!-- Add Comment -->
+                                    @if (signInManager.IsSignedIn(User))
+                                    {
+                                        <form method="post" class="mb-3">
+                                            <div class="mb-2">
+                                                <label class="form-label fw-semibold">Add a Comment</label>
+                                                <textarea class="form-control" rows="3" asp-for="CommentDescription" placeholder="Write your comment..."></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                            <input type="hidden" asp-for="Id" />
+                                            <input type="hidden" asp-for="UrlHandle" />
+                                        </form>
+                                    }
+
+                                    <!-- Display Comments -->
+                                    @if (Model.Comments != null && Model.Comments.Any())
+                                    {
+                                        @foreach (var comment in Model.Comments)
+                                        {
+                                            <div class="card mb-3 shadow-sm border-light">
+                                                <div class="card-body">
+                                                    <p class="mb-1">@comment.Description</p>
+                                                    <div class="d-flex justify-content-between text-muted small">
+                                                        <span><strong>@comment.Username</strong></span>
+                                                        <span>@comment.DateAdded.ToString("MMMM dd, yyyy")</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted">No comments yet. Be the first to comment!</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        @if (Model.Comments != null && Model.Comments.Any())
-                        {
-                            @foreach (var comment in Model.Comments)
-                            {
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <div>
-                                            @comment.Description
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <span class="text-secondary">@comment.Username</span>
-                                            <span class="text-secondary">@comment.DateAdded.ToShortDateString()</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        }
+                }
+                else
+                {
+                    <div class="alert alert-danger text-center">
+                        <p class="m-0">Blog post not found!</p>
                     </div>
-                </div>
-
-
-
-            }
-            else
-            {
-                <p>Blog post not found!</p>
-            }
+                }
+            </div>
         </div>
     </div>
-</div>
+
+           
+
+      
 
 
 
-    <script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
         const btnLikeElement = document.getElementById('btnLike');
         const totalLikeElement = document.getElementById('totalLikes');
+
+        if (!btnLikeElement) {
+            console.warn("Like button not found. User might have already liked this post.");
+            return;
+        }
 
         async function getTotalLikes() {
             fetch('/api/blogpostlike/@Model.Id/totalLikes', {
@@ -121,10 +150,9 @@
                     'Accept': '*/*'
                 }
             })
-                .then(data => data.json())
+                .then(response => response.json())
                 .then(result => totalLikeElement.innerHTML = result);
         }
-
 
         async function addLikeForBlog() {
             fetch('/api/BlogPostLike/Add', {
@@ -144,7 +172,6 @@
             });
         }
 
-
         btnLikeElement.addEventListener('click', addLikeForBlog);
-
-    </script>
+    });
+</script>
