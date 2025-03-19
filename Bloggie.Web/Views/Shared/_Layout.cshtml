@@ -57,7 +57,7 @@
 
         .navbar-custom {
             box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-            border: 1px solid navajowhite;
+            border: 1px solid #1e90ff;
             background-color: white;
             
            
@@ -66,8 +66,8 @@
 
         .topnav {
             box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-            background: navajowhite;
-            border: 1px solid navajowhite;
+            background: linear-gradient(to right,#1e90ff, #73c5ff );
+            border: 1px solid #1e90ff;
            
         }
 
@@ -83,7 +83,26 @@
             top: -70px;
         }
        
+        .postfly-text {
+            font-size: 50px; /* Adjust size as needed */
+            font-weight: bold;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #004a93, #f70000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
 
+
+    </style>
+
+    <style>
+        .topnav-admin {
+            border: 2px solid lightgray; /* Button-like border */
+            border-radius: 5px; /* Slightly rounded corners */
+            padding: 8px; /* Spacing inside dropdown */
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px; /* Soft shadow effect */
+        }
 
     </style>
 </head>
@@ -114,14 +133,14 @@
 
                         <!-- Logo -->
                         <a href="http://localhost:5122/" class="mb-1 d-flex align-items-center text-decoration-none p-1 rounded"
-                           style="background: navajowhite; display: flex; align-items: center; flex-shrink: 0; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;border:1px solid black">
+                           style="
+                             display: flex; align-items: center; flex-shrink: 0; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;border:1px solid #004a93">
 
                             <!-- Always Visible Logo -->
-                            <i class="fas fa-paper-plane me-2" style="font-size: 24px; color: black !important; flex-shrink: 0;"></i>
+                            <i class="fas fa-paper-plane me-2" style="font-size: 24px; color: #004a93 !important; flex-shrink: 0;"></i>
 
                             <!-- Hide Text in Mobile, Show in Larger Screens -->
-                            <span class="fw-bold fs-4 d-none d-md-inline"
-                                  style="color: black !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1;">
+                            <span class="fw-bold fs-4 d-none d-md-inline postfly-text ">
                                 POSTFLY
                             </span>
 
@@ -160,23 +179,22 @@
                                     <div class="input-group"
                                     style="background-color: white;
                                              border-radius: 4px;
-                                               color: black;
+                                               color: #004a93;
                                              text-shadow: none;border:1px solid black;
+                                         border-color: #004a93;
 
-                                              box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-
-                                    ">
+                                              box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;    ">
                                         <style>
                                             #top-search::placeholder {
-                                                color: black;
+                                                color: #004a93;
                                             opacity: 1; /* Ensures full visibility */
                                             }
                                         </style>
 
-                                        <input type="search" class="form-control" style="color: black;height:32px;" placeholder="Search..." id="top-search">
+                                        <input type="search" class="form-control" style="color: #004a93;height:32px;" placeholder="Search..." id="top-search">
 
                                         <button class="btn btn-outline-light" type="submit">
-                                            <i class="fe-search" style="color:black"></i>
+                                            <i class="fe-search" style="color:#004a93"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -202,14 +220,14 @@
 
                         <!-- Profile Dropdown -->
                         <div class="dropdown notification-list topbar-dropdown"
-                             style="box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; border-radius:5px; border:1px solid black">
+                             style="box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; border-radius:5px; border:1px solid #004a93">
                             <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none p-1 rounded"
                             data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"
                             style="background: white; min-width: 45px;">
-                                <i class="mdi mdi-account-circle-outline fs-5" style="color: black;"></i>
+                                <i class="mdi mdi-account-circle-outline fs-5" style="color: #004a93;"></i>
 
                                 <span class="pro-user-name ms-2 text-truncate d-none d-lg-inline-block"
-                                      style="max-width: 120px;color:black; overflow: hidden;">
+                                      style="max-width: 120px;color:#004a93; overflow: hidden;">
                                     @(signInManager.IsSignedIn(User) ? User.Identity.Name : "Sign In")
                                 </span>
                             </a>
@@ -272,7 +290,7 @@
                                              margin-right: -73px; flex-shrink: 0;">
 
                                     <i class="fe-settings noti-icon"
-                                       style="font-size: 30px; color: black; transition: 0.3s ease; flex-shrink: 0;">
+                                       style="font-size: 30px; color: #004a93; transition: 0.3s ease; flex-shrink: 0;">
                                     </i>
                                 </a>
                             </div>
@@ -289,15 +307,6 @@
 
 
 
-      <style>
-            .topnav-admin {
-                border: 2px solid lightgray; /* Button-like border */
-                border-radius: 5px; /* Slightly rounded corners */
-                padding: 8px; /* Spacing inside dropdown */
-                box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px; /* Soft shadow effect */
-            }
-
-      </style>
 
         @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
         {
@@ -311,8 +320,8 @@
                                 <li class="nav-item dropdown me-2">
                                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="topnav-admin"
                                        role="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                                        <i class="fe-airplay" style="color:black"></i>
-                                        <span class="d-none d-lg-inline ms-1" style="color:black">Admin</span>
+                                        <i class="fe-airplay" style="color:white"></i>
+                                        <span class="d-none d-lg-inline ms-1" style="color:white">Admin</span>
                                     </a>
                                     <ul class="dropdown-menu w-100" aria-labelledby="topnav-admin" style=" box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
                                         <li><a class="dropdown-item" asp-controller="AdminTags" asp-action="Add">Create Tag</a></li>
@@ -324,8 +333,8 @@
                                 <li class="nav-item dropdown me-2">
                                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="topnav-user"
                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fe-grid" style="color:black"></i>
-                                        <span class="d-none d-lg-inline ms-1" style="color:black">User</span>
+                                        <i class="fe-grid" style="color:white"></i>
+                                        <span class="d-none d-lg-inline ms-1" style="color:white">User</span>
                                     </a>
                                     <ul class="dropdown-menu w-100" aria-labelledby="topnav-user"style=" box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
                                         <li><a class="dropdown-item" asp-controller="AdminBlogPosts" asp-action="Add">Create BlogPost</a></li>
@@ -337,8 +346,8 @@
                                 <li class="nav-item dropdown me-2">
                                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="topnav-reports"
                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fe-sidebar" style="color:black"></i>
-                                        <span class="d-none d-lg-inline ms-1" style="color:black">Manage User</span>
+                                        <i class="fe-sidebar" style="color:white"></i>
+                                        <span class="d-none d-lg-inline ms-1" style="color:white">Manage User</span>
                                     </a>
                                     <ul class="dropdown-menu w-100" aria-labelledby="topnav-reports">
                                        
