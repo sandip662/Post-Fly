@@ -1,64 +1,283 @@
 ﻿@model Bloggie.Web.Models.ViewModels.UserViewModel
 
 @{
+    ViewBag.Title = "User List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int nextPage = Convert.ToInt32(ViewBag.PageNumber) + 1;
+    int prevPage = Convert.ToInt32(ViewBag.PageNumber) - 1;
 }
 
+<style>
 
-<div class="bg-secondary bg-opacity-10 py-2">
-    <div class="container">
-        <h1>Users - Admin Functionality</h1>
+    .border-skyblue {
+        border-color: #3387ff !important;
+    }
+
+    #TagList {
+        font-size: 14px;
+    }
+
+        #TagList th,
+        #TagList td {
+            padding: 5px;
+            white-space: nowrap;
+        }
+</style>
+
+<style>
+
+    .custom-back-btn {
+        width: 100px;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #ff9900, #ff5500);
+        border-radius: 22px;
+        cursor: pointer;
+        border: none;
+        height: 38px;
+    }
+
+        .custom-back-btn > svg {
+            margin-right: 5px;
+            margin-left: 5px;
+            font-size: 20px;
+            transition: all 0.4s ease-in;
+        }
+
+        .custom-back-btn:hover > svg {
+            font-size: 1.2em;
+            transform: translateX(-5px);
+        }
+
+        .custom-back-btn:hover {
+            box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #ffffff;
+            transform: translateY(-2px);
+        }
+</style>
+
+<div class="container-fluid">
+
+
+
+<!-- Centered Header Section -->
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <!-- Card with elegant shadow & subtle color -->
+            <div class="card rounded-4 px-3 py-1"
+                 style="box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px;border:2px dashed #0675e1">
+
+                <div class="row g-4 align-items-center">
+                    <div class="col-md-12 text-center">
+                        <h1 class="fw-bold text-primary-emphasis"
+                            style="font-size: 2.8rem; font-weight: 700;
+                   background:#0675e1;
+                   -webkit-background-clip: text ;
+                   -webkit-text-fill-color: transparent;
+                   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);">
+
+                            <i class="bi bi-person-circle me-2"></i>
+                            Create User
+                        </h1>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 
-<div>
-    <div class="container py-5">
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-top shadow-sm rounded" >
+                    <div class="card-body p-4" style="border:2px dashed #0d6efd; border-radius:12px;">
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Action Buttons -->
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-sm-4">
+                                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalCreateUser">
+                                        Create User
+                                    </button>
+                                    </div>
+                                    <div class="col-sm-8 text-end">
+                                        <button type="button" class="btn btn-primary" onclick="location.href='http://localhost:5122/AdminUsers/List'" style="border-radius:22px;border:none; background:linear-gradient(135deg, #5a43f7, #735ff9);">
+                                            <i class="mdi mdi-cloud-refresh me-2"></i> Refresh
+                                        </button>
+                                    </div>
+                                </div>
 
-        <div class="mb-3 d-flex justify-content-end">
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalCreateUser">
-                Create User
-            </button>
+
+                                <div class="row mb-2" style="margin-left: -25px;">
+                                    <!-- Search Form -->
+                                    <form method="get"
+                                          asp-controller="AdminUsers" ,
+                                          asp-action="List">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col col-md-12 d-flex">
+                                                    <button type="submit" class="btn me-3" style=" color:gray; border:1px solid gray ">Search:</button>
+                                                    <input type="text" class="form-control"
+                                                           name="searchQuery" value="@ViewBag.SearchQuery" style=" color:gray; border:1px solid gray " placeholder="Search Tags" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+
+                                <!-- Data Table -->
+                                <div class="table-responsive bg-white shadow-sm rounded p-3" style="border:1px solid gray;border-radius:7px">
+                                @if (Model.Users is not null || Model.Users.Any())
+                                {
+
+                                    <table class="table table-hover table-bordered text-center align-middle">
+                                            <thead style="background: #1e90ff;">
+                                                <tr class="fw-semibold text-secondary">
+                                                    <th style="color:white; border:1px solid gray">ID</th>
+                                                    <th style="color:white; border:1px solid gray">
+                                                        UserName
+                                                        <a asp-controller="AdminUsers" asp-action="List" asp-route-sortBy="UserName" asp-route-sortDirection="Asc" asp-route-searchQuery="@ViewBag.SearchQuery" class="text-dark ms-1">
+                                                            <i class="bi bi-arrow-up" style="color:white"></i>
+                                                        </a>
+                                                        <a asp-controller="AdminUsers" asp-action="List" asp-route-sortBy="UserName" asp-route-sortDirection="Desc" asp-route-searchQuery="@ViewBag.SearchQuery" class="text-dark">
+                                                            <i class="bi bi-arrow-down" style="color:white"></i>
+                                                        </a>
+                                                    </th>
+                                                    <th style="color:white; border:1px solid gray">
+                                                        Email
+                                                        <a asp-controller="AdminUsers" asp-action="List" asp-route-sortBy="Email" asp-route-sortDirection="Asc" asp-route-searchQuery="@ViewBag.SearchQuery" class="text-dark ms-1">
+                                                            <i class="bi bi-arrow-up" style="color:white"></i>
+                                                        </a>
+                                                        <a asp-controller="AdminUsers" asp-action="List" asp-route-sortBy="Email" asp-route-sortDirection="Desc" asp-route-searchQuery="@ViewBag.SearchQuery" class="text-dark">
+                                                            <i class="bi bi-arrow-down" style="color:white"></i>
+                                                        </a>
+                                                    </th>
+                                                    <th style="color:white; border:1px solid gray">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach (var user in Model.Users)
+                                            {
+                                                    <tr>
+                                                    <td style="color:gray; border:1px solid gray">@user.Id</td>
+                                                    <td style="color:gray; border:1px solid gray">@user.Username</td>
+                                                    <td style="color:gray; border:1px solid gray">@user.EmailAddress</td>
+                                                        <td style="color:gray; border:1px solid gray">
+                                                        <form method="post"
+                                                              asp-controller="AdminUsers"
+                                                              asp-action="Delete"
+                                                              asp-route-id="@user.Id">
+                                                            <button class="btn btn-danger" type="submit">Delete</button>
+                                                        </form>
+
+                                                        </td>
+                                                    </tr>
+                                                }
+
+
+
+                                            </tbody>
+                                        </table>
+
+
+
+
+
+                                        <div class="row mb-3 align-items-center">
+                                            <div class="col-sm-4">
+                                                <!-- Pagination -->
+                                                <nav aria-label="Page navigation example">
+                                                    <ul class="pagination">
+                                                        <li class="page-item" style=" color:gray; border:1px solid gray ">
+                                                            <a class="page-link"
+                                                               asp-controller="AdminUsers"
+                                                               asp-action="List"
+                                                               asp-route-pageNumber="@prevPage"
+                                                               asp-route-pageSize="@ViewBag.PageSize"
+                                                               asp-route-sortBy="@ViewBag.SortBy"
+                                                               asp-route-sortDirection="@ViewBag.SortDirection">
+                                                                Previous
+                                                            </a>
+                                                        </li>
+
+                                                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                                        {
+                                                            <li class="page-item" style=" color:gray; border:1px solid gray ">
+                                                                <a class="page-link"
+                                                                   asp-controller="AdminUsers"
+                                                                   asp-action="List"
+                                                                   asp-route-pageNumber="@i"
+                                                                   asp-route-pageSize="@ViewBag.PageSize"
+                                                                   asp-route-sortBy="@ViewBag.SortBy"
+                                                                   asp-route-sortDirection="@ViewBag.SortDirection">
+                                                                    @i
+                                                                </a>
+                                                            </li>
+                                                        }
+
+
+                                                        <li class="page-item" style=" color:gray; border:1px solid gray ">
+                                                            <a class="page-link"
+                                                               asp-controller="AdminUsers"
+                                                               asp-action="List"
+                                                               asp-route-pageNumber="@nextPage"
+                                                               asp-route-pageSize="@ViewBag.PageSize"
+                                                               asp-route-sortBy="@ViewBag.SortBy"
+                                                               asp-route-sortDirection="@ViewBag.SortDirection">
+                                                                Next
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+
+
+
+                                            <div class="col-sm-8 text-end">
+                                                <!-- From Uiverse.io by Jedi-hongbin -->
+                                                <button class="custom-back-btn" onclick="location.href='http://localhost:5122/'">
+                                                    <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+                                                        <path fill="currentColor" d="M874.69 495.52c0 11.3-9.17 20.47-20.47 20.47H249.44l188.08 188.08c7.99 7.99 7.99 20.95 0 28.94-4 3.99-9.24 6-14.47 6s-10.48-2-14.48-6L185.56 510.92c-3.84-3.84-6-9.05-6-14.47 0-5.43 2.16-10.63 6-14.47L408.58 259c7.99-7.99 20.96-7.99 28.95 0s7.99 20.96 0 28.95l-188.07 188.07h604.75c11.3 0 20.47 9.16 20.47 20.47z" />
+                                                    </svg>
+                                                    <span>Back</span>
+                                                </button>
+
+
+
+
+
+                                            </div>
+
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted text-center py-3">No tags found</p>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
-        @if (Model.Users is not null || Model.Users.Any())
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th> </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var user in Model.Users)
-                    {
-                        <tr>
-                            <td>@user.Id</td>
-                            <td>@user.Username</td>
-                            <td>@user.EmailAddress</td>
-                            <td>
-                                <form method="post" 
-                                      asp-controller="AdminUsers" 
-                                      asp-action="Delete" 
-                                      asp-route-id="@user.Id">
-                                    <button class="btn btn-danger" type="submit">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>No users found!</p>
-        }
-
-
-
     </div>
+
+
+
+
+
+
+
 </div>
 
 

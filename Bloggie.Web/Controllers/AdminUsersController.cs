@@ -20,9 +20,37 @@ namespace Bloggie.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string? searchQuery,
+         string? sortBy,
+         string? sortDirection,
+         int pageSize = 5,
+         int pageNumber = 1)
         {
-            var users = await userRepository.GetAll();
+
+
+            var totalRecords = await userRepository.CountAsync();
+            var totalPages = Math.Ceiling((decimal)totalRecords / pageSize);
+
+            if (pageNumber > totalPages)
+            {
+                pageNumber--;
+            }
+
+            if (pageNumber < 1)
+            {
+                pageNumber++;
+            }
+
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.SearchQuery = searchQuery;
+            ViewBag.SortBy = sortBy;
+            ViewBag.SortDirection = sortDirection;
+            ViewBag.PageSize = pageSize;
+            ViewBag.PageNumber = pageNumber;
+
+            // use dbContext to read the tags
+            var users = await userRepository.GetAll(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
 
             var usersViewModel = new UserViewModel();
             usersViewModel.Users = new List<User>();
