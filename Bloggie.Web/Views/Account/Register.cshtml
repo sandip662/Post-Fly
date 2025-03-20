@@ -72,35 +72,43 @@
                                 <p class="text-muted mb-2 mt-2">Don't have an account? Create your account, it takes less than a minute</p>
                             </div>
 
-                            <form action="#">
+                            <form method="post">
 
                                 <div class="mb-3">
                                     <label class="form-label" style="color:white">Username</label>
-                                    <input type="text" id="username" class="form-control" asp-for="Username" placeholder="Enter Your Username" required />
+                                    <input type="text" id="username" class="form-control" asp-for="Username" placeholder="Enter Your Username"  />
                                     <span class="text-danger" asp-validation-for="Username"></span>
+                                    
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" style="color:white">Email</label>
-                                    <input type="email" id="email" class="form-control" asp-for="Email" placeholder="Enter Your Mailid" required />
+                                    <input type="text" id="email" class="form-control" asp-for="Email" placeholder="Enter Your Mailid"  />
                                     <span class="text-danger" asp-validation-for="Email"></span>
+                               
                                 </div>  
                                 <div class="mb-3">
                                     <label for="password" style="color:white" class="form-label">Password</label>
                                     <div class="input-group input-group-merge">
-                                        <input type="password" id="password" class="form-control" asp-for="Password" required minlength="6" placeholder="Enter your password">
+                                        <input type="password" id="password" class="form-control" asp-for="Password"  placeholder="Enter your password">
                                         <div class="input-group-text" data-password="false">
                                             <span class="password-eye"></span>
-
+                                            
                                         </div>
-                                        <span class="text-danger" asp-validation-for="Password"></span>
+                                       
                                     </div>
+                                    <span class="text-danger" asp-validation-for="Password"></span>
                                 </div>
                                 <div class="mb-1">
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="checkbox-signup" required>
-                                        <label class="form-check-label text-light" for="checkbox-signup">I accept <a href="javascript: void(0);" class="text-light">Terms and Conditions</a></label>
+                                        <label class="form-check-label text-light" for="">I accept <a href="javascript: void(0);" class="text-light">Terms and Conditions</a></label>
                                     </div>
                                 </div>
+
+
+                                
+
+
                                 <div class="text-center d-grid">
                                     <button type="submit" class="btn btn-primary" style="color:white;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">Sign Up</button>
                                 </div>

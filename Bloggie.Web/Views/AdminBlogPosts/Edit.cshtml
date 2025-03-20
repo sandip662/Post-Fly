@@ -226,7 +226,7 @@
                    let data = new FormData();
                    data.append('file',e.target.files[0]);
 
-                   await fetch ('/api/Image/UploadAsync', {
+                   await fetch ('/api/Images/UploadAsync', {
                        method: 'POST',
                        header: {
                            'Accept': '*/*',

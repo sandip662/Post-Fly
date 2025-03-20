@@ -73,19 +73,20 @@
                                 <div class="mb-3">
                                     
                                     <label class="form-label" style="color:white">Username</label>
-                                    <input type="text" id="username" class="form-control" asp-for="Username" placeholder="Enter your username" required />
+                                    <input type="text" id="username" class="form-control" asp-for="Username" placeholder="Enter your username"  />
                                     <span class="text-danger" asp-validation-for="Username"></span>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="password" class="form-label" style="color:white">Password</label>
                                     <div class="input-group input-group-merge">
-                                        <input type="password" id="password" class="form-control" asp-for="Password" required minlength="6" placeholder="Enter your password" />
+                                        <input type="password" id="password" class="form-control" asp-for="Password"  placeholder="Enter your password" />
                                         <div class="input-group-text" data-password="false">
                                             <span class="password-eye"></span>
                                         </div>
-                                        <span class="text-danger" asp-validation-for="Password"></span>
+                                       
                                     </div>
+                                    <span class="text-danger" asp-validation-for="Password"></span>
                                 </div>
 
                     
@@ -93,7 +94,7 @@
 
                                 <div class="mb-3">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="checkbox-signin" required>
+                                        <input type="checkbox" class="form-check-input" id="checkbox-signin" >
                                         <label class="form-check-label" for="checkbox-signin">Remember me</label>
                                     </div>
                                 </div>

@@ -54,7 +54,6 @@ namespace Bloggie.Web.Controllers
             return View();
         }
 
-
         [HttpGet]
         public IActionResult Login(string ReturnUrl)
         {

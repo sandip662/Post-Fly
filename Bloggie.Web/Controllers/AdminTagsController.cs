@@ -88,7 +88,9 @@ namespace Bloggie.Web.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
+
         {
+            
             var tag = await tagRepository.GetAsync(id);
             
             if (tag != null)
@@ -109,6 +111,11 @@ namespace Bloggie.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditTagRequest editTagRequest)
         {
+            ValidateEditTagRequest(editTagRequest);
+            if (ModelState.IsValid == false)
+            {
+                return View(editTagRequest);
+            }
             var tag = new Tag
             {
                 Id = editTagRequest.Id,
@@ -147,6 +154,17 @@ namespace Bloggie.Web.Controllers
 
 
         private void ValidateAddTagRequest(AddTagRequest request)
+        {
+            if (request.Name is not null && request.DisplayName is not null)
+            {
+                if (request.Name == request.DisplayName)
+                {
+                    ModelState.AddModelError("DisplayName", "Name cannot be the same as DisplayName");
+                }
+            }
+        }
+
+        private void ValidateEditTagRequest(EditTagRequest request)
         {
             if (request.Name is not null && request.DisplayName is not null)
             {
