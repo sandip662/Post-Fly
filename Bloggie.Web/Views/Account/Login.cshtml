@@ -30,6 +30,16 @@
         body.authentication-bg-pattern {
             background-image: url('@Url.Content("~/assets/images/bg-material.png")');
         }
+
+        .postfly-text {
+            font-size: 24px; /* Adjust size as needed */
+            font-weight: bold;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #78bcfff0, #ff8080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
     </style>
 </head>
 
@@ -39,38 +49,36 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6 col-xl-4 mt-5">
-                    <div class="card bg-pattern">
+                    <div class="card bg-pattern" style="background-color:#bccddd24;border: 1px dotted indianred;">
 
-                        <div class="card-body p-4">
+                        <div class="card-body">
 
                             <div class="text-center w-75 m-auto">
                                 <div class="auth-logo">
-                                    <a href="index.html" class="logo logo-dark text-center">
-                                        <span class="logo-lg">
-                                            <img src="~/assets/images/logo-dark.png" alt="" height="22">
+                                    <a href="http://localhost:5122/" class="logo logo-dark text-center">
+                                        <i b-n1e1qfg7ad="" class="fas fa-paper-plane me-2"
+                                           style="font-size: 24px; color: #89a4cd !important; flex-shrink: 0;"></i>
+                                        <span class="fw-bold d-none d-md-inline postfly-text ">
+                                            POSTFLY
                                         </span>
-                                    </a>
 
-                                    <a href="index.html" class="logo logo-light text-center">
-                                        <span class="logo-lg">
-                                            <img src="~/assets/images/logo-light.png" alt="" height="22">
-                                        </span>
                                     </a>
+                                   
                                 </div>
-                                <p class="text-muted mb-4 mt-3">Enter your email address and password to access admin panel.</p>
+                                <p class="text-muted mb-4 mt-3">Enter your username and password to access admin panel.</p>
                             </div>
 
                             <form method="post">
 
                                 <div class="mb-3">
                                     
-                                    <label class="form-label">Username</label>
+                                    <label class="form-label" style="color:white">Username</label>
                                     <input type="text" id="username" class="form-control" asp-for="Username" required />
                                     <span class="text-danger" asp-validation-for="Username"></span>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
+                                    <label for="password" class="form-label" style="color:white">Password</label>
                                     <div class="input-group input-group-merge">
                                         <input type="password" id="password" class="form-control" asp-for="Password" required minlength="6" placeholder="Enter your password" />
                                         <div class="input-group-text" data-password="false">
@@ -85,7 +93,7 @@
 
                                 <div class="mb-3">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>
+                                        <input type="checkbox" class="form-check-input" id="checkbox-signin" required>
                                         <label class="form-check-label" for="checkbox-signin">Remember me</label>
                                     </div>
                                 </div>
@@ -105,7 +113,7 @@
                                 <input type="hidden" asp-for="ReturnUrl" />
 
                                 <div class="text-center d-grid">
-                                    <button class="btn btn-primary" type="submit"> Log In </button>
+                                    <button class="btn" style="background-color:indianred; color:white; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;" type="submit"> Log In </button>
                                 </div>
 
                             </form>
@@ -115,11 +123,13 @@
                     </div>
                     <!-- end card -->
 
-                    <div class="row mt-3">
-                        <div class="col-12 text-center">
-                            <p> <a href="auth-recoverpw.html" class="text-white-50 ms-1">Forgot your password?</a></p>
-                            <p class="text-white-50">Don't have an account? <a href="auth-register.html" class="text-white ms-1"><b>Sign Up</b></a></p>
-                        </div> <!-- end col -->
+
+                    <div class="card bg-pattern" style="background-color:#bccddd24;border: 1px dotted indianred;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+                        <div class="card-body" style="padding-top: 11px; padding-bottom: 0px;">
+                            <div class="col-12 text-center">
+                                <p style="color:darkseagreen">Don't have an account? <a href="http://localhost:5122/Account/Register" class="text-dark-50 ms-1"><b style="color:indianred">Sign Up</b></a></p>
+                            </div>
+                        </div>
                     </div>
                     <!-- end row -->
 
