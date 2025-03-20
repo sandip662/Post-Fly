@@ -10,8 +10,7 @@
 
 @* <div style="background: linear-gradient(120deg, rgb(173, 216, 230), rgb(225 242 255 / 0%), rgb(255, 218, 185), rgb(240, 255, 240));"> *@
 
-
-
+  
 
 
 
@@ -70,7 +69,7 @@
                             </h2>
 
 
-                        <form method="post">
+                            <form id="blogForm" method="post">
 
 
                             <div class="mb-3">
@@ -90,8 +89,16 @@
                             <div class="mb-3">
 
                                 <label class="form-label fw-semibold text-primary">Content</label>
-                                    <textarea class="form-control rounded-3 shadow-sm px-3 py-2" id="content" asp-for="Content" placeholder="Enter content"></textarea>
+                                      <div id="editor-container" style="height: 300px;"></div>
 
+                                    <!-- Hidden Input to Store Content -->
+                                    <input type="hidden" asp-for="Content" id="content-input">
+
+                                    <!-- Image Resizer (Initially Hidden) -->
+                                    <div id="image-resizer" style="display: none; margin-top: 10px;">
+                                        <label>Resize Image:</label>
+                                        <input type="range" id="resize-slider" min="50" max="800" value="300" step="10">
+                                    </div>
                             </div>
 
                             <div class="mb-3">
@@ -163,7 +170,13 @@
 
                         </form>
 
-
+                            <style>
+                                .ql-editor img {
+                                    max-width: 100%;
+                                    display: block;
+                                    margin: 10px 0;
+                                }
+                            </style>
 
                     </div>
 
@@ -180,7 +193,7 @@
 @* </div>
  *@
 
-
+    
 
 
 </div>
@@ -193,6 +206,10 @@
     <!--plugins-->
 
     <link href="~/assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+
+    <link href="~/assets/libs/quill/quill.core.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/libs/quill/quill.bubble.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/libs/quill/quill.snow.css" rel="stylesheet" type="text/css" />
 }
 
 
@@ -205,16 +222,106 @@
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+    
+
+  
 }
 
+<script src="~/assets/libs/quill/quill.min.js"></script>
+<script>
+    var quill = new Quill('#editor-container', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ 'font': [] }],  // Font picker
+                
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }], // Headings (H1-H6)
+                ['bold', 'italic', 'underline', 'strike'], // Basic formatting
+                [{ 'color': [] }, { 'background': [] }], // Text color & background color
+                [{ 'script': 'sub' }, { 'script': 'super' }], // Subscript & Superscript
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Lists
+                [{ 'indent': '-1' }, { 'indent': '+1' }], // Indentation
+                [{ 'direction': 'rtl' }], // Text direction
+                [{ 'align': [] }], // Text alignment
+                ['blockquote', 'code-block'], // Block formatting
+                ['link', 'image', 'video'], // Insert links, images, videos
+                ['clean'] // Remove formatting
+            ]
+        }
+    });
 
 
+
+
+        // Handle image uploads manually
+    quill.getModule('toolbar').addHandler('image', function() {
+        let input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+
+        input.onchange = async function() {
+            let file = input.files[0];
+            if (file) {
+                let formData = new FormData();
+                formData.append('file', file);
+
+                try {
+                    let response = await fetch('/api/Images/UploadAsync', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    let result = await response.json();
+                    let imageUrl = result.link; // Ensure your API returns the image URL
+
+                    // Insert the uploaded image into Quill editor
+                    let range = quill.getSelection();
+                    quill.insertEmbed(range.index, 'image', imageUrl);
+                } catch (error) {
+                    console.error('Image upload failed', error);
+                }
+            }
+        };
+    });
+
+
+       let selectedImage = null;
+    const resizeSlider = document.getElementById('resize-slider');
+    const resizerContainer = document.getElementById('image-resizer');
+
+    // Detect Clicked Image and Show Slider
+    document.querySelector('.ql-editor').addEventListener('click', function (event) {
+        if (event.target.tagName === 'IMG') {
+            selectedImage = event.target;
+            resizerContainer.style.display = 'block';
+            resizeSlider.value = selectedImage.width;
+        } else {
+            resizerContainer.style.display = 'none';
+            selectedImage = null;
+        }
+    });
+
+    // Resize Image via Slider
+    resizeSlider.addEventListener('input', function () {
+        if (selectedImage) {
+            selectedImage.style.width = this.value + 'px';
+        }
+    });
+
+    // Sync Quill Content to Hidden Input Before Submit
+    document.getElementById('blogForm').addEventListener('submit', function () {
+        document.getElementById('content-input').value = quill.root.innerHTML;
+    });
+
+
+
+
+
+</script>
 
 <script>
 
-    var editor = new FroalaEditor('#content',{
-               imageUploadURL: '/api/Images/UploadAsync'
-    });
 
 
 
