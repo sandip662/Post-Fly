@@ -186,18 +186,24 @@
 
 
 
-
-
                                         <div class="row mb-3 align-items-center">
                                             <div class="col-sm-4">
                                                 <!-- Pagination -->
                                                 <nav aria-label="Page navigation example">
                                                     <ul class="pagination">
-                                                        <li class="page-item" style=" color:gray; border:1px solid gray ">
+                                                        @{
+                                                            int totalPages = Convert.ToInt32(ViewBag.TotalPages);
+                                                            int currentPage = Convert.ToInt32(ViewBag.PageNumber);
+                                                            int startPage = Math.Max(1, currentPage - 2);
+                                                            int endPage = Math.Min(totalPages, currentPage + 2);
+                                                        }
+
+                                                        <!-- Previous Button -->
+                                                        <li class="page-item @(currentPage == 1 ? "disabled" : "")" style="color:gray; border:1px solid gray;">
                                                             <a class="page-link"
                                                                asp-controller="AdminUsers"
                                                                asp-action="List"
-                                                               asp-route-pageNumber="@prevPage"
+                                                               asp-route-pageNumber="@(currentPage - 1)"
                                                                asp-route-pageSize="@ViewBag.PageSize"
                                                                asp-route-sortBy="@ViewBag.SortBy"
                                                                asp-route-sortDirection="@ViewBag.SortDirection">
@@ -205,27 +211,29 @@
                                                             </a>
                                                         </li>
 
-                                                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                                        <!-- Page Numbers -->
+                                                        @for (int i = startPage; i <= endPage; i++)
                                                         {
-                                                            <li class="page-item" style=" color:gray; border:1px solid gray ">
+                                                            <li class="page-item @(i == currentPage ? "active" : "")" style="color:gray; border:1px solid gray;">
                                                                 <a class="page-link"
                                                                    asp-controller="AdminUsers"
                                                                    asp-action="List"
                                                                    asp-route-pageNumber="@i"
                                                                    asp-route-pageSize="@ViewBag.PageSize"
                                                                    asp-route-sortBy="@ViewBag.SortBy"
-                                                                   asp-route-sortDirection="@ViewBag.SortDirection">
+                                                                   asp-route-sortDirection="@ViewBag.SortDirection"
+                                                                   style="@(i == currentPage ? "background-color: gray; color: white;" : "")">
                                                                     @i
                                                                 </a>
                                                             </li>
                                                         }
 
-
-                                                        <li class="page-item" style=" color:gray; border:1px solid gray ">
+                                                        <!-- Next Button -->
+                                                        <li class="page-item @(currentPage == totalPages ? "disabled" : "")" style="color:gray; border:1px solid gray;">
                                                             <a class="page-link"
                                                                asp-controller="AdminUsers"
                                                                asp-action="List"
-                                                               asp-route-pageNumber="@nextPage"
+                                                               asp-route-pageNumber="@(currentPage + 1)"
                                                                asp-route-pageSize="@ViewBag.PageSize"
                                                                asp-route-sortBy="@ViewBag.SortBy"
                                                                asp-route-sortDirection="@ViewBag.SortDirection">
@@ -236,23 +244,13 @@
                                                 </nav>
                                             </div>
 
-
-
                                             <div class="col-sm-8 text-end">
-                                                <!-- From Uiverse.io by Jedi-hongbin -->
-                                                <button class="custom-back-btn" onclick="location.href='http://localhost:5122/'">
-                                                    <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-                                                        <path fill="currentColor" d="M874.69 495.52c0 11.3-9.17 20.47-20.47 20.47H249.44l188.08 188.08c7.99 7.99 7.99 20.95 0 28.94-4 3.99-9.24 6-14.47 6s-10.48-2-14.48-6L185.56 510.92c-3.84-3.84-6-9.05-6-14.47 0-5.43 2.16-10.63 6-14.47L408.58 259c7.99-7.99 20.96-7.99 28.95 0s7.99 20.96 0 28.95l-188.07 188.07h604.75c11.3 0 20.47 9.16 20.47 20.47z" />
-                                                    </svg>
+                                                <!-- Back Button -->
+                                                <button class="custom-back-btn" onclick="location.href='/Home/Index'">
+
                                                     <span>Back</span>
                                                 </button>
-
-
-
-
-
                                             </div>
-
                                         </div>
 
                                     }
