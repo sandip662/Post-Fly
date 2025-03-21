@@ -98,8 +98,8 @@
                                 <!-- Action Buttons -->
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-sm-4">
-                                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalCreateUser">
-                                        Create User
+                                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalCreateUser" style="border-radius:22px;border:none; background:linear-gradient(135deg, #28a745, #218838); color:white">
+                                            <i class="mdi mdi-plus-circle me-1"></i>  Create User
                                     </button>
                                     </div>
                                     <div class="col-sm-8 text-end">
@@ -300,52 +300,99 @@
 
 </div>
 
-
-<!-- Modal -->
+<!-- User Creation Modal -->
 <form method="post">
-    <div class="modal fade" id="modalCreateUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create New User</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" id="modalCreateUser" tabindex="-1" aria-labelledby="createUserLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <!-- Modal Header -->
+                <div class="modal-header text-white" style="background:linear-gradient(to right, #1e90ff, #73c5ff);">
+                    <h5 class="modal-title fw-bold" id="createUserLabel">Create New User</h5>
+                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close" onclick="closeAndRefresh()"></button>
+
                 </div>
-                <div class="modal-body">
+
+                <!-- Modal Body -->
+                <div class="modal-body p-4">
+                    <!-- Username -->
                     <div class="mb-3">
-                        <label class="form-label">Username</label>
-                        <input type="text" class="form-control" asp-for="Username" />
+                        <label class="form-label fw-semibold">Username</label>
+                        <input type="text" class="form-control rounded-3 shadow-sm" asp-for="Username" placeholder="Enter username" required />
                     </div>
+
+                    <!-- Email Address -->
                     <div class="mb-3">
-                        <label class="form-label">Email Address</label>
-                        <input type="text" class="form-control" asp-for="Email" />
+                        <label class="form-label fw-semibold">Email Address</label>
+                        <input type="email" class="form-control rounded-3 shadow-sm" asp-for="Email" placeholder="Enter email" required />
                     </div>
+
+                    <!-- Password -->
                     <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input type="password" class="form-control" asp-for="Password" />
+                        <label class="form-label fw-semibold">Password</label>
+                        <div style="position: relative;">
+                            <input type="password" id="passwordInput" class="form-control rounded-3 shadow-sm"
+                                   asp-for="Password" placeholder="Enter password" required />
+                            <i id="togglePassword" class="bi bi-eye-slash"
+                               style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                            </i>
+                        </div>
                     </div>
+
+    
+
+                    <!-- Roles Selection -->
                     <div class="mb-3">
+                        <label class="form-label fw-semibold">User Role</label>
                         <div class="form-check">
                             <input type="checkbox" id="chkUserRole" class="form-check-input" value="User" checked disabled />
-                            <label class="form-check-label" for="chkUserRole">User Role</label>
+                            <label class="form-check-label" for="chkUserRole">User</label>
                         </div>
 
                         @if (User.IsInRole("SuperAdmin"))
                         {
                             <div class="form-check">
-                                <input type="checkbox" id="chkAdminRole" class="form-check-input"
-                                       asp-for="AdminRoleCheckbox" />
-                                <label class="form-check-label" for="chkAdminRole">Admin Role</label>
+                                <input type="checkbox" id="chkAdminRole" class="form-check-input" asp-for="AdminRoleCheckbox" />
+                                <label class="form-check-label" for="chkAdminRole">Admin</label>
                             </div>
                         }
-
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer bg-light">
+                    <button type="submit" class="btn rounded-3" style="border-radius:22px;border:none;     background: #0675e1; color:white;">Save Changes</button>
                 </div>
             </div>
         </div>
     </div>
-
 </form>
+
+
+<script>
+    document.getElementById("togglePassword").addEventListener("click", function () {
+        var passwordField = document.getElementById("passwordInput");
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            this.classList.remove("bi-eye-slash");
+            this.classList.add("bi-eye");
+        } else {
+            passwordField.type = "password";
+            this.classList.remove("bi-eye");
+            this.classList.add("bi-eye-slash");
+        }
+    });
+</script>
+
+<script>
+    function closeAndRefresh() {
+        // Close the modal
+        var modal = document.getElementById('modalCreateUser');
+        var modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+
+        // Refresh the page after modal closes
+        setTimeout(() => {
+            location.reload();
+        }, 300); // Small delay to ensure modal closes before refresh
+    }
+</script>
