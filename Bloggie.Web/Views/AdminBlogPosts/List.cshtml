@@ -199,6 +199,7 @@
                                                            asp-action="List"
                                                            asp-route-pageNumber="@(currentPage - 1)"
                                                            asp-route-pageSize="@ViewBag.PageSize"
+                                                           asp-route-searchQuery="@ViewBag.SearchQuery"
                                                            asp-route-sortBy="@ViewBag.SortBy"
                                                            asp-route-sortDirection="@ViewBag.SortDirection">
                                                             Previous
@@ -214,6 +215,7 @@
                                                                asp-action="List"
                                                                asp-route-pageNumber="@i"
                                                                asp-route-pageSize="@ViewBag.PageSize"
+                                                               asp-route-searchQuery="@ViewBag.SearchQuery"
                                                                asp-route-sortBy="@ViewBag.SortBy"
                                                                asp-route-sortDirection="@ViewBag.SortDirection"
                                                                style="@(i == currentPage ? "background-color: gray; color: white;" : "")">
@@ -229,6 +231,7 @@
                                                            asp-action="List"
                                                            asp-route-pageNumber="@(currentPage + 1)"
                                                            asp-route-pageSize="@ViewBag.PageSize"
+                                                           asp-route-searchQuery="@ViewBag.SearchQuery"
                                                            asp-route-sortBy="@ViewBag.SortBy"
                                                            asp-route-sortDirection="@ViewBag.SortDirection">
                                                             Next

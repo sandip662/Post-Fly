@@ -105,5 +105,11 @@ namespace Bloggie.Web.Repositories
         {
             return await bloggieDbContext.Tags.CountAsync();
         }
+        public async Task<int> SearchCountAsync(string searchQuery)
+        {
+            return await bloggieDbContext.Tags
+                .Where(x => x.Name.Contains(searchQuery) || x.DisplayName.Contains(searchQuery))
+                .CountAsync();
+        }
     }
 }

@@ -58,7 +58,16 @@ namespace Bloggie.Web.Controllers
          int pageSize = 5,
          int pageNumber = 1)
         {
-            var totalRecords = await tagRepository.CountAsync();
+            var totalRecords = 0;
+            if (searchQuery == null)
+            {
+                 totalRecords = await tagRepository.CountAsync();
+            }
+            else
+            {
+                 totalRecords = await tagRepository.SearchCountAsync(searchQuery);
+            }
+
             var totalPages = Math.Ceiling((decimal)totalRecords / pageSize);
 
             if (pageNumber > totalPages)

@@ -86,7 +86,18 @@ namespace Bloggie.Web.Controllers
          int pageNumber = 1)
         {
 
-            var totalRecords = await blogPostRepository.CountAsync();
+            var totalRecords = 0;
+
+            if (searchQuery == null)
+            {
+                totalRecords = await blogPostRepository.CountAsync();
+            }
+            else
+            {
+                totalRecords = await blogPostRepository.SearchCountAsync(searchQuery);
+            }
+
+           
             var totalPages = Math.Ceiling((decimal)totalRecords / pageSize);
 
             if (pageNumber > totalPages)
@@ -99,7 +110,6 @@ namespace Bloggie.Web.Controllers
                 pageNumber++;
 
             }
-
 
 
             ViewBag.TotalPages = totalPages;

@@ -87,6 +87,13 @@ namespace Bloggie.Web.Repositories
             return await bloggieDbContext.BlogPosts.CountAsync();
         }
 
+        public async Task<int> SearchCountAsync(string searchQuery)
+        {
+            return await bloggieDbContext.BlogPosts
+                .Where(x => x.Heading.Contains(searchQuery))
+                .CountAsync();
+        }
+
 
         public async Task<BlogPost?> GetAsync(Guid id)
         {

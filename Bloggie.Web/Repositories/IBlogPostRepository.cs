@@ -21,5 +21,7 @@ namespace Bloggie.Web.Repositories
         Task<BlogPost?> DeleteAsync(Guid id);
 
         Task<int> CountAsync();
+
+        Task<int> SearchCountAsync(string searchQuery);
     }
 }
