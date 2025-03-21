@@ -110,24 +110,46 @@
                                 </div>
 
 
-                                <div class="row mb-2" style="margin-left: -25px;">
-                                    <!-- Search Form -->
-                                    <form method="get"
-                                          asp-controller="AdminUsers" ,
-                                          asp-action="List">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col col-md-12 d-flex">
-                                                    <button type="submit" class="btn me-3" style=" color:gray; border:1px solid gray ">Search:</button>
-                                                    <input type="text" class="form-control"
-                                                           name="searchQuery" value="@ViewBag.SearchQuery" style=" color:gray; border:1px solid gray " placeholder="Search Tags" />
+                                <div class="row mb-2">
+                                    <!-- Search Form (Left-aligned) -->
+                                    <div class="col-md-6 d-flex align-items-center">
+                                        <form method="get" asp-controller="AdminUsers" asp-action="List" class="d-flex">
+                                            <button type="submit" class="btn" style="color:gray;">Search:</button>
+                                            <input type="text" class="form-control"
+                                                   name="searchQuery" value="@ViewBag.SearchQuery"
+                                                   style="color:gray; border:1px solid gray;" placeholder="Search User" />
+                                        </form>
+                                    </div>
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-
+                                    <!-- Page Size Dropdown (Right-aligned) -->
+                                    <div class="col-md-6 d-flex justify-content-end align-items-center">
+                                        <label for="pageSize" class="me-2">Show:</label>
+                                        <select id="pageSize" name="pageSize" class="form-select d-inline-block w-auto" onchange="updatePageSize()">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                        <span class="ms-2">entries</span>
+                                    </div>
                                 </div>
+
+
+                                <script>
+                                    function updatePageSize() {
+                                        const selectedSize = document.getElementById("pageSize").value;
+                                        const url = new URL(window.location.href);
+                                        url.searchParams.set("pageSize", selectedSize);
+                                        url.searchParams.set("pageNumber", 1); // Reset to first page
+                                        window.location.href = url.toString();
+                                    }
+
+                                    // Pre-select the correct page size on page load
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        document.getElementById("pageSize").value = "@ViewBag.PageSize";
+                                    });
+                                </script>
+
 
 
                                 <!-- Data Table -->
