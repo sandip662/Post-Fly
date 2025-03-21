@@ -338,40 +338,39 @@
 
 
     <div class="col-lg-4 order-lg-2 order-1">
-        <div class="card">
+            <div class="card">
                 <div class="card-body" style="border:1px solid #004a93; border-radius:7px;">
 
-             
-                        <div class="row">
-                    <h5 class="mb-3 text-uppercase bg-light p-2" style="background: linear-gradient(to right, #f0f8fff7, #eef1f6);background: linear-gradient(to right, #f0f8fff7, #eef1f6);">Latest Posts</h5>
 
-               @if (Model != null && Model.BlogPosts.Any())
-                {
-                    foreach (var blogPost in Model.BlogPosts.OrderByDescending(b => b.PublishedDate))
-                    {
-                            <a asp-area=""
-                               asp-controller="Blogs"
-                               asp-action="Index"
-                               asp-route-urlHandle="@blogPost.UrlHandle">
+                    <div class="row">
+                        <h5 class="mb-3 text-uppercase bg-light p-2"
+                            style="background: linear-gradient(to right, #f0f8fff7, #eef1f6);">
+                            Latest Posts
+                        </h5>
+
+                        @if (Model != null && Model.BlogPosts.Any())
+                        {
+                            int count = 0;
+                            foreach (var blogPost in Model.BlogPosts.OrderByDescending(b => b.PublishedDate))
+                            {
+                                <a asp-area=""
+                                   asp-controller="Blogs"
+                                   asp-action="Index"
+                                   asp-route-urlHandle="@blogPost.UrlHandle"
+                                   class="blog-post @(count >= 7 ? "hidden" : "")">
                                     <ul class="list-unstyled" style="border: 1px solid #004a93; padding:7px; border-radius:5px">
-                                    <li class="mb-2">
-
-                                        <div style="display: flex; align-items: center;">
-                                            <div style="width: 40px; height: 40px; border-radius: 50%;border: 2px solid lightgray; background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
-                                                <i class="fas fa-user" style="color: gray; font-size: 20px;"></i>
+                                        <li class="mb-2">
+                                            <div style="display: flex; align-items: center;">
+                                                <div style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid lightgray; background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-user" style="color: gray; font-size: 20px;"></i>
+                                                </div>
+                                                <span style="margin-left: 8px; font-size: 14px; font-weight: bold; color:slategray">@blogPost.Author</span>
                                             </div>
-                                            <span style="margin-left: 8px; font-size: 14px; font-weight: bold; color:slategray">@blogPost.Author</span>
-                                        </div>
 
+                                            <div>
+                                                <h4 class="mb-1" style="font-size:14px; font-weight: bold;">@blogPost.Heading</h4>
+                                            </div>
 
-
-
-
-                                        <div>
-
-                                            <h4 class="mb-1" style="font-size:14px; font-weight: bold;">@blogPost.Heading</h4>
-
-                                        </div>
                                             <div class="col-md-5">
                                                 @{
                                                     DateTime publishedDate = blogPost.PublishedDate;
@@ -407,19 +406,15 @@
                                                 }
                                                 @formattedDate
                                             </div>
-
-
-                                    </li>
-                                </ul>
-
-                        </a>
-                            
-
+                                        </li>
+                                    </ul>
+                                </a>
+                                count++;
+                            }
                         }
+                    </div>
 
-                    }
-
-                        </div>
+            
 
 
 
@@ -501,6 +496,16 @@
 </div>
 
     <script>
+
+
+
+
+
+
+
+
+
+
         document.addEventListener("DOMContentLoaded", function () {
             const blogPosts = document.querySelectorAll(".blog-post");
             const tagLinks = document.querySelectorAll(".badge");
