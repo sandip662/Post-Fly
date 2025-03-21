@@ -74,7 +74,7 @@ namespace Bloggie.Web.Controllers
 
             await blogPostRepository.AddAsync(blogPost);
 
-            return RedirectToAction("Add");
+            return RedirectToAction("List");
         }
 
 
