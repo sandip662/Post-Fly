@@ -35,8 +35,12 @@ namespace Bloggie.Web.Controllers
         }
 
         [HttpPost]
+       
         public async Task<IActionResult> Add(AddBlogPostRequest addBlogPostRequest)
         {
+           
+
+
             // Map view model to domain model
             var blogPost = new BlogPost
             {

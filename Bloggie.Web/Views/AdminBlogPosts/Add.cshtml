@@ -76,14 +76,14 @@
 
                                 <label class="form-label fw-semibold text-primary">Heading</label>
                                 <input type="text" class="form-control rounded-3 shadow-sm px-3 py-2" id="heading" asp-for="Heading" style="border: 1px solid lightgray;" placeholder="Enter heading"/>
-
+                                    <span class="text-danger" data-valmsg-for="Heading"></span>
                             </div>
 
                             <div class="mb-3">
 
                                 <label class="form-label fw-semibold text-primary">Page Title</label>
                                     <input type="text" class="form-control rounded-3  shadow-sm px-3 py-2" id="pageTitle" asp-for="PageTitle" style="border: 1px solid lightgray;" placeholder="Enter page title" />
-
+                                    <span class="text-danger" data-valmsg-for="PageTitle"></span>
                             </div>
 
                             <div class="mb-3">
@@ -99,49 +99,50 @@
                                         <label>Resize Image:</label>
                                         <input type="range" id="resize-slider" min="50" max="800" value="300" step="10">
                                     </div>
+                                    <span class="text-danger" data-valmsg-for="Content"></span>
                             </div>
 
                             <div class="mb-3">
 
                                 <label class="form-label fw-semibold text-primary">Short Description</label>
                                     <input type="text" class="form-control rounded-3 shadow-sm px-3 py-2" id="shortDescription" asp-for="ShortDescription" style="border: 1px solid lightgray;" placeholder="Enter short description" />
-
+                                    <span class="text-danger" data-valmsg-for="ShortDescription"></span>
                             </div>
 
                             <div class="mb-3">
 
                                 <label class="form-label fw-semibold text-primary">Featured Image Upload</label>
                                     <input type="file" class="form-control rounded-3  shadow-sm px-3 py-2" id="featuredImageUpload" style="border: 1px solid lightgray;" placeholder="Upload featured image" />
-                                <img src="" id="featuredImageDisplay" style="display:none; width:300px"/>
-
+                                <img src="" asp id="featuredImageDisplay" style="display:none; width:300px"/>
+                                    
                             </div>
 
                             <div class="mb-3">
 
                                 <label class="form-label fw-semibold text-primary">Featured Image URL</label>
                                 <input type="text" class="form-control rounded-3 shadow-sm px-3 py-2" id="featuredImageUrl" asp-for="FeaturedImageUrl" style="border: 1px solid lightgray;" />
-
+                                    <span class="text-danger" data-valmsg-for="FeaturedImageUrl"></span>
                             </div>
 
                             <div class="mb-3">
 
                                 <label class="form-label  fw-semibold text-primary">URL Handle</label>
                                     <input type="text" class="form-control rounded-3 shadow-sm px-3 py-2" id="urlHandle" asp-for="UrlHandle" style="border: 1px solid lightgray;" placeholder="Enter Url handle" />
-
+                                    <span class="text-danger" data-valmsg-for="UrlHandle"></span>
                             </div>
 
                             <div class="mb-3">
 
                                 <label class="form-label  fw-semibold text-primary">Published Date</label>
                                 <input type="date" class="form-control rounded-3 shadow-sm px-3 py-2" id="publishedDate" asp-for="PublishedDate" style="border: 1px solid lightgray;" />
-
+                                    <span class="text-danger" data-valmsg-for="PublishedDate"></span>
                             </div>
 
                             <div class="mb-3">
 
                                 <label class="form-label fw-semibold text-primary">author</label>
                                     <input type="text" class="form-control rounded-3 shadow-sm px-3 py-2" id="author" asp-for="Author" style="border: 1px solid lightgray;" placeholder="Enter Author name" />
-
+                                    <span class="text-danger" data-valmsg-for="Author"></span>
                             </div>
                             <div class="d-flex align-items-center mb-3">
                                 <div class="form-check form-switch m-0">
@@ -229,6 +230,21 @@
 
 <script src="~/assets/libs/quill/quill.min.js"></script>
 <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+        let publishedDateInput = document.getElementById("publishedDate");
+        if (publishedDateInput) {
+            let today = new Date().toISOString().split('T')[0]; // Get YYYY-MM-DD format
+            publishedDateInput.value = today;
+        }
+    });
+
+
+
+
+
+
+
     var quill = new Quill('#editor-container', {
         theme: 'snow',
         modules: {
@@ -309,12 +325,53 @@
         }
     });
 
-    // Sync Quill Content to Hidden Input Before Submit
-    document.getElementById('blogForm').addEventListener('submit', function () {
+
+
+    document.getElementById('blogForm').addEventListener('submit', function (event) {
         document.getElementById('content-input').value = quill.root.innerHTML;
+
+        // Reset previous validation messages
+        document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');
+
+        let isValid = true;
+
+        function showError(id, message) {
+            let errorSpan = document.querySelector(`[data-valmsg-for="${id}"]`);
+            if (errorSpan) {
+                errorSpan.textContent = message;
+                errorSpan.style.color = "red"; // Ensure it appears in red
+            }
+            isValid = false;
+        }
+
+        if (!document.getElementById('heading').value.trim()) showError("Heading", "Heading is required.");
+        if (!document.getElementById('pageTitle').value.trim()) showError("PageTitle", "Page Title is required.");
+        if (!quill.getText().trim()) showError("Content", "Content is required.");
+        if (!document.getElementById('shortDescription').value.trim()) showError("ShortDescription", "Short Description is required.");
+        if (!document.getElementById('author').value.trim()) showError("Author", "Author is required.");
+        if (!document.getElementById('publishedDate').value.trim()) showError("PublishedDate", "Published Date is required.");
+        if (!document.getElementById('urlHandle').value.trim()) showError("UrlHandle", "URL Handle is required.");
+
+        if (!isValid) {
+            event.preventDefault(); // Prevent form submission if validation fails
+        }
+    });
+
+    // Display uploaded image preview
+    document.getElementById('featuredImageUpload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('featuredImageDisplay').src = e.target.result;
+                document.getElementById('featuredImageDisplay').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
     });
 
 
+   
 
 
 
