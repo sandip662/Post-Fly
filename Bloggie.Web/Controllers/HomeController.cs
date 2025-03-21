@@ -22,10 +22,37 @@ namespace Bloggie.Web.Controllers
             this.tagRepository = tagRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchQuery,
+         string? sortBy,
+         string? sortDirection,
+         int pageSize = 5,
+         int pageNumber = 1)
         {
+
+            var totalRecords = await tagRepository.CountAsync();
+            var totalPages = Math.Ceiling((decimal)totalRecords / pageSize);
+
+            if (pageNumber > totalPages)
+            {
+                pageNumber--;
+            }
+
+            if (pageNumber < 1)
+            {
+                pageNumber++;
+            }
+
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.SearchQuery = searchQuery;
+            ViewBag.SortBy = sortBy;
+            ViewBag.SortDirection = sortDirection;
+            ViewBag.PageSize = pageSize;
+            ViewBag.PageNumber = pageNumber;
+
+
             // getting all blogs
-            var blogPosts = await blogPostRepository.GetAllAsync();
+            var blogPosts = await blogPostRepository.GetAllAsync(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
 
             // get all tags
             var tags = await tagRepository.GetAllAsync();

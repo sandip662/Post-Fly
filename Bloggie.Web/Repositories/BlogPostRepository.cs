@@ -37,24 +37,23 @@ namespace Bloggie.Web.Repositories
             return null;
         }
 
-        public async Task<IEnumerable<BlogPost>> GetAllAsync(string? searchQuery = null,
-             string? sortBy = null,
-             string? sortDirection = null,
-             int pageNumber = 1,
-             int pageSize = 100)
+        public async Task<IEnumerable<BlogPost>> GetAllAsync(
+      string? searchQuery = null,
+      string? sortBy = null,
+      string? sortDirection = null,
+      int pageNumber = 1,
+      int pageSize = 100)
         {
             var query = bloggieDbContext.BlogPosts.AsQueryable();
+
             // Filtering
-            if (string.IsNullOrWhiteSpace(searchQuery) == false)
+            if (!string.IsNullOrWhiteSpace(searchQuery))
             {
                 query = query.Where(x => x.Heading.Contains(searchQuery));
             }
 
-
-
-
-            // Sorting
-            if (string.IsNullOrWhiteSpace(sortBy) == false)
+            // Sorting (Default to PublishedDate descending)
+            if (!string.IsNullOrWhiteSpace(sortBy))
             {
                 var isDesc = string.Equals(sortDirection, "Desc", StringComparison.OrdinalIgnoreCase);
 
@@ -62,26 +61,24 @@ namespace Bloggie.Web.Repositories
                 {
                     query = isDesc ? query.OrderByDescending(x => x.Heading) : query.OrderBy(x => x.Heading);
                 }
-
-                if (string.Equals(sortBy, "Tags", StringComparison.OrdinalIgnoreCase))
+                else if (string.Equals(sortBy, "Tags", StringComparison.OrdinalIgnoreCase))
                 {
                     query = isDesc ? query.OrderByDescending(x => x.Tags) : query.OrderBy(x => x.Tags);
                 }
             }
+            else
+            {
+                // Default Sorting: Latest blog posts first
+                query = query.OrderByDescending(x => x.PublishedDate);
+            }
 
             // Pagination
-            // Skip 0 Take 5 -> Page 1 of 5 results
-            // Skip 5 Take next 5 -> Page 2 of 5 results
             var skipResults = (pageNumber - 1) * pageSize;
             query = query.Skip(skipResults).Take(pageSize);
 
             return await query.Include(x => x.Tags).ToListAsync();
-
-
-            // return await bloggieDbContext.BlogPosts.Include(x => x.Tags).ToListAsync();
-
-
         }
+
 
 
 

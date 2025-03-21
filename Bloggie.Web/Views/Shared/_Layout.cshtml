@@ -174,7 +174,10 @@
 
                         <!-- Search Bar -->
                         <div class="d-none d-lg-block" style="flex-shrink: 0;">
-                            <form class="app-search w-100">
+                            <form method="get"
+                                  asp-controller="Home" ,
+                                  asp-action="Index"
+                                class="app-search w-100">
                                 <div class="app-search-box">
                                     <div class="input-group"
                                     style="background-color: white;
@@ -191,7 +194,7 @@
                                             }
                                         </style>
 
-                                        <input type="search" class="form-control" style="color: #004a93;height:32px;" placeholder="Search..." id="top-search">
+                                        <input type="search" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control" style="color: #004a93;height:32px;" placeholder="Search..." id="top-search">
 
                                         <button class="btn btn-outline-light" type="submit">
                                             <i class="fe-search" style="color:#004a93"></i>

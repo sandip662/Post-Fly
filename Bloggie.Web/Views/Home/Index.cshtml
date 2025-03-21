@@ -81,7 +81,36 @@
 
 </style>
 
+<style>
 
+    .custom-back-btn {
+        width: 100px;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #ff9900, #ff5500);
+        border-radius: 22px;
+        cursor: pointer;
+        border: none;
+        height: 38px;
+    }
+
+        .custom-back-btn > svg {
+            margin-right: 5px;
+            margin-left: 5px;
+            font-size: 20px;
+            transition: all 0.4s ease-in;
+        }
+
+        .custom-back-btn:hover > svg {
+            font-size: 1.2em;
+            transform: translateX(-5px);
+        }
+
+        .custom-back-btn:hover {
+            box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #ffffff;
+            transform: translateY(-2px);
+        }
+</style>
 
 
 
@@ -92,6 +121,9 @@
 
 @if (User.Identity.IsAuthenticated)
 {
+
+
+
 
 
 <!-- Full-Width Tag Scroller with Arrows -->
@@ -120,7 +152,9 @@
     <button class="scroll-arrow right-arrow" id="scrollRight">&#10095;</button>
 </div>
 
-<!-- JavaScript for Scrolling -->
+
+
+
 
 
 <div class="row mt-2">
@@ -129,8 +163,10 @@
     <div class="col-lg-8 order-lg-1 order-2">
         @if (Model != null && Model.BlogPosts.Any())
         {
-            foreach (var blogPost in Model.BlogPosts.OrderByDescending(b => b.PublishedDate))
-            {
+                @foreach (var blogPost in Model.BlogPosts.OrderByDescending(b => b.PublishedDate))
+                {
+
+
                     <div class="card mb-2 shadow-sm blog-post"
                          data-tags="@string.Join(",", blogPost.Tags.Select(t => t.Name.ToLower()))">
 
@@ -220,7 +256,77 @@
 
                     </div>
                 </div>
-            }
+
+
+                 }
+
+
+
+
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-sm-4">
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                @{
+                                    int totalPages = Convert.ToInt32(ViewBag.TotalPages);
+                                    int currentPage = Convert.ToInt32(ViewBag.PageNumber);
+                                    int startPage = Math.Max(1, currentPage - 2);
+                                    int endPage = Math.Min(totalPages, currentPage + 2);
+                                }
+
+                                <!-- Previous Button -->
+                                <li class="page-item @(currentPage == 1 ? "disabled" : "")" style="color:gray; border:1px solid gray;">
+                                    <a class="page-link"
+                                       asp-controller="Home"
+                                       asp-action="Index"
+                                       asp-route-pageNumber="@(currentPage - 1)"
+                                       asp-route-pageSize="@ViewBag.PageSize"
+                                       asp-route-sortBy="@ViewBag.SortBy"
+                                       asp-route-sortDirection="@ViewBag.SortDirection">
+                                        Previous
+                                    </a>
+                                </li>
+
+                                <!-- Page Numbers -->
+                                @for (int i = startPage; i <= endPage; i++)
+                                {
+                                    <li class="page-item @(i == currentPage ? "active" : "")" style="color:gray; border:1px solid gray;">
+                                        <a class="page-link"
+                                           asp-controller="Home"
+                                           asp-action="Index"
+                                           asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@ViewBag.PageSize"
+                                           asp-route-sortBy="@ViewBag.SortBy"
+                                           asp-route-sortDirection="@ViewBag.SortDirection"
+                                           style="@(i == currentPage ? "background-color: gray; color: white;" : "")">
+                                            @i
+                                        </a>
+                                    </li>
+                                }
+
+                                <!-- Next Button -->
+                                <li class="page-item @(currentPage == totalPages ? "disabled" : "")" style="color:gray; border:1px solid gray;">
+                                    <a class="page-link"
+                                       asp-controller="Home"
+                                       asp-action="Index"
+                                       asp-route-pageNumber="@(currentPage + 1)"
+                                       asp-route-pageSize="@ViewBag.PageSize"
+                                       asp-route-sortBy="@ViewBag.SortBy"
+                                       asp-route-sortDirection="@ViewBag.SortDirection">
+                                        Next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+
+
+
+
         }
 
 
