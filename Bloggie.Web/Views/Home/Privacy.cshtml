@@ -1,6 +1,45 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="row p-2">
+    <div class="row justify-content-center">
+        <!-- Title Section -->
+        <div class="col-md-12">
+            <div class="card shadow-lg text-center mb-2" style="border: dotted #1e90ff">
+                <div class="card-body">
+                    <h1 class="fw-bold" style="color: #1e90ff;">@ViewData["Title"]</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="col-md-12">
+            <div class="card shadow-lg" style="border: dotted #1e90ff">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="fw-semibold" style="color: #1e90ff;">1. Introduction</h2>
+                    <p class="text-muted">Welcome to PostFly Blog. Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal data.</p>
+
+                    <h2 class="fw-semibold mt-4" style="color: #1e90ff;">2. Information We Collect</h2>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0">📌 <strong>Personal Information:</strong> Name, email, contact details</li>
+                        <li class="list-group-item border-0">📌 <strong>Usage Data:</strong> IP address, browser type, pages visited</li>
+                        <li class="list-group-item border-0">📌 <strong>Cookies & Tracking Technologies</strong></li>
+                    </ul>
+
+                    <h2 class="fw-semibold mt-4" style="color: #1e90ff;">3. How We Use Your Information</h2>
+                    <p class="text-muted">We use your data for improving our services, personalizing content, and ensuring security.</p>
+
+                    <h2 class="fw-semibold mt-4" style="color: #1e90ff;">4. Your Rights</h2>
+                    <p class="text-muted">You have the right to access, modify, or delete your personal data. Contact us at <a href="mailto:support@postfly.com" class="fw-bold" style="color: #1e90ff;">support@postfly.com</a>.</p>
+
+                    <h2 class="fw-semibold mt-4" style="color: #1e90ff;">5. Security</h2>
+                    <p class="text-muted">We implement strong security measures to protect your data but remind you that no online service is 100% secure.</p>
+
+                    <h2 class="fw-semibold mt-4" style="color: #1e90ff;">6. Contact Us</h2>
+                    <p class="text-muted">For any privacy concerns, reach out at <a href="mailto:privacy@postfly.com" class="fw-bold" style="color: #1e90ff;">privacy@postfly.com</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
