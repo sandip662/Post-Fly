@@ -24,6 +24,8 @@ namespace Bloggie.Web.Controllers
         }
 
 
+
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
