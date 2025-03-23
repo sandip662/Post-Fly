@@ -1,0 +1,207 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+@inject UserManager<IdentityUser> userManager
+
+@model Bloggie.Web.Models.ViewModels.BlogDetailsViewModel
+
+
+
+
+
+    <div class="row mt-2">
+        <div class="row">
+            <div class="col-lg-12">
+                @if (Model != null)
+                {
+                    <div class="card shadow-lg border-0">
+                        <div class="card-body p-4">
+                            <!-- Blog Title -->
+                        <h1 class="mb-3 fw-bold" style="border-radius:5px;">@Model.Heading</h1>
+
+                        <!-- Blog Metadata -->
+                        <div class="d-flex align-items-center gap-3 mb-3 border-bottom pb-2 p-1" style="background:linear-gradient(to right, #f0f8fff7, #eef1f6);">
+                            <!-- Profile Picture or Icon -->
+                            <div class="d-flex align-items-center">
+                                <div style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid #ddd;
+                    background: linear-gradient(135deg, #f8f9fa, #e9ecef); display: flex;
+                    align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+                                    <i class="fas fa-user" style="color: gray; font-size: 22px;"></i>
+                                </div>
+                            </div>
+
+                            <!-- Author and Date Info -->
+                            <div class="d-flex flex-column" >
+                                <span class="text-dark fw-bold" style="font-size: 1rem;">@Model.Author</span>
+                                <span class="text-muted" style="font-size: 0.9rem;">
+                                    <i class="bi bi-calendar-event"></i> @Model.PublishedDate.ToString("MMMM dd, yyyy")
+                                </span>
+                            </div>
+                        </div>
+
+
+                            <!-- Like Section -->
+                            <div class="mb-3">
+                                @if (signInManager.IsSignedIn(User))
+                                {
+                                    <a id="btnLike" class="text-decoration-none text-dark" style="cursor: pointer;">
+                                        <i class="bi @(Model.Liked ? "bi-hand-thumbs-up-fill text-primary" : "bi-hand-thumbs-up")"></i>
+                                    </a>
+                                }
+                                <span id="totalLikes" class="fw-bold">@Model.TotalLikes</span> likes
+                            </div>
+
+                            <!-- Tags -->
+                            <div class="mb-3">
+                                @foreach (var tag in Model.Tags)
+                                {
+                                    <span class="badge bg-secondary me-1">#@tag.Name</span>
+                                }
+                            </div>
+
+                            <!-- Featured Image -->
+                            <div class="text-center mb-4">
+                                <img src="@Model.FeaturedImageUrl" class="img-fluid rounded shadow-sm" style="max-height: 450px; object-fit: cover;" />
+                            </div>
+
+                            <!-- Blog Content -->
+                            <div class="mb-4 blog-details-content text-dark fs-5">
+                                @Html.Raw(Model.Content)
+                            </div>
+
+                            <!-- Comments Section -->
+                        <div class="card shadow-lg mt-4 border-0" style="border-radius: 10px;">
+                            <div class="card-header bg-white border-bottom">
+                                <h5 class="m-0 text-dark"><i class="fas fa-comments me-2"></i> Comments</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <!-- Add Comment Section -->
+                                @if (signInManager.IsSignedIn(User))
+                                {
+                                    <form method="post" class="mb-4">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-semibold">Leave a Comment</label>
+                                            <textarea class="form-control shadow-sm" rows="3" asp-for="CommentDescription"
+                                                      placeholder="Share your thoughts..."
+                                                      style="border-radius: 8px; padding: 12px; font-size: 14px;"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-sm px-4" style="border-radius: 5px;">
+                                            <i class="fas fa-paper-plane me-1"></i> Submit
+                                        </button>
+                                        <input type="hidden" asp-for="Id" />
+                                        <input type="hidden" asp-for="UrlHandle" />
+                                    </form>
+                                }
+
+                                <!-- Display Comments -->
+                                @if (Model.Comments != null && Model.Comments.Any())
+                                {
+                                    @foreach (var comment in Model.Comments.OrderByDescending(c => c.DateAdded))
+                                    {
+                                        <div class="card mb-3 shadow-sm border-0" style="border-radius: 10px;">
+                                            <div class="card-body p-3" style="border: 1px solid lightgray;border-radius: 10px;">
+                                                <div class="d-flex align-items-start">
+                                                    <!-- User Avatar -->
+                                                    <div class="me-3">
+                                                        <div style="width: 50px; height: 50px; border-radius: 50%;
+                                background: linear-gradient(135deg, #6db9ef, #5a9bf6);
+                                display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; font-weight: bold;">
+                                                            @comment.Username[0].ToString().ToUpper()
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Comment Content -->
+                                                    <div class="w-100">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <strong class="text-dark" style="font-size: 16px;">@comment.Username</strong>
+                                                            <small class="text-muted">@comment.DateAdded.ToString("MMMM dd, yyyy")</small>
+                                                        </div>
+
+                                                        <p class="mb-2 text-secondary" style="font-size: 15px; line-height: 1.6; background: #f8f9fa; padding: 12px; border-radius: 8px;">
+                                                            @comment.Description
+                                                        </p>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <div class="text-center text-muted py-4">
+                                        <i class="far fa-comment-dots fa-3x mb-2"></i>
+                                        <p class="mb-0" style="font-size: 14px;">No comments yet. Be the first to share your thoughts!</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+
+
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger text-center">
+                        <p class="m-0">Blog post not found!</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+           
+
+      
+
+
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnLikeElement = document.getElementById('btnLike');
+        const totalLikeElement = document.getElementById('totalLikes');
+
+        if (!btnLikeElement) {
+            console.warn("Like button not found. User might have already liked this post.");
+            return;
+        }
+
+        async function getTotalLikes() {
+            fetch('/api/blogpostlike/@Model.Id/totalLikes', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*'
+                }
+            })
+                .then(response => response.json())
+                .then(result => totalLikeElement.innerHTML = result);
+        }
+
+        async function addLikeForBlog() {
+            fetch('/api/BlogPostLike/Add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*'
+                },
+                body: JSON.stringify({
+                    blogPostId: '@Model.Id',
+                    userId: '@userManager.GetUserId(User)'
+                })
+            }).then(() => {
+                btnLikeElement.innerHTML = '<i class="bi bi-hand-thumbs-up-fill"></i>';
+                btnLikeElement.removeEventListener('click', addLikeForBlog);
+                getTotalLikes();
+            });
+        }
+
+        btnLikeElement.addEventListener('click', addLikeForBlog);
+    });
+</script>

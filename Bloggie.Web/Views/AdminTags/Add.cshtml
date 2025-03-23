@@ -1,0 +1,142 @@
+﻿@model Bloggie.Web.Models.ViewModels.AddTagRequest
+@{
+    ViewBag.Title = "Create Tag";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+
+    .topnav {
+        height: 55px;
+       background-color:ghostwhite
+       
+    }
+
+    
+
+</style>
+
+
+<div class="container-fluid">
+
+@* <div style="background: linear-gradient(120deg, rgb(173, 216, 230), rgb(225 242 255 / 0%), rgb(255, 218, 185), rgb(240, 255, 240));"> *@
+
+    <!-- Centered Header Section -->
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <!-- Card with elegant shadow & subtle color -->
+                <div class="card rounded-4 px-3 py-1"
+                     style="box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px;border:2px dashed #0675e1">
+
+                    <div class="row g-4 align-items-center">
+                        <div class="col-md-12 text-center">
+                            <h1 class="fw-bold text-primary-emphasis"
+                                style="font-size: 2.8rem; font-weight: 700;
+                   background:#0675e1;
+                   -webkit-background-clip: text ;
+                   -webkit-text-fill-color: transparent;
+                   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);">
+
+                                <i class="fe-edit me-2"></i>
+                               Create New Tag
+                            </h1>
+                         
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Main Container -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <!-- Increased width for a more spacious layout -->
+                <div class="card rounded-4 px-2 py-3"
+                     style="box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; border:2px dashed #0675e1">
+                <!-- Border is now darker & visible -->
+
+                <div class="row g-4 align-items-center">
+                    <!-- Well-spaced layout -->
+                    <!-- Left Section: Form -->
+
+                    <div class="col-md-6 border-end border-3">
+
+
+                        <h4 class="text-center text-dark mb-3">Admin Functionality</h4>
+                        <form method="post">
+                            <div class="mb-3">
+                                    <label class="form-label fw-semibold" style="color:#0675e1">Tag Name</label>
+                                    <input type="text" class="form-control rounded-3 border-primary-subtle shadow-sm px-3 py-2"
+                                       id="name" asp-for="Name" placeholder="Enter tag name"  />
+                                    <span class="text-danger" asp-validation-for="Name"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                    <label class="form-label fw-semibold" style="color:#0675e1">Display Name</label>
+                                    <input type="text" class="form-control rounded-3 border-primary-subtle shadow-sm px-3 py-2"
+                                       id="displayName" asp-for="DisplayName" placeholder="Enter display name"  />
+                                       <span class="text-danger" asp-validation-for="DisplayName"></span>
+                            </div>
+
+                            <div class="d-grid mt-3">
+                                    <button type="submit" class="btn btn-lg rounded-3 shadow-sm fw-semibold" style="background:#0675e1; color:white">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right Section: Tag Information -->
+                    <div class="col-md-6 text-center d-flex flex-column justify-content-center">
+                        <div class="d-flex justify-content-center">
+                            <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm"
+                                 style="width: 110px; height: 110px; background: #bbdefb; border: 2px solid #64b5f6;">
+                                <!-- Added border to the circle -->
+                                    <i class="bi bi-tags-fill" style="font-size: 3.5rem;color:#0675e1"></i>
+                            </div>
+                        </div>
+                        <h5 class="mt-3 text-dark fw-bold">Organize Your Content</h5>
+                        <p class="text-muted" style="font-size: 15px;">Tags help categorize and improve searchability for your blog posts.</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+@section dateStyle
+{
+    <!--plugins-->
+
+    <link href="~/assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+}
+
+
+@section dateScript
+{
+    
+    <!-- jQuery (MUST be first) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+}
+

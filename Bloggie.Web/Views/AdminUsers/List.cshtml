@@ -1,0 +1,398 @@
+﻿@model Bloggie.Web.Models.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "User List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int nextPage = Convert.ToInt32(ViewBag.PageNumber) + 1;
+    int prevPage = Convert.ToInt32(ViewBag.PageNumber) - 1;
+}
+
+<style>
+
+    .border-skyblue {
+        border-color: #3387ff !important;
+    }
+
+    #TagList {
+        font-size: 14px;
+    }
+
+        #TagList th,
+        #TagList td {
+            padding: 5px;
+            white-space: nowrap;
+        }
+</style>
+
+<style>
+
+    .custom-back-btn {
+        width: 100px;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #ff9900, #ff5500);
+        border-radius: 22px;
+        cursor: pointer;
+        border: none;
+        height: 38px;
+    }
+
+        .custom-back-btn > svg {
+            margin-right: 5px;
+            margin-left: 5px;
+            font-size: 20px;
+            transition: all 0.4s ease-in;
+        }
+
+        .custom-back-btn:hover > svg {
+            font-size: 1.2em;
+            transform: translateX(-5px);
+        }
+
+        .custom-back-btn:hover {
+            box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #ffffff;
+            transform: translateY(-2px);
+        }
+</style>
+
+<div class="container-fluid">
+
+
+
+<!-- Centered Header Section -->
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <!-- Card with elegant shadow & subtle color -->
+            <div class="card rounded-4 px-3 py-1"
+                 style="box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px;border:2px dashed #0675e1">
+
+                <div class="row g-4 align-items-center">
+                    <div class="col-md-12 text-center">
+                        <h1 class="fw-bold text-primary-emphasis"
+                            style="font-size: 2.8rem; font-weight: 700;
+                   background:#0675e1;
+                   -webkit-background-clip: text ;
+                   -webkit-text-fill-color: transparent;
+                   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);">
+
+                            <i class="bi bi-person-circle me-2"></i>
+                            Create User
+                        </h1>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-top shadow-sm rounded" >
+                    <div class="card-body p-4" style="border:2px dashed #0d6efd; border-radius:12px;">
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Action Buttons -->
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-sm-4">
+                                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalCreateUser" style="border-radius:22px;border:none; background:linear-gradient(135deg, #28a745, #218838); color:white">
+                                            <i class="mdi mdi-plus-circle me-1"></i>  Create User
+                                    </button>
+                                    </div>
+                                    <div class="col-sm-8 text-end">
+                                        <button type="button" class="btn btn-primary" onclick="location.href='http://localhost:5122/AdminUsers/List'" style="border-radius:22px;border:none; background:linear-gradient(135deg, #5a43f7, #735ff9);">
+                                            <i class="mdi mdi-cloud-refresh me-2"></i> Refresh
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                                <div class="row mb-2">
+                                    <!-- Search Form (Left-aligned) -->
+                                    <div class="col-md-6 d-flex align-items-center">
+                                        <form method="get" asp-controller="AdminUsers" asp-action="List" class="d-flex">
+                                            <button type="submit" class="btn" style="color:gray;">Search:</button>
+                                            <input type="text" class="form-control"
+                                                   name="searchQuery" value="@ViewBag.SearchQuery"
+                                                   style="color:gray; border:1px solid gray;" placeholder="Search User" />
+                                        </form>
+                                    </div>
+
+                                    <!-- Page Size Dropdown (Right-aligned) -->
+                                    <div class="col-md-6 d-flex justify-content-end align-items-center">
+                                        <label for="pageSize" class="me-2">Show:</label>
+                                        <select id="pageSize" name="pageSize" class="form-select d-inline-block w-auto" onchange="updatePageSize()">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                        <span class="ms-2">entries</span>
+                                    </div>
+                                </div>
+
+
+                                <script>
+                                    function updatePageSize() {
+                                        const selectedSize = document.getElementById("pageSize").value;
+                                        const url = new URL(window.location.href);
+                                        url.searchParams.set("pageSize", selectedSize);
+                                        url.searchParams.set("pageNumber", 1); // Reset to first page
+                                        window.location.href = url.toString();
+                                    }
+
+                                    // Pre-select the correct page size on page load
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        document.getElementById("pageSize").value = "@ViewBag.PageSize";
+                                    });
+                                </script>
+
+
+
+                                <!-- Data Table -->
+                                <div class="table-responsive bg-white shadow-sm rounded p-3" style="border:1px solid gray;border-radius:7px">
+                                @if (Model.Users is not null || Model.Users.Any())
+                                {
+
+                                    <table class="table table-hover table-bordered text-center align-middle">
+                                            <thead style="background: #1e90ff;">
+                                                <tr class="fw-semibold text-secondary">
+                                                    <th style="color:white; border:1px solid gray">ID</th>
+                                                    <th style="color:white; border:1px solid gray">
+                                                        UserName
+                                                        <a asp-controller="AdminUsers" asp-action="List" asp-route-sortBy="UserName" asp-route-sortDirection="Asc" asp-route-searchQuery="@ViewBag.SearchQuery" class="text-dark ms-1">
+                                                            <i class="bi bi-arrow-up" style="color:white"></i>
+                                                        </a>
+                                                        <a asp-controller="AdminUsers" asp-action="List" asp-route-sortBy="UserName" asp-route-sortDirection="Desc" asp-route-searchQuery="@ViewBag.SearchQuery" class="text-dark">
+                                                            <i class="bi bi-arrow-down" style="color:white"></i>
+                                                        </a>
+                                                    </th>
+                                                    <th style="color:white; border:1px solid gray">
+                                                        Email
+                                                        <a asp-controller="AdminUsers" asp-action="List" asp-route-sortBy="Email" asp-route-sortDirection="Asc" asp-route-searchQuery="@ViewBag.SearchQuery" class="text-dark ms-1">
+                                                            <i class="bi bi-arrow-up" style="color:white"></i>
+                                                        </a>
+                                                        <a asp-controller="AdminUsers" asp-action="List" asp-route-sortBy="Email" asp-route-sortDirection="Desc" asp-route-searchQuery="@ViewBag.SearchQuery" class="text-dark">
+                                                            <i class="bi bi-arrow-down" style="color:white"></i>
+                                                        </a>
+                                                    </th>
+                                                    <th style="color:white; border:1px solid gray">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach (var user in Model.Users)
+                                            {
+                                                    <tr>
+                                                    <td style="color:gray; border:1px solid gray">@user.Id</td>
+                                                    <td style="color:gray; border:1px solid gray">@user.Username</td>
+                                                    <td style="color:gray; border:1px solid gray">@user.EmailAddress</td>
+                                                        <td style="color:gray; border:1px solid gray">
+                                                        <form method="post"
+                                                              asp-controller="AdminUsers"
+                                                              asp-action="Delete"
+                                                              asp-route-id="@user.Id">
+                                                            <button class="btn btn-danger" type="submit">Delete</button>
+                                                        </form>
+
+                                                        </td>
+                                                    </tr>
+                                                }
+
+
+
+                                            </tbody>
+                                        </table>
+
+
+
+                                        <div class="row mb-3 align-items-center">
+                                            <div class="col-sm-4">
+                                                <!-- Pagination -->
+                                                <nav aria-label="Page navigation example">
+                                                    <ul class="pagination">
+                                                        @{
+                                                            int totalPages = Convert.ToInt32(ViewBag.TotalPages);
+                                                            int currentPage = Convert.ToInt32(ViewBag.PageNumber);
+                                                            int startPage = Math.Max(1, currentPage - 2);
+                                                            int endPage = Math.Min(totalPages, currentPage + 2);
+                                                        }
+
+                                                        <!-- Previous Button -->
+                                                        <li class="page-item @(currentPage == 1 ? "disabled" : "")" style="color:gray; border:1px solid gray;">
+                                                            <a class="page-link"
+                                                               asp-controller="AdminUsers"
+                                                               asp-action="List"
+                                                               asp-route-pageNumber="@(currentPage - 1)"
+                                                               asp-route-pageSize="@ViewBag.PageSize"
+                                                               asp-route-sortBy="@ViewBag.SortBy"
+                                                               asp-route-sortDirection="@ViewBag.SortDirection">
+                                                                Previous
+                                                            </a>
+                                                        </li>
+
+                                                        <!-- Page Numbers -->
+                                                        @for (int i = startPage; i <= endPage; i++)
+                                                        {
+                                                            <li class="page-item @(i == currentPage ? "active" : "")" style="color:gray; border:1px solid gray;">
+                                                                <a class="page-link"
+                                                                   asp-controller="AdminUsers"
+                                                                   asp-action="List"
+                                                                   asp-route-pageNumber="@i"
+                                                                   asp-route-pageSize="@ViewBag.PageSize"
+                                                                   asp-route-sortBy="@ViewBag.SortBy"
+                                                                   asp-route-sortDirection="@ViewBag.SortDirection"
+                                                                   style="@(i == currentPage ? "background-color: gray; color: white;" : "")">
+                                                                    @i
+                                                                </a>
+                                                            </li>
+                                                        }
+
+                                                        <!-- Next Button -->
+                                                        <li class="page-item @(currentPage == totalPages ? "disabled" : "")" style="color:gray; border:1px solid gray;">
+                                                            <a class="page-link"
+                                                               asp-controller="AdminUsers"
+                                                               asp-action="List"
+                                                               asp-route-pageNumber="@(currentPage + 1)"
+                                                               asp-route-pageSize="@ViewBag.PageSize"
+                                                               asp-route-sortBy="@ViewBag.SortBy"
+                                                               asp-route-sortDirection="@ViewBag.SortDirection">
+                                                                Next
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+
+                                            <div class="col-sm-8 text-end">
+                                                <!-- Back Button -->
+                                                <button class="custom-back-btn" onclick="location.href='/Home/Index'">
+
+                                                    <span>Back</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted text-center py-3">No tags found</p>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+</div>
+
+<!-- User Creation Modal -->
+<form method="post">
+    <div class="modal fade" id="modalCreateUser" tabindex="-1" aria-labelledby="createUserLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <!-- Modal Header -->
+                <div class="modal-header text-white" style="background:linear-gradient(to right, #1e90ff, #73c5ff);">
+                    <h5 class="modal-title fw-bold" id="createUserLabel">Create New User</h5>
+                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close" onclick="closeAndRefresh()"></button>
+
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body p-4">
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Username</label>
+                        <input type="text" class="form-control rounded-3 shadow-sm" asp-for="Username" placeholder="Enter username" required />
+                    </div>
+
+                    <!-- Email Address -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email Address</label>
+                        <input type="email" class="form-control rounded-3 shadow-sm" asp-for="Email" placeholder="Enter email" required />
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Password</label>
+                        <div style="position: relative;">
+                            <input type="password" id="passwordInput" class="form-control rounded-3 shadow-sm"
+                                   asp-for="Password" placeholder="Enter password" required />
+                            <i id="togglePassword" class="bi bi-eye-slash"
+                               style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                            </i>
+                        </div>
+                    </div>
+
+    
+
+                    <!-- Roles Selection -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">User Role</label>
+                        <div class="form-check">
+                            <input type="checkbox" id="chkUserRole" class="form-check-input" value="User" checked disabled />
+                            <label class="form-check-label" for="chkUserRole">User</label>
+                        </div>
+
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" id="chkAdminRole" class="form-check-input" asp-for="AdminRoleCheckbox" />
+                                <label class="form-check-label" for="chkAdminRole">Admin</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer bg-light">
+                    <button type="submit" class="btn rounded-3" style="border-radius:22px;border:none;     background: #0675e1; color:white;">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    document.getElementById("togglePassword").addEventListener("click", function () {
+        var passwordField = document.getElementById("passwordInput");
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            this.classList.remove("bi-eye-slash");
+            this.classList.add("bi-eye");
+        } else {
+            passwordField.type = "password";
+            this.classList.remove("bi-eye");
+            this.classList.add("bi-eye-slash");
+        }
+    });
+</script>
+
+<script>
+    function closeAndRefresh() {
+        // Close the modal
+        var modal = document.getElementById('modalCreateUser');
+        var modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+
+        // Refresh the page after modal closes
+        setTimeout(() => {
+            location.reload();
+        }, 300); // Small delay to ensure modal closes before refresh
+    }
+</script>

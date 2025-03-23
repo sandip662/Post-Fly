@@ -1,0 +1,152 @@
+﻿@model Bloggie.Web.Models.ViewModels.RegisterViewModel
+
+@{
+
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Register & Signup | UBold - Responsive Admin Dashboard Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- Bootstrap css -->
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- App css -->
+    <link href="~/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
+    <!-- icons -->
+    <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Head js -->
+    <script src="~/assets/js/head.js"></script>
+    <style>
+        body.authentication-bg-pattern {
+            background-image: url('@Url.Content("~/assets/images/bg-material.png")');
+        }
+
+
+        .postfly-text {
+            font-size: 24px; /* Adjust size as needed */
+            font-weight: bold;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #78bcfff0, #ff8080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+    </style>
+
+</head>
+
+<body class="authentication-bg authentication-bg-pattern">
+
+    <div class="account-pages mt-2 mb-2">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-4">
+                    <div class="card bg-pattern" style="background-color:#bccddd24;border: 1px dotted #5671f0;">
+
+                        <div class="card-body p-4">
+
+                            <div class="text-center w-75 m-auto">
+                                <div class="auth-logo">
+                                    <a href="/Home/Index" class="logo logo-dark text-center">
+                                        <i b-n1e1qfg7ad="" class="fas fa-paper-plane me-2"
+                                           style="font-size: 24px; color: #89a4cd  !important; flex-shrink: 0;"></i>
+                                        <span class="fw-bold d-none d-md-inline postfly-text ">
+                                            POSTFLY
+                                        </span>
+                                       
+                                    </a>
+
+                              
+                                </div>
+                                <p class="text-muted mb-2 mt-2">Don't have an account? Create your account, it takes less than a minute</p>
+                            </div>
+
+                            <form method="post">
+
+                                <div class="mb-3">
+                                    <label class="form-label" style="color:white">Username</label>
+                                    <input type="text" id="username" class="form-control" asp-for="Username" placeholder="Enter Your Username"  />
+                                    <span class="text-danger" asp-validation-for="Username"></span>
+                                    
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" style="color:white">Email</label>
+                                    <input type="text" id="email" class="form-control" asp-for="Email" placeholder="Enter Your Mailid"  />
+                                    <span class="text-danger" asp-validation-for="Email"></span>
+                               
+                                </div>  
+                                <div class="mb-3">
+                                    <label for="password" style="color:white" class="form-label">Password</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="password" class="form-control" asp-for="Password"  placeholder="Enter your password">
+                                        <div class="input-group-text" data-password="false">
+                                            <span class="password-eye"></span>
+                                            
+                                        </div>
+                                       
+                                    </div>
+                                    <span class="text-danger" asp-validation-for="Password"></span>
+                                </div>
+                                <div class="mb-1">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="checkbox-signup" required>
+                                        <label class="form-check-label text-light" for="">I accept <a href="javascript: void(0);" class="text-light">Terms and Conditions</a></label>
+                                    </div>
+                                </div>
+
+
+                                
+
+
+                                <div class="text-center d-grid">
+                                    <button type="submit" class="btn btn-primary" style="color:white;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">Sign Up</button>
+                                </div>
+
+                            </form>
+
+                        </div> <!-- end card-body -->
+                    </div>
+                    <!-- end card -->
+
+
+                    <div class="card bg-pattern" style="background-color:#bccddd24;border: 1px dotted #5671f0;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+                        <div class="card-body" style="padding-top: 11px; padding-bottom: 0px;">
+                        <div class="col-12 text-center">
+                                <p style="color:darkseagreen">Already have account?  <a href="/Account/Login" class="text-dark-50 ms-1"><b style="color:#5671f0">Sign In</b></a></p>
+                        </div>
+                     </div>
+                  </div>
+              
+
+
+                    <!-- end row -->
+
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end page -->
+
+
+    <!-- Vendor js -->
+    <script src="~/assets/js/vendor.min.js"></script>
+
+    <!-- App js -->
+    <script src="~/assets/js/app.min.js"></script>
+
+</body>
+</html>
+

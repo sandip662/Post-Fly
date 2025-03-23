@@ -1,0 +1,418 @@
+﻿@model Bloggie.Web.Models.ViewModels.AddBlogPostRequest
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+@{
+    ViewBag.Title = "Add Blog Post";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+@* <div style="background: linear-gradient(120deg, rgb(173, 216, 230), rgb(225 242 255 / 0%), rgb(255, 218, 185), rgb(240, 255, 240));"> *@
+
+  
+
+
+
+    <!-- Centered Header Section -->
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <!-- Card with elegant shadow & subtle color -->
+                <div class="card rounded-4 px-3 py-1"
+                     style="box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px;border:2px dashed #0675e1">
+
+                    <div class="row g-4 align-items-center">
+                        <div class="col-md-12 text-center">
+                            <h1 class="fw-bold text-primary-emphasis"
+                                style="font-size: 2.8rem; font-weight: 700;
+                   background: #0675e1;
+                   -webkit-background-clip: text ;
+                   -webkit-text-fill-color: transparent;
+                   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);">
+
+                                <i class="fe-edit me-2"></i>
+                                Share Your Thoughts with the World
+                            </h1>
+                            <p class="text-muted fs-5">
+                                Write and publish your blog to inspire others!
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <!-- Increased width for a more spacious layout -->
+                <div class="card rounded-4 px-2 py-3"
+                     style="box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px;border:2px dashed #0675e1">
+                    <!-- Border is now darker & visible -->
+
+                <div class="row g-4 align-items-center">
+                    <!-- Well-spaced layout -->
+                    <div class="col-md-12">
+                            <h2 class="text-center text-primary fw-bold mb-3"
+                                style="font-weight: 700;
+                   background: #0675e1;
+                   -webkit-background-clip: text ;
+                   -webkit-text-fill-color: transparent;
+                   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);">
+                                Write a New Blog
+                            </h2>
+
+
+                            <form id="blogForm" method="post">
+
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold text-primary">Heading</label>
+                                <input type="text" class="form-control rounded-3 shadow-sm px-3 py-2" id="heading" asp-for="Heading" style="border: 1px solid lightgray;" placeholder="Enter heading"/>
+                                    <span class="text-danger" data-valmsg-for="Heading"></span>
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold text-primary">Page Title</label>
+                                    <input type="text" class="form-control rounded-3  shadow-sm px-3 py-2" id="pageTitle" asp-for="PageTitle" style="border: 1px solid lightgray;" placeholder="Enter page title" />
+                                    <span class="text-danger" data-valmsg-for="PageTitle"></span>
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold text-primary">Content</label>
+                                      <div id="editor-container" style="height: 300px;"></div>
+
+                                    <!-- Hidden Input to Store Content -->
+                                    <input type="hidden" asp-for="Content" id="content-input">
+
+                                    <!-- Image Resizer (Initially Hidden) -->
+                                    <div id="image-resizer" style="display: none; margin-top: 10px;">
+                                        <label>Resize Image:</label>
+                                        <input type="range" id="resize-slider" min="50" max="800" value="300" step="10">
+                                    </div>
+                                    <span class="text-danger" data-valmsg-for="Content"></span>
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold text-primary">Short Description</label>
+                                    <input type="text" class="form-control rounded-3 shadow-sm px-3 py-2" id="shortDescription" asp-for="ShortDescription" style="border: 1px solid lightgray;" placeholder="Enter short description" />
+                                    <span class="text-danger" data-valmsg-for="ShortDescription"></span>
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold text-primary">Featured Image Upload</label>
+                                    <input type="file" class="form-control rounded-3  shadow-sm px-3 py-2" id="featuredImageUpload" style="border: 1px solid lightgray;" placeholder="Upload featured image" />
+                                <img src="" asp id="featuredImageDisplay" style="display:none; width:300px"/>
+                                    
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold text-primary">Featured Image URL</label>
+                                <input type="text" class="form-control rounded-3 shadow-sm px-3 py-2" id="featuredImageUrl" asp-for="FeaturedImageUrl" style="border: 1px solid lightgray;" />
+                                    <span class="text-danger" data-valmsg-for="FeaturedImageUrl"></span>
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label  fw-semibold text-primary">URL Handle</label>
+                                    <input type="text" class="form-control rounded-3 shadow-sm px-3 py-2" id="urlHandle" asp-for="UrlHandle" style="border: 1px solid lightgray;" placeholder="Enter Url handle" />
+                                    <span class="text-danger" data-valmsg-for="UrlHandle"></span>
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label  fw-semibold text-primary">Published Date</label>
+                                <input type="date" class="form-control rounded-3 shadow-sm px-3 py-2" id="publishedDate" asp-for="PublishedDate" style="border: 1px solid lightgray;" />
+                                    <span class="text-danger" data-valmsg-for="PublishedDate"></span>
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold text-primary">author</label>
+                                    <input type="text" class="form-control rounded-3 shadow-sm px-3 py-2" id="author" asp-for="Author" style="border: 1px solid lightgray;" placeholder="Enter Author name" />
+                                    <span class="text-danger" data-valmsg-for="Author"></span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="form-check form-switch m-0">
+                                    <input class="form-check-input shadow-sm" type="checkbox" id="visible" asp-for="Visible"
+                                           style="width: 50px; height: 25px; cursor: pointer;">
+                                </div>
+                                <label class="ms-2 fw-semibold text-primary" for="visible">
+                                    Do you accept our Terms & Conditions ?
+                                </label>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold text-primary">Tags</label>
+                                <select class="form-select shadow-sm px-3 py-2"
+                                        asp-items="Model.Tags"
+                                        asp-for="SelectedTags" multiple
+                                        style="height: 100px; overflow-y: auto;">
+                                </select>
+                            </div>
+
+
+                                <div class="text-center">
+                                <button type="submit" class="btn btn-success btn-lg rounded-3 shadow-sm fw-semibold">Publish</button>
+                            </div>
+
+                        </form>
+
+                            <style>
+                                .ql-editor img {
+                                    max-width: 100%;
+                                    display: block;
+                                    margin: 10px 0;
+                                }
+                            </style>
+
+                    </div>
+
+            
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@* </div>
+ *@
+
+    
+
+
+</div>
+
+
+
+
+@section dateStyle
+{
+    <!--plugins-->
+
+    <link href="~/assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+
+    <link href="~/assets/libs/quill/quill.core.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/libs/quill/quill.bubble.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/libs/quill/quill.snow.css" rel="stylesheet" type="text/css" />
+}
+
+
+@section dateScript
+{
+    <!-- jQuery (MUST be first) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+    
+
+  
+}
+
+<script src="~/assets/libs/quill/quill.min.js"></script>
+<script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+        let publishedDateInput = document.getElementById("publishedDate");
+        if (publishedDateInput) {
+            let today = new Date().toISOString().split('T')[0]; // Get YYYY-MM-DD format
+            publishedDateInput.value = today;
+        }
+    });
+
+
+
+
+
+
+
+    var quill = new Quill('#editor-container', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ 'font': [] }],  // Font picker
+                
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }], // Headings (H1-H6)
+                ['bold', 'italic', 'underline', 'strike'], // Basic formatting
+                [{ 'color': [] }, { 'background': [] }], // Text color & background color
+                [{ 'script': 'sub' }, { 'script': 'super' }], // Subscript & Superscript
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Lists
+                [{ 'indent': '-1' }, { 'indent': '+1' }], // Indentation
+                [{ 'direction': 'rtl' }], // Text direction
+                [{ 'align': [] }], // Text alignment
+                ['blockquote', 'code-block'], // Block formatting
+                ['link', 'image', 'video'], // Insert links, images, videos
+                ['clean'] // Remove formatting
+            ]
+        }
+    });
+
+
+
+
+        // Handle image uploads manually
+    quill.getModule('toolbar').addHandler('image', function() {
+        let input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+
+        input.onchange = async function() {
+            let file = input.files[0];
+            if (file) {
+                let formData = new FormData();
+                formData.append('file', file);
+
+                try {
+                    let response = await fetch('/api/Images/UploadAsync', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    let result = await response.json();
+                    let imageUrl = result.link; // Ensure your API returns the image URL
+
+                    // Insert the uploaded image into Quill editor
+                    let range = quill.getSelection();
+                    quill.insertEmbed(range.index, 'image', imageUrl);
+                } catch (error) {
+                    console.error('Image upload failed', error);
+                }
+            }
+        };
+    });
+
+
+       let selectedImage = null;
+    const resizeSlider = document.getElementById('resize-slider');
+    const resizerContainer = document.getElementById('image-resizer');
+
+    // Detect Clicked Image and Show Slider
+    document.querySelector('.ql-editor').addEventListener('click', function (event) {
+        if (event.target.tagName === 'IMG') {
+            selectedImage = event.target;
+            resizerContainer.style.display = 'block';
+            resizeSlider.value = selectedImage.width;
+        } else {
+            resizerContainer.style.display = 'none';
+            selectedImage = null;
+        }
+    });
+
+    // Resize Image via Slider
+    resizeSlider.addEventListener('input', function () {
+        if (selectedImage) {
+            selectedImage.style.width = this.value + 'px';
+        }
+    });
+
+
+
+    document.getElementById('blogForm').addEventListener('submit', function (event) {
+        document.getElementById('content-input').value = quill.root.innerHTML;
+
+        // Reset previous validation messages
+        document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');
+
+        let isValid = true;
+
+        function showError(id, message) {
+            let errorSpan = document.querySelector(`[data-valmsg-for="${id}"]`);
+            if (errorSpan) {
+                errorSpan.textContent = message;
+                errorSpan.style.color = "red"; // Ensure it appears in red
+            }
+            isValid = false;
+        }
+
+        if (!document.getElementById('heading').value.trim()) showError("Heading", "Heading is required.");
+        if (!document.getElementById('pageTitle').value.trim()) showError("PageTitle", "Page Title is required.");
+        if (!quill.getText().trim()) showError("Content", "Content is required.");
+        if (!document.getElementById('shortDescription').value.trim()) showError("ShortDescription", "Short Description is required.");
+        if (!document.getElementById('author').value.trim()) showError("Author", "Author is required.");
+        if (!document.getElementById('publishedDate').value.trim()) showError("PublishedDate", "Published Date is required.");
+        if (!document.getElementById('urlHandle').value.trim()) showError("UrlHandle", "URL Handle is required.");
+
+        if (!isValid) {
+            event.preventDefault(); // Prevent form submission if validation fails
+        }
+    });
+
+    // Display uploaded image preview
+    document.getElementById('featuredImageUpload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('featuredImageDisplay').src = e.target.result;
+                document.getElementById('featuredImageDisplay').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+
+   
+
+
+
+</script>
+
+<script>
+
+
+
+
+      const featuredUploadElement = document.getElementById('featuredImageUpload');
+
+    const featuredImageUrlElement = document.getElementById('featuredImageUrl');
+
+    const featuredImageDisplayElement = document.getElementById('featuredImageDisplay');
+
+           async function UploadFeaturedImage(e) {
+               console.log(e.target.files[0]);
+
+               let data = new FormData();
+               data.append('file',e.target.files[0]);
+
+               await fetch ('/api/Images/UploadAsync', {
+                   method: 'POST',
+                   header: {
+                       'Accept': '*/*',
+                   },
+                   body: data
+               }).then(response => response.json())
+                 .then(result => {
+                            featuredImageUrlElement.value = result.link;
+                            featuredImageDisplayElement.src = result.link;
+                            featuredImageDisplayElement.style.display = 'block';
+                 });
+
+
+           }
+
+
+
+    featuredUploadElement.addEventListener('change', UploadFeaturedImage)
+
+</script>
+
