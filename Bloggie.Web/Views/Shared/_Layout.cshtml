@@ -249,7 +249,7 @@
 
                                 @if (signInManager.IsSignedIn(User))
                                 {
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <a href="javascript:void(0);" onclick="location.href='/Home/Profile'" class="dropdown-item notify-item">
                                         <i class="fe-user me-2"></i> My Account
                                     </a>
                                     @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
