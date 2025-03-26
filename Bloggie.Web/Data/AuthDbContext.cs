@@ -62,14 +62,14 @@ namespace Bloggie.Web.Data
             var superAdminUser = new IdentityUser
             {
                UserName = "superadmin",
-               Email = "superadmin@bloggie.com",
+               Email = "sandipmondal9748@gmail.com",
                NormalizedUserName = "superadmin".ToUpper(),
-               NormalizedEmail = "superadmin@bloggie.com" .ToUpper(),
+               NormalizedEmail = "sandipmondal9748@gmail.com".ToUpper(),
                Id = superAdminId,
             };
 
             superAdminUser.PasswordHash = new PasswordHasher<IdentityUser>()
-                .HashPassword(superAdminUser, "superAdmin@123");
+                .HashPassword(superAdminUser, "sandipmondal9748@gmail.com");
 
             builder.Entity<IdentityUser>().HasData(superAdminUser);
 

@@ -1,6 +1,7 @@
 ﻿using Bloggie.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Encodings.Web;
 
 namespace Bloggie.Web.Controllers
 {
@@ -111,5 +112,90 @@ namespace Bloggie.Web.Controllers
         {
             return View();
         }
+
+
+        // ➤ Show Forgot Password Page
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPassword model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "⚠️ Email not found.";
+                return View();
+            }
+
+            // Generate reset token
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+
+            // Create reset link
+            var resetLink = Url.Action("ResetPassword", "Account",
+                new { token, email = model.Email }, Request.Scheme);
+
+            // Normally, send this via email (for now, redirect to the reset link)
+            return Redirect(resetLink);
+        }
+
+
+
+
+
+
+        // ➤ Show Reset Password Page
+        [HttpGet]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            var model = new ResetPassword { Token = token, Email = email };
+            return View(model);
+        }
+
+
+        // ➤ Handle Password Reset
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPassword model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "⚠️ Invalid request.";
+                return View();
+            }
+
+            var result = await userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "✅ Password reset successful!";
+                return RedirectToAction("Login");
+            }
+
+            TempData["ErrorMessage"] = "⚠️ Error resetting password.";
+            return View();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

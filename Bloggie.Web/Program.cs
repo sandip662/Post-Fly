@@ -8,14 +8,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Configure Databases
 builder.Services.AddDbContext<BloggieDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieDbConnectionString")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieDbConnectionString")));
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieAuthDbConnectionString")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieAuthDbConnectionString")));
 
+// Configure Identity with Default Token Providers
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<AuthDbContext>();
+    .AddEntityFrameworkStores<AuthDbContext>()
+    .AddDefaultTokenProviders(); // ?? Ensures token generation works!
+
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
