@@ -32,7 +32,7 @@
 
     <!-- Head js -->
     <script src="~/assets/js/head.js"></script>
-
+    <link href="~/css/footer.css" rel="stylesheet" />
 
 
 
@@ -57,7 +57,7 @@
 
         .navbar-custom {
             box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-            border: 1px solid #1e90ff;
+            border: 1px solid #0154a7;
             background-color: white;
             
            
@@ -66,8 +66,8 @@
 
         .topnav {
             box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-            background: linear-gradient(to right,#1e90ff, #73c5ff );
-            border: 1px solid #1e90ff;
+            background: linear-gradient(135deg, #0154a7, #0c6fcf);
+            border: 1px solid #0154a7;
            
         }
 
@@ -110,12 +110,11 @@
 
 
 
-<body data-layout-mode="horizontal" data-topbar-color="dark" data-menu-position="fixed"
-      style="background: linear-gradient(to right, #f0f8fff7, #eef1f6);">
+<body>
 
 
     <!-- Begin page -->
-    <div id="wrapper">
+    <div id="wrapper mt-3">
 
         <div class="navbar-custom">
 
@@ -124,7 +123,7 @@
 
                     <!-- Left Section (Logo + Mobile Menu) -->
                     <div class="d-flex align-items-center flex-shrink-0"
-                    style="margin-left: -75px; min-width: 0; flex-basis: auto;">
+                    style="margin-left: 10px; min-width: 0; flex-basis: auto;">
 
                         <!-- Mobile Menu Toggle -->
                         <button class="button-menu-mobile d-lg-none me-2 btn btn-outline-light">
@@ -259,9 +258,10 @@
                                             <i class="fe-settings me-2"></i> Setting
                                         </a>
                                     }
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="fe-lock me-2"></i> Lock Screen
+                                    <a href="/Account/ChangePassword" class="dropdown-item notify-item">
+                                        <i class="fe-lock me-2"></i> Change Password
                                     </a>
+
                                     <div class="dropdown-divider"></div>
                                     <a class="btn btn-danger w-100 text-center" asp-area="" asp-controller="Account" asp-action="Logout">
                                         <i class="fe-log-out"></i> Logout
@@ -290,7 +290,7 @@
                                    class="nav-link right-bar-toggle waves-effect d-flex align-items-center p-2"
                                     style="display: flex; align-items: center; justify-content: center; border-radius: 5px;
                                             padding: 6px 10px; transition: 0.3s ease; width: auto; min-width: 40px;
-                                             margin-right: -73px; flex-shrink: 0;">
+                                             margin-right: 2px; flex-shrink: 0;">
 
                                     <i class="fe-settings noti-icon"
                                        style="font-size: 30px; color: #004a93; transition: 0.3s ease; flex-shrink: 0;">
@@ -313,11 +313,11 @@
 
         @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
         {
-            <div class="topnav shadow-sm" style="height: auto;">
+            <div class="topnav shadow-sm">
                 <div class="container-fluid">
                     <nav class="navbar navbar-light navbar-expand-lg topnav-menu" style="margin: -4px;">
                         <div class="collapse navbar-collapse" id="topnav-menu-content">
-                            <ul class="navbar-nav d-flex flex-row flex-wrap align-items-center w-100" style="margin-left: -65px;">
+                            <ul class="navbar-nav d-flex flex-row flex-wrap align-items-center w-100">
 
                                 <!-- Admin Dropdown -->
                                 <li class="nav-item dropdown me-2">
@@ -383,48 +383,50 @@
 
 
 
-
- 
-        <div class="content-page" style="margin-top: 80px;">
-            <div class="content">
-                @RenderBody()
-            </div>
-            <!-- Footer Start -->
-            <footer class="footer bg-dark text-white">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-6 pl-2" style="margin-left: -70px;">
-                            <h5 class="fw-bold text-white">Explore the Latest on the <span class="text-primary">PostFly Blog</span></h5>
-                         
-                        </div>
-                        <div class="col-md-6">
-                            <div class="text-md-end footer-links d-none d-sm-block" style="margin-right: -138px;">
-                                <a href="javascript:void(0);" onclick="location.href='/Home/Index'" style="color:floralwhite; text-decoration: none;"
-                                   onmouseover="this.style.color='white'" onmouseout="this.style.color='black'">About Us</a>
-
-                                <a href="javascript:void(0);" onclick="location.href='/Home/Privacy'" style="color: floralwhite; text-decoration: none;"
-                                   onmouseover="this.style.color='white'" onmouseout="this.style.color='black'">Privacy</a>
-
-                                <a href="javascript:void(0);" style="color: floralwhite; text-decoration: none;"
-                                   onmouseover="this.style.color='white'" onmouseout="this.style.color='black'">Help</a>
-
-                                <a href="javascript:void(0);" style="color: floralwhite; text-decoration: none;"
-                                   onmouseover="this.style.color='white'" onmouseout="this.style.color='black'">Contact Us</a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-            <!-- end Footer -->
-
-        </div>
-
  
 
     </div>
 
 
+
+
+
+    <!-- Main Content Wrapper to Push Footer Down -->
+    <div class="ccontent-page">
+        <div class="content p-3" style="margin-top: 114px;">
+            @RenderBody()
+        </div>
+
+
+   <br /><br /><br /><br />
+
+
+
+        <footer class="footer bg-dark text-white py-3" style="margin-left: -240px;background: linear-gradient(135deg, #0154a7, #0c6fcf); color: white; padding: 60px 0; font-family: 'Poppins', sans-serif;">
+            <div class="container">
+                <div class="row align-items-center">
+                    <!-- Left Side: Copyright -->
+                    <div class="col-md-6 text-center text-md-start">
+                        <span>&copy; <script>document.write(new Date().getFullYear())</script> PostFly</span>
+                    </div>
+
+                    <!-- Right Side: Footer Links -->
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="footer-links d-flex justify-content-center justify-content-md-end gap-3">
+                            <a href="/Home/Index" class="text-white text-decoration-none">Home</a>
+                            <a href="/Home/Privacy" class="text-white text-decoration-none">About Us</a>
+                            <a href="/Home/Index" class="text-white text-decoration-none">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+    </div>
+
+ 
+   
 
 
     @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
@@ -545,7 +547,6 @@
 
 
 
-    <div class="rightbar-overlay"></div>
 
      <script>
     let lastScrollY = window.scrollY;
@@ -588,5 +589,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 
     @RenderSection("dateScript", false)
+
+
+
 </body>
+
 </html>

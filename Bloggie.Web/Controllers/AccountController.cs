@@ -189,6 +189,34 @@ namespace Bloggie.Web.Controllers
 
 
 
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePassword model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var user = await userManager.GetUserAsync(User);
+            if (user == null) return RedirectToAction("Login");
+
+            var result = await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "✅ Password updated successfully!";
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "❌ Incorrect current password or invalid new password.";
+            }
+
+            return View(model);
+        }
 
 
 
