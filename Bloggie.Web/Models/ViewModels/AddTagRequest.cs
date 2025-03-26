@@ -7,7 +7,6 @@ namespace Bloggie.Web.Models.ViewModels
         [Required(ErrorMessage = "Name is required")]
         [MinLength(2, ErrorMessage = "Name must be at least 2 characters")]
         [MaxLength(50, ErrorMessage = "Name cannot exceed 50 characters")]
-        [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Name can only contain letters, numbers, and underscores")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Display Name is required")]
