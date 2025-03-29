@@ -58,7 +58,7 @@
         .navbar-custom {
             box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
             border: 1px solid #0154a7;
-            background-color: white;
+            background-color: #e3e3e37a;
             
            
         }
@@ -134,7 +134,7 @@
                         <!-- Logo -->
                         <a href="http://localhost:5122/" class="mb-1 d-flex align-items-center text-decoration-none p-1 rounded"
                            style="
-                             display: flex; align-items: center; flex-shrink: 0; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;border:1px solid #004a93">
+                             display: flex; align-items: center; flex-shrink: 0;background: #ffffffb8; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;border:1px solid #004a93">
 
                             <!-- Always Visible Logo -->
                             <i class="fas fa-paper-plane me-2" style="font-size: 24px; color: #004a93 !important; flex-shrink: 0;"></i>
@@ -156,11 +156,7 @@
                         <!-- Top Nav Menu -->
                         <ul class="list-unstyled topnav-menu d-flex align-items-center m-0 flex-grow-1"
                         style="display: flex; justify-content: center; min-width: 0;">
-                            <li>
-                                <button class="button-menu-mobile waves-effect waves-light">
-                                    <i class="fe-menu"></i>
-                                </button>
-                            </li>
+                        
                             <li>
                                 <a class="navbar-toggle nav-link p-2" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
                                     <div class="lines" style="margin:0px">
@@ -366,11 +362,21 @@
                                         <li>
                                             <a class="dropdown-item"
                                                asp-area=""
+                                               asp-controller="AdminUsers"
+                                               asp-action="details">
+                                                Users Details
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-area=""
                                                asp-controller="Encryption"
                                                asp-action="Index">
                                                 Match Password
                                             </a>
                                         </li>
+
+                                     
                                      
                                     </ul>
                                 </li>

@@ -76,5 +76,12 @@ namespace Bloggie.Web.Repositories
         {
             return await authDbContext.Users.CountAsync();
         }
+
+        public async Task<int> SearchCountAsync(string searchQuery)
+        {
+            return await authDbContext.Users
+                .Where(x => x.UserName.Contains(searchQuery))
+                .CountAsync();
+        }
     }
 }
