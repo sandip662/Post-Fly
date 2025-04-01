@@ -62,7 +62,7 @@
 
 
         <!-- Topbar Start -->
-        <div class="navbar-custom" style="background: rgb(207 106 27 / 89%);">
+        <div class="navbar-custom" style="background: rgb(207 106 27 / 100%);">
             <div class="container-fluid">
                 <ul class="list-unstyled topnav-menu float-end mb-0">
 
@@ -111,8 +111,11 @@
 
 
                     <li class="dropdown notification-list topbar-dropdown">
-                        <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" style="border: 1px solid white;">
-                            <img src="~/assets/images/users/user-1.jpg" alt="user-image" class="rounded-circle">
+                        <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" >
+                         
+                            
+
+                            <i class=" mdi mdi-account-circle-outline noti-icon" style="color: white;"></i>
                             <span class="pro-user-name ms-1" style="color: white;">
                                 @(signInManager.IsSignedIn(User) ? User.Identity.Name : "Sign In") <i class="mdi mdi-chevron-down"></i>
                             </span>
@@ -220,7 +223,7 @@
         @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
         {
 
-            <div class="topnav" style="background: rgb(252 223 200 / 88%);border:1px solid rgb(207,106,27)">
+            <div class="topnav" style="background: rgb(252 223 200 / 100%);border:1px solid rgb(207,106,27)">
                 <div class="container-fluid">
                     <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
 
@@ -400,24 +403,10 @@
                             <label class="form-check-label" for="scrollable-check">Scrollable</label>
                         </div>
 
-                        <!-- Topbar -->
-                        <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Topbar</h6>
-
-                        <div class="form-check form-switch mb-1">
-                            <input type="checkbox" class="form-check-input" name="topbar-color" value="dark" id="darktopbar-check"
-                                   checked />
-                            <label class="form-check-label" for="darktopbar-check">Dark</label>
-                        </div>
-
-                        <div class="form-check form-switch mb-1">
-                            <input type="checkbox" class="form-check-input" name="topbar-color" value="light" id="lighttopbar-check" />
-                            <label class="form-check-label" for="lighttopbar-check">Light</label>
-                        </div>
-
 
                         <div class="d-grid mt-4">
                             <button class="btn btn-primary" id="resetBtn">Reset to Default</button>
-                            <a href="https://1.envato.market/uboldadmin" class="btn btn-danger mt-3" target="_blank"><i class="mdi mdi-basket me-1"></i> Purchase Now</a>
+                           
                         </div>
 
                     </div>
