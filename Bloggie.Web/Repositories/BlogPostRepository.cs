@@ -65,6 +65,10 @@ namespace Bloggie.Web.Repositories
                 {
                     query = isDesc ? query.OrderByDescending(x => x.Tags) : query.OrderBy(x => x.Tags);
                 }
+                else if (string.Equals(sortBy, "PublishedDate", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = isDesc ? query.OrderByDescending(x => x.PublishedDate) : query.OrderBy(x => x.PublishedDate);
+                }
             }
             else
             {

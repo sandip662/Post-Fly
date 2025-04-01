@@ -7,5 +7,7 @@ namespace Bloggie.Web.Models.ViewModels
         public IEnumerable<BlogPost> BlogPosts { get; set; }
 
         public IEnumerable<Tag> Tags { get; set; }
+
+        public IEnumerable<BlogPost> LatestBlogPosts { get; set; }
     }
 }

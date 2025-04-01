@@ -2,6 +2,7 @@
 
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Home Page";
 }
 
@@ -348,16 +349,17 @@
                             Latest Posts
                         </h5>
 
-                        @if (Model != null && Model.BlogPosts.Any())
+                        @if (Model != null && Model.LatestBlogPosts.Any())
                         {
                             int count = 0;
-                            foreach (var blogPost in Model.BlogPosts.OrderByDescending(b => b.PublishedDate))
+                            foreach (var blogPost in Model.LatestBlogPosts)
                             {
                                 <a asp-area=""
                                    asp-controller="Blogs"
-                                   asp-action="Index"
+                                   asp-action="LatestIndex"
+                                   asp-route-searchQuery= null
                                    asp-route-urlHandle="@blogPost.UrlHandle"
-                                   class="blog-post @(count >= 7 ? "hidden" : "")">
+                                   class="blog-post">
                                     <ul class="list-unstyled" style="border: 1px solid #004a93; padding:7px; border-radius:5px">
                                         <li class="mb-2">
                                             <div style="display: flex; align-items: center;">
@@ -571,27 +573,10 @@
 else  
 {
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Background Image Test</title>
-    </head>
-    <body style="
-    background: url('/assets/images/blogged.jpg') no-repeat center center fixed;
-    background-size: cover;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    ">
-    </body>
-    </html>
 
 
 
-
-@*     <div class="tags-container dev"
+    <div class="tags-container dev"
          style="border-radius:5px;border:1px solid #004a93; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;margin-top: -54px;">
 
 
@@ -637,7 +622,7 @@ else
             </div>
         </div>
     </div>
- *@
+
 }
 
 

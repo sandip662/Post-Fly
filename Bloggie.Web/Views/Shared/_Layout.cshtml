@@ -2,6 +2,7 @@
 @inject SignInManager<IdentityUser> signInManager
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,551 +36,414 @@
     <link href="~/css/footer.css" rel="stylesheet" />
 
 
-
-    <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
-    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'></script>
     @RenderSection("dateStyle", false)
-
-
     <style>
-        .dropdown-menu.show {
-        top: 115% !important;
-        }
-
-        .navbar-custom, .topnav {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-           
-            transition: all 0.3s ease-in-out;
-        }
-
-        .navbar-custom {
-            box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-            border: 1px solid #0154a7;
-            background-color: #e3e3e37a;
-            
-           
-        }
-
-
-        .topnav {
-            box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-    /*         background: linear-gradient(135deg, #0154a7, #0c6fcf); */
-            background: linear-gradient(135deg, #0154a7de, #0c6fcff7);
-            border: 1px solid #0154a7;
-           
-        }
-
-        .scrolled .navbar-custom {
-            transform: translateY(-100%);
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .scrolled .topnav {
-            visibility: visible;
-            opacity: 1;
-            top: -70px;
-        }
-       
-        .postfly-text {
-            font-size: 50px; /* Adjust size as needed */
-            font-weight: bold;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #004a93, #f70000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-        }
+    .postfly-text {
+    font-size: 50px; /* Adjust size as needed */
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #004a93, #f70000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    }
 
 
     </style>
 
-    <style>
-        .topnav-admin {
-            border: 2px solid lightgray; /* Button-like border */
-            border-radius: 5px; /* Slightly rounded corners */
-            padding: 8px; /* Spacing inside dropdown */
-            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px; /* Soft shadow effect */
-        }
 
-    </style>
 </head>
 
-
-
-
-<body>
-
+<!-- body start -->
+<body data-theme="light" data-layout-mode="horizontal" data-topbar-color="dark" data-menu-position="fixed">
 
     <!-- Begin page -->
-    <div id="wrapper mt-3">
+    <div id="wrapper">
 
+
+        <!-- Topbar Start -->
         <div class="navbar-custom">
-
             <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center w-100 flex-nowrap">
+                <ul class="list-unstyled topnav-menu float-end mb-0">
 
-                    <!-- Left Section (Logo + Mobile Menu) -->
-                    <div class="d-flex align-items-center flex-shrink-0"
-                    style="margin-left: 10px; min-width: 0; flex-basis: auto;">
+                    <li class="d-none d-lg-block">
+                        <form class="app-search" method="get"
+                              asp-controller="Home" ,
+                              asp-action="Index">
+                            <div class="app-search-box dropdown">
+                                <div class="input-group">
+                                    <input type="search" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control" placeholder="Search..." id="top-search">
+                                    <button class="btn input-group-text" type="submit">
+                                        <i class="fe-search"></i>
+                                    </button>
+                                </div>
+                              
+                            </div>
+                        </form>
+                    </li>
 
-                        <!-- Mobile Menu Toggle -->
-                        <button class="button-menu-mobile d-lg-none me-2 btn btn-outline-light">
-                            <i class="fe-menu"></i>
-                        </button>
+                    <li class="dropdown d-inline-block d-lg-none">
+                        <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                            <i class="fe-search noti-icon"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-lg dropdown-menu-end p-0">
+                            <form class="p-3">
+                                <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
+                            </form>
+                        </div>
+                    </li>
 
-                        <!-- Logo -->
-                        <a href="http://localhost:5122/" class="mb-1 d-flex align-items-center text-decoration-none p-1 rounded"
-                           style="
-                             display: flex; align-items: center; flex-shrink: 0;background: #ffffffb8; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;border:1px solid #004a93">
+                    <li class="dropdown d-none d-lg-inline-block">
+                        <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-toggle="fullscreen" href="#">
+                            <i class="fe-maximize noti-icon"></i>
+                        </a>
+                    </li>
 
-                            <!-- Always Visible Logo -->
-                            <i class="fas fa-paper-plane me-2" style="font-size: 24px; color: #004a93 !important; flex-shrink: 0;"></i>
 
-                            <!-- Hide Text in Mobile, Show in Larger Screens -->
+
+                    <li class="dropdown notification-list topbar-dropdown">
+                        <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                            <img src="~/assets/images/users/user-1.jpg" alt="user-image" class="rounded-circle">
+                            <span class="pro-user-name ms-1">
+                                @(signInManager.IsSignedIn(User) ? User.Identity.Name : "Sign In") <i class="mdi mdi-chevron-down"></i>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
+
+
+
+                            @if (signInManager.IsSignedIn(User))
+                            {
+
+                                <!-- item-->
+                                <a href="/Home/Profile" class="dropdown-item notify-item">
+                                    <i class="fe-user"></i>
+                                    <span>My Account</span>
+                                </a>
+
+                             
+
+                                <!-- item-->
+                                <a href="/Account/ChangePassword" class="dropdown-item notify-item">
+                                    <i class="fe-lock"></i>
+                                    <span>Change Password</span>
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+
+
+                                <!-- item-->
+                                <a class="dropdown-item notify-item" asp-area="" asp-controller="Account" asp-action="Logout">
+                                    <i class="fe-log-out"></i>
+                                    <span>Logout</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="dropdown-item notify-item" asp-area="" asp-controller="Account" asp-action="Login">
+                                    <i class="fe-log-out"></i>
+                                    <span>Login</span>
+                                </a>
+
+
+                                <a class="dropdown-item notify-item" asp-area="" asp-controller="Account" asp-action="Register">
+                                    <i class="fe-log-out"></i>
+                                    <span>Register</span>
+                                </a>
+                            }
+
+                        </div>
+                    </li>
+
+                    <li class="dropdown notification-list">
+                        <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect waves-light">
+                            <i class="fe-settings noti-icon"></i>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <!-- LOGO -->
+                <div class="logo-box">
+                    <a asp-controller="Home" asp-action="Index" class="logo  text-center">
+                        <span class="logo-sm">
+             @*                <img src="assets/images/logo-sm.png" alt="" height="22"> *@
+                            <i class="fas fa-paper-plane " height="22" style="font-size: 24px; color: #004a93 !important; flex-shrink: 0;"></i>
+                            <!-- <span class="logo-lg-text-light">UBold</span> -->
+                        </span>
+                        <span class="logo-lg">
+                            <i class="fas fa-paper-plane " height="22" style="font-size: 24px; color: #004a93 !important; flex-shrink: 0;"></i>
+
                             <span class="fw-bold fs-4 d-none d-md-inline postfly-text ">
                                 POSTFLY
                             </span>
+                          @*   <img src="assets/images/logo-dark.png" alt="" height="20"> *@
+                            <!-- <span class="logo-lg-text-light">U</span> -->
+                        </span>
+                    </a>
 
-                        </a>
-
-
-
-                    </div>
-
-                    <!-- Center Section (Search Bar & TopNav Menu) -->
-                    <div class="d-flex flex-grow-1 justify-content-center align-items-center"
-                    style="min-width: 0; flex-basis: auto;">
-                        <!-- Top Nav Menu -->
-                        <ul class="list-unstyled topnav-menu d-flex align-items-center m-0 flex-grow-1"
-                        style="display: flex; justify-content: center; min-width: 0;">
-                        
-                            <li>
-                                <a class="navbar-toggle nav-link p-2" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
-                                    <div class="lines" style="margin:0px">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-
-                        <!-- Search Bar -->
-                        <div class="d-none d-lg-block" style="flex-shrink: 0;">
-                            <form method="get"
-                                  asp-controller="Home" ,
-                                  asp-action="Index"
-                                class="app-search w-100">
-                                <div class="app-search-box">
-                                    <div class="input-group"
-                                    style="background-color: white;
-                                             border-radius: 4px;
-                                               color: #004a93;
-                                             text-shadow: none;border:1px solid black;
-                                         border-color: #004a93;
-
-                                              box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;    ">
-                                        <style>
-                                            #top-search::placeholder {
-                                                color: #004a93;
-                                            opacity: 1; /* Ensures full visibility */
-                                            }
-                                        </style>
-
-                                        <input type="search" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control" style="color: #004a93;height:32px;" placeholder="Search..." id="top-search">
-
-                                        <button class="btn btn-outline-light" type="submit">
-                                            <i class="fe-search" style="color:#004a93"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!-- Mobile Search Icon -->
-                        <div class="dropdown d-lg-none ms-2">
-                            <a class="nav-link dropdown-toggle p-2" data-bs-toggle="dropdown">
-                                <i class="fe-search noti-icon"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end p-2">
-                                <form>
-                                    <input type="text" class="form-control" placeholder="Search ...">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right Section (Profile & Admin Settings) -->
-                    <div class="d-flex align-items-center flex-shrink-0"
-                    style="flex-basis: auto; min-width: 0;">
-
-                        <!-- Profile Dropdown -->
-                        <div class="dropdown notification-list topbar-dropdown"
-                             style="box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; border-radius:5px; border:1px solid #004a93">
-                            <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none p-1 rounded"
-                            data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"
-                            style="background: white; min-width: 45px;">
-                                <i class="mdi mdi-account-circle-outline fs-5" style="color: #004a93;"></i>
-
-                                <span class="pro-user-name ms-2 text-truncate d-none d-lg-inline-block"
-                                      style="max-width: 120px;color:#004a93; overflow: hidden;">
-                                    @(signInManager.IsSignedIn(User) ? User.Identity.Name : "Sign In")
-                                </span>
-                            </a>
-                           
-                            <div class="dropdown-menu dropdown-menu-end profile-dropdown mt-3"
-                                 style="box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-                                   rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-                                   position: absolute;">
-
-                                <div class="dropdown-header noti-title text-center">
-                                    <h6 class="text-overflow m-0">
-                                        @(signInManager.IsSignedIn(User) ? User.Identity.Name + "!" : "Welcome!")
-                                    </h6>
-                                </div>
-                                <div class="dropdown-divider"></div>
-
-                                @if (signInManager.IsSignedIn(User))
-                                {
-                                    <a href="javascript:void(0);" onclick="location.href='/Home/Profile'" class="dropdown-item notify-item">
-                                        <i class="fe-user me-2"></i> My Account
-                                    </a>
-                                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-                                    {
-
-                                        <a href="javascript:void(0);" class="dropdown-item notify-item nav-link right-bar-toggle">
-                                            <i class="fe-settings me-2"></i> Setting
-                                        </a>
-                                    }
-                                    <a href="/Account/ChangePassword" class="dropdown-item notify-item">
-                                        <i class="fe-lock me-2"></i> Change Password
-                                    </a>
-
-                                    <div class="dropdown-divider"></div>
-                                    <a class="btn btn-danger w-100 text-center" asp-area="" asp-controller="Account" asp-action="Logout">
-                                        <i class="fe-log-out"></i> Logout
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a class="dropdown-item notify-item" asp-area="" asp-controller="Account" asp-action="Login">
-                                        <i class="fe-log-in me-2"></i> Login
-                                    </a>
-                                    <a class="dropdown-item notify-item" asp-area="" asp-controller="Account" asp-action="Register">
-                                        <i class="fe-user-plus me-2"></i> Register
-                                    </a>
-                                }
-                            </div>
-                        </div>
-
-
-                        <!-- Admin Settings (Only for Admins) -->
-                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-                        {
-                            <div class="d-none d-lg-flex align-items-center"
-                                 style="display: flex; align-items: center; flex-shrink: 0;">
-
-                                <a href="javascript:void(0);"
-                                   class="nav-link right-bar-toggle waves-effect d-flex align-items-center p-2"
-                                    style="display: flex; align-items: center; justify-content: center; border-radius: 5px;
-                                            padding: 6px 10px; transition: 0.3s ease; width: auto; min-width: 40px;
-                                             margin-right: 2px; flex-shrink: 0;">
-
-                                    <i class="fe-settings noti-icon"
-                                       style="font-size: 30px; color: #004a93; transition: 0.3s ease; flex-shrink: 0;">
-                                    </i>
-                                </a>
-                            </div>
-                        }
-
-
-
-
-                    </div>
+                 
                 </div>
+
+                <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+                    <li>
+                        <button class="button-menu-mobile waves-effect waves-light">
+                            <i class="fe-menu"></i>
+                        </button>
+                    </li>
+
+                    <li>
+                        <!-- Mobile menu toggle (Horizontal Layout)-->
+                        <a class="navbar-toggle nav-link" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                            <div class="lines">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </a>
+                        <!-- End mobile menu toggle-->
+                    </li>
+
+
+
+                </ul>
+                <div class="clearfix"></div>
             </div>
         </div>
-
-
-
-
-
+        <!-- end Topbar -->
         @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
         {
-            <div class="topnav shadow-sm">
-                <div class="container-fluid">
-                    <nav class="navbar navbar-light navbar-expand-lg topnav-menu" style="margin: -4px;">
-                        <div class="collapse navbar-collapse" id="topnav-menu-content">
-                            <ul class="navbar-nav d-flex flex-row flex-wrap align-items-center w-100">
 
-                                <!-- Admin Dropdown -->
-                                <li class="nav-item dropdown me-2">
-                                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="topnav-admin"
-                                       role="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                                        <i class="fe-airplay" style="color:white"></i>
-                                        <span class="d-none d-lg-inline ms-1" style="color:white">Tag</span>
+            <div class="topnav">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
+
+                        <div class="collapse navbar-collapse" id="topnav-menu-content">
+                            <ul class="navbar-nav">
+
+                                @*     <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button"
+                                   data-bs-toggle="dropdown" aria-haspopup="true">
+                                    <i class="fe-airplay me-1"></i> Dashboards 
+                                </a>
+
+                            </li> *@
+                                <li class="nav-item dropdown me-1">
+                                    <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fe-airplay me-1"></i> Tag <div class="arrow-down"></div>
                                     </a>
-                                    <ul class="dropdown-menu w-100" aria-labelledby="topnav-admin" style=" box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
-                                        <li><a class="dropdown-item" asp-controller="AdminTags" asp-action="Add">Create Tag</a></li>
-                                        <li><a class="dropdown-item" asp-controller="AdminTags" asp-action="List">Tag List</a></li>
+                                    <ul class="dropdown-menu" aria-labelledby="topnav-admin" style=" box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
+                                        <a class="dropdown-item" asp-controller="AdminTags" asp-action="Add">Create Tag</a>
+                                        <a class="dropdown-item" asp-controller="AdminTags" asp-action="List">Tag List</a>
                                     </ul>
                                 </li>
 
                                 <!-- User Dropdown -->
-                                <li class="nav-item dropdown me-2">
-                                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="topnav-user"
-                                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fe-grid" style="color:white"></i>
-                                        <span class="d-none d-lg-inline ms-1" style="color:white">Blog Post</span>
+                                <li class="nav-item dropdown me-1">
+                                    <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fe-grid me-1"></i> Blog Post <div class="arrow-down"></div>
                                     </a>
-                                    <ul class="dropdown-menu w-100" aria-labelledby="topnav-user"style=" box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
-                                        <li><a class="dropdown-item" asp-controller="AdminBlogPosts" asp-action="Add">Create BlogPost</a></li>
-                                        <li><a class="dropdown-item" asp-controller="AdminBlogPosts" asp-action="List">BlogPost List</a></li>
+                                    <ul class="dropdown-menu" aria-labelledby="topnav-admin" style=" box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
+                                        <a class="dropdown-item" asp-controller="AdminBlogPosts" asp-action="Add">Create BlogPost</a>
+                                        <a class="dropdown-item" asp-controller="AdminBlogPosts" asp-action="List">BlogPost List</a>
                                     </ul>
                                 </li>
 
-                                <!-- Reports Dropdown -->
-                                <li class="nav-item dropdown me-2">
-                                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="topnav-reports"
-                                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fe-sidebar" style="color:white"></i>
-                                        <span class="d-none d-lg-inline ms-1" style="color:white">User</span>
-                                    </a>
-                                    <ul class="dropdown-menu w-100" aria-labelledby="topnav-reports">
-                                       
-                                        <li>
-                                            <a class="dropdown-item"
-                                               asp-area=""
-                                               asp-controller="AdminUsers"
-                                               asp-action="List">
-                                                Manage Users
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item"
-                                               asp-area=""
-                                               asp-controller="AdminUsers"
-                                               asp-action="details">
-                                                Users Details
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item"
-                                               asp-area=""
-                                               asp-controller="Encryption"
-                                               asp-action="Index">
-                                                Match Password
-                                            </a>
-                                        </li>
 
-                                     
-                                     
+                                <li class="nav-item dropdown me-1">
+                                    <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fe-sidebar me-1"></i> User <div class="arrow-down"></div>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="topnav-admin" style=" box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
+
+                                        <a class="dropdown-item"
+                                        asp-area=""
+                                        asp-controller="AdminUsers"
+                                        asp-action="List">
+                                            Manage Users
+                                        </a>
+
+
+                                        <a class="dropdown-item"
+                                        asp-area=""
+                                        asp-controller="AdminUsers"
+                                        asp-action="details">
+                                            Users Details
+                                        </a>
+
+
+                                        <a class="dropdown-item"
+                                        asp-area=""
+                                        asp-controller="Encryption"
+                                        asp-action="Index">
+                                            Match Password
+                                        </a>
+
+
+
+
                                     </ul>
                                 </li>
 
-                            </ul>
-                        </div>
+
+
+                            </ul> <!-- end navbar-->
+                        </div> <!-- end .collapsed-->
                     </nav>
-                </div>
-            </div>
+                </div> <!-- end container-fluid -->
+            </div> <!-- end topnav-->
+
         }
 
+        <div class="content-page">
+            <div class="content">
+                @RenderBody()
+
+            </div> <!-- content -->
+            <!-- Footer Start -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <script>document.write(new Date().getFullYear())</script> &copy; UBold theme by <a href="">Coderthemes</a>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-md-end footer-links d-none d-sm-block">
+                                <a href="javascript:void(0);">About Us</a>
+                                <a href="javascript:void(0);">Help</a>
+                                <a href="javascript:void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
 
 
- 
-
-    </div>
-
-
-
-
-
-    <!-- Main Content Wrapper to Push Footer Down -->
-    <div class="ccontent-page">
-        <div class="content p-3" style="margin-top: 114px;">
-            @RenderBody()
         </div>
 
 
-   <br /><br /><br /><br />
-
-
-
-        <footer class="footer bg-dark text-white py-3" style="margin-left: -240px;    background: linear-gradient(135deg, #003a74, #0154a7); color: white; padding: 60px 0; font-family: 'Poppins', sans-serif;">
-            <div class="container">
-                <div class="row align-items-center">
-                    <!-- Left Side: Copyright -->
-                    <div class="col-md-6 text-center text-md-start">
-                        <span>&copy; <script>document.write(new Date().getFullYear())</script> PostFly</span>
-                    </div>
-
-                    <!-- Right Side: Footer Links -->
-                    <div class="col-md-6 text-center text-md-end">
-                        <div class="footer-links d-flex justify-content-center justify-content-md-end gap-3">
-                            <a href="/Home/Index" class="text-white text-decoration-none">Home</a>
-                            <a href="/Home/Privacy" class="text-white text-decoration-none">About Us</a>
-                            <a href="/Home/Index" class="text-white text-decoration-none">Contact Us</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
 
 
     </div>
-
- 
-   
-
-
     @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
     {
-        <div class="right-bar mt-2">
+        <div class="right-bar">
             <div data-simplebar class="h-100">
 
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs nav-bordered nav-justified" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link py-2 active" data-bs-toggle="tab" href="#settings-tab" role="tab">
-                            <i class="mdi mdi-cog-outline d-block font-22 my-1"></i>
-                        </a>
-                    </li>
-                </ul>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs nav-bordered nav-justified" role="tablist">
+               
+                <li class="nav-item">
+                    <a class="nav-link py-2 active" data-bs-toggle="tab" href="#settings-tab" role="tab">
+                        <i class="mdi mdi-cog-outline d-block font-22 my-1"></i>
+                    </a>
+                </li>
+            </ul>
 
-                <!-- Tab panes -->
-                <div class="tab-content pt-0">
-                    <div class="tab-pane active" id="settings-tab" role="tabpanel">
-                        <h6 class="fw-medium px-3 m-0 py-2 font-13 text-uppercase bg-light">
-                            <span class="d-block py-1">Theme Settings</span>
-                        </h6>
-                        <div class="p-3">
-                            <div class="alert alert-warning" role="alert">
-                                <strong>Customize </strong> the overall color scheme, sidebar menu, etc.
-                            </div>
-                            <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Color Scheme</h6>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="layout-color" value="light"
-                                       id="light-mode-check" checked />
-                                <label class="form-check-label" for="light-mode-check">Light Mode</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="layout-color" value="dark"
-                                       id="dark-mode-check" />
-                                <label class="form-check-label" for="dark-mode-check">Dark Mode</label>
-                            </div>
-                            <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Width</h6>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="layout-width" value="fluid" id="fluid-check" disabled />
-                                <label class="form-check-label" for="fluid-check">Fluid</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="layout-width" value="boxed" id="boxed-check" checked />
-                                <label class="form-check-label" for="boxed-check">Boxed</label>
-                            </div>
-                            <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Menus (Leftsidebar and Topbar) Positon</h6>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="menu-position" value="fixed" id="fixed-check"
-                                       checked />
-                                <label class="form-check-label" for="fixed-check">Fixed</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="menu-position" value="scrollable"
-                                       id="scrollable-check" />
-                                <label class="form-check-label" for="scrollable-check">Scrollable</label>
-                            </div>
-                            <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Left Sidebar Color</h6>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="leftbar-color" value="light" id="light-check" />
-                                <label class="form-check-label" for="light-check">Light</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="leftbar-color" value="dark" id="dark-check" checked />
-                                <label class="form-check-label" for="dark-check">Dark</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="leftbar-color" value="brand" id="brand-check" />
-                                <label class="form-check-label" for="brand-check">Brand</label>
-                            </div>
-                            <div class="form-check form-switch mb-3">
-                                <input type="checkbox" class="form-check-input" name="leftbar-color" value="gradient" id="gradient-check" />
-                                <label class="form-check-label" for="gradient-check">Gradient</label>
-                            </div>
-                            <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Left Sidebar Size</h6>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="leftbar-size" value="default"
-                                       id="default-size-check" checked />
-                                <label class="form-check-label" for="default-size-check">Default</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="leftbar-size" value="condensed"
-                                       id="condensed-check" />
-                                <label class="form-check-label" for="condensed-check">Condensed <small>(Extra Small size)</small></label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="leftbar-size" value="compact"
-                                       id="compact-check" />
-                                <label class="form-check-label" for="compact-check">Compact <small>(Small size)</small></label>
-                            </div>
-                            <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Sidebar User Info</h6>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="sidebar-user" value="fixed" id="sidebaruser-check" />
-                                <label class="form-check-label" for="sidebaruser-check">Enable</label>
-                            </div>
-                            <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Topbar</h6>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="topbar-color" value="dark" id="darktopbar-check"
-                                       checked />
-                                <label class="form-check-label" for="darktopbar-check">Dark</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input type="checkbox" class="form-check-input" name="topbar-color" value="light" id="lighttopbar-check" />
-                                <label class="form-check-label" for="lighttopbar-check">Light</label>
-                            </div>
-                            <div class="d-grid mt-4">
-                                <button class="btn btn-primary" id="resetBtn">Reset to Default</button>
-                                <a href="https://1.envato.market/uboldadmin" class="btn btn-danger mt-3" target="_blank"><i class="mdi mdi-basket me-1"></i> Purchase Now</a>
-                            </div>
+            <!-- Tab panes -->
+            <div class="tab-content pt-0">
+              
+                <div class="tab-pane active" id="settings-tab" role="tabpanel">
+                    <h6 class="fw-medium px-3 m-0 py-2 font-13 text-uppercase bg-light">
+                        <span class="d-block py-1">Theme Settings</span>
+                    </h6>
+
+                    <div class="p-3">
+                        <div class="alert alert-warning" role="alert">
+                            <strong>Customize </strong> the overall color scheme, sidebar menu, etc.
                         </div>
+
+                        <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Color Scheme</h6>
+                        <div class="form-check form-switch mb-1">
+                            <input type="checkbox" class="form-check-input" name="layout-color" value="light"
+                                   id="light-mode-check" checked />
+                            <label class="form-check-label" for="light-mode-check">Light Mode</label>
+                        </div>
+
+                        <div class="form-check form-switch mb-1">
+                            <input type="checkbox" class="form-check-input" name="layout-color" value="dark"
+                                   id="dark-mode-check" />
+                            <label class="form-check-label" for="dark-mode-check">Dark Mode</label>
+                        </div>
+
+                        <!-- Width -->
+                        <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Width</h6>
+                        <div class="form-check form-switch mb-1">
+                            <input type="checkbox" class="form-check-input" name="layout-width" value="fluid" id="fluid-check" checked />
+                            <label class="form-check-label" for="fluid-check">Fluid</label>
+                        </div>
+                        <div class="form-check form-switch mb-1">
+                            <input type="checkbox" class="form-check-input" name="layout-width" value="boxed" id="boxed-check" />
+                            <label class="form-check-label" for="boxed-check">Boxed</label>
+                        </div>
+
+                        <!-- Menu positions -->
+                        <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Layout Positon</h6>
+                        <div class="form-check form-switch mb-1">
+                            <input type="checkbox" class="form-check-input" name="menu-position" value="fixed" id="fixed-check"
+                                   checked />
+                            <label class="form-check-label" for="fixed-check">Fixed</label>
+                        </div>
+
+                        <div class="form-check form-switch mb-1">
+                            <input type="checkbox" class="form-check-input" name="menu-position" value="scrollable"
+                                   id="scrollable-check" />
+                            <label class="form-check-label" for="scrollable-check">Scrollable</label>
+                        </div>
+
+                        <!-- Topbar -->
+                        <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Topbar</h6>
+
+                        <div class="form-check form-switch mb-1">
+                            <input type="checkbox" class="form-check-input" name="topbar-color" value="dark" id="darktopbar-check"
+                                   checked />
+                            <label class="form-check-label" for="darktopbar-check">Dark</label>
+                        </div>
+
+                        <div class="form-check form-switch mb-1">
+                            <input type="checkbox" class="form-check-input" name="topbar-color" value="light" id="lighttopbar-check" />
+                            <label class="form-check-label" for="lighttopbar-check">Light</label>
+                        </div>
+
+
+                        <div class="d-grid mt-4">
+                            <button class="btn btn-primary" id="resetBtn">Reset to Default</button>
+                            <a href="https://1.envato.market/uboldadmin" class="btn btn-danger mt-3" target="_blank"><i class="mdi mdi-basket me-1"></i> Purchase Now</a>
+                        </div>
+
                     </div>
+
                 </div>
+            </div>
 
+        </div> 
+    </div>
 
-            </div> <!-- end slimscroll-menu-->
-        </div>
     }
 
+    <script>
+        let lastScrollY = window.scrollY;
 
+        window.addEventListener("scroll", function () {
+            const navbar = document.querySelector(".navbar-custom");
+            const topnav = document.querySelector(".topnav");
 
+            if (window.scrollY > lastScrollY) {
+                // Scrolling Down: Hide Navbar Custom, Show Topnav
+                document.body.classList.add("scrolled");
+            } else {
+                // Scrolling Up: Show Navbar Custom, Hide Topnav
+                document.body.classList.remove("scrolled");
+            }
 
-     <script>
-    let lastScrollY = window.scrollY;
-    
-    window.addEventListener("scroll", function () {
-        const navbar = document.querySelector(".navbar-custom");
-        const topnav = document.querySelector(".topnav");
-        
-        if (window.scrollY > lastScrollY) {
-            // Scrolling Down: Hide Navbar Custom, Show Topnav
-            document.body.classList.add("scrolled");
-        } else {
-            // Scrolling Up: Show Navbar Custom, Hide Topnav
-            document.body.classList.remove("scrolled");
-        }
-        
-        lastScrollY = window.scrollY;
-    });
-</script>
-  
-   
-
-
+            lastScrollY = window.scrollY;
+        });
+    </script>
     <!-- Vendor js -->
     <script src="~/assets/js/vendor.min.js"></script>
-
     <!-- Plugins js -->
     <script src="~/assets/libs/jquery-mask-plugin/jquery.mask.min.js"></script>
     <script src="~/assets/libs/autonumeric/autoNumeric.min.js"></script>
@@ -591,14 +455,8 @@
 
     <!-- App js -->
     <script src="~/assets/js/app.min.js"></script>
-    <!-- SweetAlert2 CDN (CSS and JS) -->
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 
     @RenderSection("dateScript", false)
-
-
-
 </body>
-
 </html>

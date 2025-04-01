@@ -65,14 +65,15 @@ namespace Bloggie.Web.Controllers
 
             // getting all blogs
             var blogPosts = await blogPostRepository.GetAllAsync(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
-
+            var LatestPosts = await blogPostRepository.GetAllAsync(null, "PublishedDate", "Desc", 1, 7);
             // get all tags
             var tags = await tagRepository.GetAllAsync();
 
             var model = new HomeViewModel
             {
                 BlogPosts = blogPosts,
-                Tags = tags
+                Tags = tags,
+                LatestBlogPosts = LatestPosts
             };
 
             return View(model);
