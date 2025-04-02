@@ -56,7 +56,106 @@
 <div class="container-fluid">
 
 
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="card" style="Border:1px solid rgb(207,106,27)">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-4" style="border:none; background:linear-gradient(135deg, #28a745, #218838); color:white">
+                                <a type="button" class="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#modalCreateUser"<i class="mdi mdi-plus-circle me-2"></i> Add Customers</a>
+                            </div>
+                            <div class="col-sm-4" style="border:none; background:linear-gradient(135deg, #28a745, #218838); color:white">
+                                <a type="button" class="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#modalCreateUser">
+                                    <i class="mdi mdi-plus-circle me-2"></i> Add Customers
+                                </a>
+                            </div>
 
+                            <button type="button" class="btn btn-success waves-effect waves-light me-1" data-bs-toggle="modal" data-bs-target="#modalCreateUser"
+                                    style="border:none; background:linear-gradient(135deg, #28a745, #218838); color:white">
+                                <i class="mdi mdi-plus-circle"></i>
+                                Create User
+                            </button>
+                            <div class="col-sm-8">
+                                <div class="text-sm-end">
+                                    <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog"></i></button>
+                                    <button type="button" class="btn btn-light mb-2 me-1">Import</button>
+                                    <button type="button" class="btn btn-light mb-2">Export</button>
+                                </div>
+                            </div><!-- end col-->
+                        </div>
+
+                        <div class="table-responsive">
+                            <div id="products-datatable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="products-datatable_length"><label class="form-label">Display <select class="form-select form-select-sm ms-1 me-1"><option value="10">10</option><option value="20">20</option><option value="-1">All</option></select> customers</label></div></div><div class="col-sm-12 col-md-6"><div id="products-datatable_filter" class="dataTables_filter"><label class="form-label">Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="products-datatable"></label></div></div></div><div class="row">
+                                    <div class="col-sm-12">
+                                        <table class="table table-centered table-striped dt-responsive nowrap w-100 dataTable no-footer dtr-inline" id="products-datatable" aria-describedby="products-datatable_info" style="width: 1043px;">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 26.8px;" class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" data-col="0" aria-label="
+
+
+                                                                &amp;nbsp;
+
+                                                        "><div class="form-check"><input type="checkbox" class="form-check-input dt-checkboxes"><label class="form-check-label">&nbsp;</label></div></th>
+                                                    <th class="sorting" tabindex="0" aria-controls="products-datatable" rowspan="1" colspan="1" style="width: 158.4px;" aria-label="Customer: activate to sort column ascending">Customer</th>
+                                                    <th class="sorting sorting_desc" tabindex="0" aria-controls="products-datatable" rowspan="1" colspan="1" style="width: 108.4px;" aria-label="Phone: activate to sort column ascending" aria-sort="descending">Phone</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="products-datatable" rowspan="1" colspan="1" style="width: 66.4px;" aria-label="Balance: activate to sort column ascending">Balance</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="products-datatable" rowspan="1" colspan="1" style="width: 53.4px;" aria-label="Orders: activate to sort column ascending">Orders</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="products-datatable" rowspan="1" colspan="1" style="width: 187.4px;" aria-label="Last Order: activate to sort column ascending">Last Order</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="products-datatable" rowspan="1" colspan="1" style="width: 50.4px;" aria-label="Status: activate to sort column ascending">Status</th>
+                                                    <th style="width: 75.8px;" class="sorting_disabled" rowspan="1" colspan="1" aria-label="Action">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                <tr class="odd">
+                                                    <td class="dtr-control dt-checkboxes-cell" tabindex="0"><div class="form-check"><input type="checkbox" class="form-check-input dt-checkboxes"><label class="form-check-label">&nbsp;</label></div></td>
+                                                    <td class="table-user">
+                                                        <img src="assets/images/users/user-3.jpg" alt="table-user" class="me-2 rounded-circle">
+                                                        <a href="javascript:void(0);" class="text-body fw-semibold">Kathryn S. Collier</a>
+                                                    </td>
+                                                    <td class="sorting_1">
+                                                        828-216-2190
+                                                    </td>
+                                                    <td>
+                                                        $125.78
+                                                    </td>
+                                                    <td>
+                                                        841
+                                                    </td>
+                                                    <td class="">November 04 2019 <small class="text-muted">10:29 PM</small></td>
+                                                    <td>
+                                                        <span class="badge badge-soft-danger">Blocked</span>
+                                                    </td>
+
+                                                    <td>
+                                                        <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                                        <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="products-datatable_info" role="status" aria-live="polite">Showing customers 1 to 10 of 12</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="products-datatable_paginate"><ul class="pagination pagination-rounded"><li class="paginate_button page-item previous disabled" id="products-datatable_previous"><a href="#" aria-controls="products-datatable" data-dt-idx="0" tabindex="0" class="page-link"><i class="mdi mdi-chevron-left"></i></a></li><li class="paginate_button page-item active"><a href="#" aria-controls="products-datatable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="products-datatable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item next" id="products-datatable_next"><a href="#" aria-controls="products-datatable" data-dt-idx="3" tabindex="0" class="page-link"><i class="mdi mdi-chevron-right"></i></a></li></ul></div></div></div>
+                            </div>
+                        </div>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col -->
+        </div>
 
 
         <div class="row mt-2">
@@ -73,7 +172,6 @@
 
                             </div>
                             <div class="col-auto">
-                                <div class="text-lg-end my-1 my-lg-0">
                
                                     <button type="button" class="btn btn-success waves-effect waves-light me-1" onclick="location.href='/AdminUsers/List'"
                                             style="border:none; background:linear-gradient(135deg, #5a43f7, #735ff9);">
@@ -81,8 +179,41 @@
                                     Refresh
                                     </button>
                                    
-                                   
-                                </div>
+
+                            </div><!-- end col-->
+                        </div> <!-- end row -->
+                    </div>
+                </div> <!-- end card -->
+            </div> <!-- end col-->
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="card" style="Border:1px solid rgb(207,106,27)">
+                    <div class="card-body">
+                        <div class="row justify-content-between">
+                            <div class="col-auto">
+                                <form method="get" asp-controller="AdminUsers" asp-action="List" class="d-flex">
+                                    <button type="submit" class="btn" style="color:rgb(207,106,27);">Search:</button>
+                                    <input type="text" class="form-control"
+                                           name="searchQuery" value="@ViewBag.SearchQuery"
+                                           style="color:rgb(207,106,27);Border:1px solid rgb(207,106,27)" placeholder="Search User" />
+                                </form>
+
+                            </div>
+                            <div class="col-auto">
+
+                             <label for="pageSize" class="me-2" style="color:rgb(207,106,27);">Show:</label>
+                                        <select id="pageSize" name="pageSize" class="form-select d-inline-block w-auto " onchange="updatePageSize()"
+                                                style="color:rgb(207,106,27);Border:1px solid rgb(207,106,27)">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                        <span class="ms-2" style="color:rgb(207,106,27);">entries</span>
+
+
                             </div><!-- end col-->
                         </div> <!-- end row -->
                     </div>
@@ -100,25 +231,12 @@
                                 <div class="row">
                                     <!-- Search Form (Left-aligned) -->
                                     <div class="col-md-6 d-flex align-items-center">
-                                        <form method="get" asp-controller="AdminUsers" asp-action="List" class="d-flex">
-                                            <button type="submit" class="btn" style="color:rgb(207,106,27);">Search:</button>
-                                            <input type="text" class="form-control"
-                                                   name="searchQuery" value="@ViewBag.SearchQuery"
-                                                   style="color:rgb(207,106,27);Border:1px solid rgb(207,106,27)" placeholder="Search User" />
-                                        </form>
+                                        
                                     </div>
 
                                     <!-- Page Size Dropdown (Right-aligned) -->
                                     <div class="col-md-6 d-flex align-items-center">
-                                        <label for="pageSize" class="me-2" style="color:rgb(207,106,27);">Show:</label>
-                                        <select id="pageSize" name="pageSize" class="form-select d-inline-block w-auto" onchange="updatePageSize()"
-                                                style="color:rgb(207,106,27);Border:1px solid rgb(207,106,27)">
-                                            <option value="5">5</option>
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="50">50</option>
-                                        </select>
-                                        <span class="ms-2" style="color:rgb(207,106,27);">entries</span>
+                                       
                                     </div>
                                 </div>
 
