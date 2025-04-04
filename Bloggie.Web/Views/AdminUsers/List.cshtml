@@ -8,27 +8,22 @@
 }
 
 <style>
-  
 
-  
-    #TagList {
-        font-size: 14px;
+    .border-orange {
+        border-color: rgb(207,106,27) !important;
     }
 
-        #TagList th,
-        #TagList td {
-            padding: 5px;
-            white-space: nowrap;
-        }
 </style>
 
 <style>
+    .border-top {
+    }
 
     .custom-back-btn {
         width: 100px;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #ff9900, #ff5500);
+        background: rgb(207, 106, 27);
         border-radius: 22px;
         cursor: pointer;
         border: none;
@@ -56,189 +51,79 @@
 <div class="container-fluid">
 
 
+
         <div class="row mt-2">
             <div class="col-12">
-                <div class="card" style="Border:1px solid rgb(207,106,27)">
-                    <div class="card-body">
-                        <div class="row mb-2">
-                            <div class="col-sm-4" style="border:none; background:linear-gradient(135deg, #28a745, #218838); color:white">
-                                <a type="button" class="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#modalCreateUser"<i class="mdi mdi-plus-circle me-2"></i> Add Customers</a>
-                            </div>
-                            <div class="col-sm-4" style="border:none; background:linear-gradient(135deg, #28a745, #218838); color:white">
-                                <a type="button" class="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#modalCreateUser">
-                                    <i class="mdi mdi-plus-circle me-2"></i> Add Customers
-                                </a>
-                            </div>
+                <div class="card">
+                    <div class="card-body" style="padding-bottom: 1px; padding-top: 1px; box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);border:2px solid rgb(239 162 102);border-radius:7px">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item">
+                                        <a href="#" onclick="location.href='/Home/Index'" style="cursor: pointer;color:rgb(207,106,27)">Dashboard</a>
+                                    </li>
 
-                            <button type="button" class="btn btn-success waves-effect waves-light me-1" data-bs-toggle="modal" data-bs-target="#modalCreateUser"
-                                    style="border:none; background:linear-gradient(135deg, #28a745, #218838); color:white">
-                                <i class="mdi mdi-plus-circle"></i>
-                                Create User
-                            </button>
-                            <div class="col-sm-8">
-                                <div class="text-sm-end">
-                                    <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog"></i></button>
-                                    <button type="button" class="btn btn-light mb-2 me-1">Import</button>
-                                    <button type="button" class="btn btn-light mb-2">Export</button>
-                                </div>
-                            </div><!-- end col-->
+                                    <li class="breadcrumb-item" style="color:rgb(207,106,27)"><a href="javascript: void(0);" style="color:rgb(207,106,27)">List of Users</a></li>
+                                    <li class="breadcrumb-item active" style="color:rgb(207,106,27)">All User</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title" style="color:rgb(207,106,27)">User</h4>
                         </div>
-
-                        <div class="table-responsive">
-                            <div id="products-datatable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                                <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="products-datatable_length"><label class="form-label">Display <select class="form-select form-select-sm ms-1 me-1"><option value="10">10</option><option value="20">20</option><option value="-1">All</option></select> customers</label></div></div><div class="col-sm-12 col-md-6"><div id="products-datatable_filter" class="dataTables_filter"><label class="form-label">Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="products-datatable"></label></div></div></div><div class="row">
-                                    <div class="col-sm-12">
-                                        <table class="table table-centered table-striped dt-responsive nowrap w-100 dataTable no-footer dtr-inline" id="products-datatable" aria-describedby="products-datatable_info" style="width: 1043px;">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 26.8px;" class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" data-col="0" aria-label="
-
-
-                                                                &amp;nbsp;
-
-                                                        "><div class="form-check"><input type="checkbox" class="form-check-input dt-checkboxes"><label class="form-check-label">&nbsp;</label></div></th>
-                                                    <th class="sorting" tabindex="0" aria-controls="products-datatable" rowspan="1" colspan="1" style="width: 158.4px;" aria-label="Customer: activate to sort column ascending">Customer</th>
-                                                    <th class="sorting sorting_desc" tabindex="0" aria-controls="products-datatable" rowspan="1" colspan="1" style="width: 108.4px;" aria-label="Phone: activate to sort column ascending" aria-sort="descending">Phone</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="products-datatable" rowspan="1" colspan="1" style="width: 66.4px;" aria-label="Balance: activate to sort column ascending">Balance</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="products-datatable" rowspan="1" colspan="1" style="width: 53.4px;" aria-label="Orders: activate to sort column ascending">Orders</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="products-datatable" rowspan="1" colspan="1" style="width: 187.4px;" aria-label="Last Order: activate to sort column ascending">Last Order</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="products-datatable" rowspan="1" colspan="1" style="width: 50.4px;" aria-label="Status: activate to sort column ascending">Status</th>
-                                                    <th style="width: 75.8px;" class="sorting_disabled" rowspan="1" colspan="1" aria-label="Action">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                <tr class="odd">
-                                                    <td class="dtr-control dt-checkboxes-cell" tabindex="0"><div class="form-check"><input type="checkbox" class="form-check-input dt-checkboxes"><label class="form-check-label">&nbsp;</label></div></td>
-                                                    <td class="table-user">
-                                                        <img src="assets/images/users/user-3.jpg" alt="table-user" class="me-2 rounded-circle">
-                                                        <a href="javascript:void(0);" class="text-body fw-semibold">Kathryn S. Collier</a>
-                                                    </td>
-                                                    <td class="sorting_1">
-                                                        828-216-2190
-                                                    </td>
-                                                    <td>
-                                                        $125.78
-                                                    </td>
-                                                    <td>
-                                                        841
-                                                    </td>
-                                                    <td class="">November 04 2019 <small class="text-muted">10:29 PM</small></td>
-                                                    <td>
-                                                        <span class="badge badge-soft-danger">Blocked</span>
-                                                    </td>
-
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                                        <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                                    </td>
-                                                </tr>
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="products-datatable_info" role="status" aria-live="polite">Showing customers 1 to 10 of 12</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="products-datatable_paginate"><ul class="pagination pagination-rounded"><li class="paginate_button page-item previous disabled" id="products-datatable_previous"><a href="#" aria-controls="products-datatable" data-dt-idx="0" tabindex="0" class="page-link"><i class="mdi mdi-chevron-left"></i></a></li><li class="paginate_button page-item active"><a href="#" aria-controls="products-datatable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="products-datatable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item next" id="products-datatable_next"><a href="#" aria-controls="products-datatable" data-dt-idx="3" tabindex="0" class="page-link"><i class="mdi mdi-chevron-right"></i></a></li></ul></div></div></div>
-                            </div>
-                        </div>
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
-            </div> <!-- end col -->
-        </div>
-
-
-        <div class="row mt-2">
-            <div class="col-12">
-                <div class="card" style="Border:1px solid rgb(207,106,27)">
-                    <div class="card-body">
-                        <div class="row justify-content-between">
-                            <div class="col-auto">
-                                <button type="button" class="btn btn-success waves-effect waves-light me-1" data-bs-toggle="modal" data-bs-target="#modalCreateUser"
-                                        style="border:none; background:linear-gradient(135deg, #28a745, #218838); color:white">
-                                    <i class="mdi mdi-plus-circle"></i>
-                                    Create User
-                                </button>
-
-                            </div>
-                            <div class="col-auto">
-               
-                                    <button type="button" class="btn btn-success waves-effect waves-light me-1" onclick="location.href='/AdminUsers/List'"
-                                            style="border:none; background:linear-gradient(135deg, #5a43f7, #735ff9);">
-                                        <i class="mdi mdi-cloud-refresh"></i>
-                                    Refresh
-                                    </button>
-                                   
-
-                            </div><!-- end col-->
-                        </div> <!-- end row -->
                     </div>
-                </div> <!-- end card -->
-            </div> <!-- end col-->
+                </div>
+
+            </div>
         </div>
 
-        <div class="row mt-2">
-            <div class="col-12">
-                <div class="card" style="Border:1px solid rgb(207,106,27)">
-                    <div class="card-body">
-                        <div class="row justify-content-between">
-                            <div class="col-auto">
-                                <form method="get" asp-controller="AdminUsers" asp-action="List" class="d-flex">
-                                    <button type="submit" class="btn" style="color:rgb(207,106,27);">Search:</button>
-                                    <input type="text" class="form-control"
-                                           name="searchQuery" value="@ViewBag.SearchQuery"
-                                           style="color:rgb(207,106,27);Border:1px solid rgb(207,106,27)" placeholder="Search User" />
-                                </form>
 
-                            </div>
-                            <div class="col-auto">
-
-                             <label for="pageSize" class="me-2" style="color:rgb(207,106,27);">Show:</label>
-                                        <select id="pageSize" name="pageSize" class="form-select d-inline-block w-auto " onchange="updatePageSize()"
-                                                style="color:rgb(207,106,27);Border:1px solid rgb(207,106,27)">
-                                            <option value="5">5</option>
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="50">50</option>
-                                        </select>
-                                        <span class="ms-2" style="color:rgb(207,106,27);">entries</span>
-
-
-                            </div><!-- end col-->
-                        </div> <!-- end row -->
-                    </div>
-                </div> <!-- end card -->
-            </div> <!-- end col-->
-        </div>
 
         <div class="row">
             <div class="col-12">
-                <div class="card" style="Border:1px solid rgb(207,106,27)">
-                    <div class="card-body">
-                        <div class="row justify-content-between">
+                <div class="card">
+                    <div class="card-body p-4" style="box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);border:2px solid rgb(239 162 102); border-radius:7px">
+                        <div class="row">
                             <div class="col-12">
+                                <!-- Action Buttons -->
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-sm-4">
+                                        <button type="button" class="btn btn-success waves-effect waves-light me-1" data-bs-toggle="modal" data-bs-target="#modalCreateUser"
+                                                style="border:none; background:linear-gradient(135deg, #28a745, #218838); color:white">
+                                            <i class="mdi mdi-plus-circle"></i>
+                                            Create User
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-8 text-end">
+                                        <button type="button" class="btn btn-primary" onclick="location.href='/AdminUsers/List'" style="border:none; background:linear-gradient(135deg, #5a43f7, #735ff9);">
+                                            <i class="mdi mdi-cloud-refresh me-2"></i> Refresh
+                                        </button>
+                                    </div>
+                                </div>
 
-                                <div class="row">
+
+                                <div class="row mb-2">
                                     <!-- Search Form (Left-aligned) -->
                                     <div class="col-md-6 d-flex align-items-center">
-                                        
+                                        <form method="get" asp-controller="AdminUsers" asp-action="List" class="d-flex">
+                                            <button type="submit" class="btn" style="color:rgb(207,106,27);">Search:</button>
+                                            <input type="text" class="form-control"
+                                                   name="searchQuery" value="@ViewBag.SearchQuery"
+                                                   style="color:rgb(207,106,27);Border: 1px solid rgb(207, 106, 27);" placeholder="Search Tags" />
+                                        </form>
                                     </div>
 
                                     <!-- Page Size Dropdown (Right-aligned) -->
-                                    <div class="col-md-6 d-flex align-items-center">
-                                       
+                                    <div class="col-md-6 d-flex justify-content-end align-items-center">
+                                        <label for="pageSize" class="me-2" style="color:rgb(207,106,27)">Show:</label>
+                                        <select id="pageSize" name="pageSize" class="form-select d-inline-block w-auto" onchange="updatePageSize()" style="color:rgb(207,106,27);Border: 1px solid rgb(207, 106, 27);">
+                                            <option value="5" style="color:rgb(207,106,27)">5</option>
+                                            <option value="10" style="color:rgb(207,106,27)">10</option>
+                                            <option value="20" style="color:rgb(207,106,27)">20</option>
+                                            <option value="50" style="color:rgb(207,106,27)">50</option>
+                                        </select>
+                                        <span class="ms-2" style="color:rgb(207,106,27)">entries</span>
                                     </div>
                                 </div>
+
 
 
                                 <script>
@@ -257,74 +142,155 @@
                                 </script>
 
 
-
                                 <!-- Data Table -->
-                                    <div class="table-responsive shadow-sm rounded p-3"
-                                         style="border: 1px solid rgba(255, 255, 255, 0.3);
-                                border-radius: 7px;
-                                background: rgba(255, 255, 255, 0.2);
-                                backdrop-filter: blur(10px);
-                                -webkit-backdrop-filter: blur(10px);
-                                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
-                                @if (Model.Users is not null || Model.Users.Any())
-                                {
-
-                                    <table class="table table-hover table-bordered text-center align-middle">
-                                                <thead style="background: #0154a770;">
+                                <div class="table-responsive shadow-sm rounded p-3">
+                                    @if (Model.Users is not null || Model.Users.Any())
+                                    {
+                                        <table class="table table-hover table-bordered text-center align-middle">
+                                            <thead class="table-light">
                                                 <tr class="fw-semibold text-secondary">
-                                                        <th style="color:white; border:1px solid #0154a7">ID</th>
-                                                        <th style="color:white; border:1px solid #0154a7">
+                                                    <th style="color:black; border:1px solid gray">Sl No.</th>
+                                                    <th style="color:black; border:1px solid gray">ID</th>
+                                                    <th style="color:black; border:1px solid gray">
                                                         UserName
                                                         <a asp-controller="AdminUsers" asp-action="List" asp-route-sortBy="UserName" asp-route-sortDirection="Asc" asp-route-searchQuery="@ViewBag.SearchQuery" class="text-dark ms-1">
-                                                                <i class="bi bi-arrow-up" style="color:#0154a7"></i>
+                                                            <i class="bi bi-arrow-up" style="color:white"></i>
                                                         </a>
                                                         <a asp-controller="AdminUsers" asp-action="List" asp-route-sortBy="UserName" asp-route-sortDirection="Desc" asp-route-searchQuery="@ViewBag.SearchQuery" class="text-dark">
-                                                                <i class="bi bi-arrow-down" style="color:#0154a7"></i>
+                                                            <i class="bi bi-arrow-down" style="color:white"></i>
                                                         </a>
                                                     </th>
-                                                        <th style="color:white; border:1px solid #0154a7">
+                                                    <th style="color:black; border:1px solid gray">
                                                         Email
                                                         <a asp-controller="AdminUsers" asp-action="List" asp-route-sortBy="Email" asp-route-sortDirection="Asc" asp-route-searchQuery="@ViewBag.SearchQuery" class="text-dark ms-1">
-                                                                <i class="bi bi-arrow-up" style="color:#0154a7"></i>
+                                                            <i class="bi bi-arrow-up" style="color:white"></i>
                                                         </a>
                                                         <a asp-controller="AdminUsers" asp-action="List" asp-route-sortBy="Email" asp-route-sortDirection="Desc" asp-route-searchQuery="@ViewBag.SearchQuery" class="text-dark">
-                                                                <i class="bi bi-arrow-down" style="color:#0154a7"></i>
+                                                            <i class="bi bi-arrow-down" style="color:white"></i>
                                                         </a>
                                                     </th>
-                                                        <th style="color:white; border:1px solid #0154a7">Action</th>
+                                                    <th style="color:black; border:1px solid gray">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach (var user in Model.Users)
-                                            {
+                                                @{
+                                                    int count = 0;
+                                                }
+                                                @foreach (var user in Model.Users)
+                                                {
+
+                                                    count++;
                                                     <tr>
-                                                            <td style="color:BLACK; border:1px solid #0154a7">@user.Id</td>
-                                                            <td style="color:BLACK; border:1px solid #0154a7">@user.Username</td>
-                                                            <td style="color:BLACK; border:1px solid #0154a7">@user.EmailAddress</td>
-                                                            <td style="color:BLACK; border:1px solid #0154a7">
-                                                        <form method="post"
-                                                              asp-controller="AdminUsers"
-                                                              asp-action="Delete"
-                                                              asp-route-id="@user.Id">
-                                                            <button class="btn btn-danger" type="submit">Delete</button>
-                                                        </form>
+                                                        <td class="fw-semibold" style="color:gray; border:1px solid gray">@count</td>
+                                                        <td style="color:gray; border:1px solid gray">@user.Id</td>
+                                                        <td style="color:gray; border:1px solid gray">@user.Username</td>
+                                                        <td style="color:gray; border:1px solid gray">@user.EmailAddress</td>
+                                                        <td style="color:gray; border:1px solid gray">
+                                                            <form method="post"
+                                                                  asp-controller="AdminUsers"
+                                                                  asp-action="Delete"
+                                                                  asp-route-id="@user.Id">
+
+                                                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                                                                <a href="javascript:void(0);" class="text-danger" onclick="confirmDelete('@user.Id')">
+                                                                    <i class="mdi mdi-delete"></i>
+                                                                </a>
+
+                                                                <script>
+                                                                    function confirmDelete(userId) {
+                                                                        Swal.fire({
+                                                                            title: "Are you sure?",
+                                                                            text: "You won't be able to revert this!",
+                                                                            icon: "warning",
+                                                                            showCancelButton: true,
+                                                                            confirmButtonColor: "#d33",
+                                                                            cancelButtonColor: "#3085d6",
+                                                                            confirmButtonText: "Yes, delete it!"
+                                                                        }).then((result) => {
+                                                                            if (result.isConfirmed) {
+                                                                                fetch('/AdminUsers/Delete/' + userId, {
+                                                                                    method: 'POST',
+                                                                                    headers: {
+                                                                                        'Content-Type': 'application/json',
+                                                                                        'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                                                                                    }
+                                                                                }).then(response => {
+                                                                                    if (response.ok) {
+                                                                                        Swal.fire("Deleted!", "The user has been deleted.", "success")
+                                                                                            .then(() => location.reload());
+                                                                                    } else {
+                                                                                        Swal.fire("Error", "Failed to delete user.", "error");
+                                                                                    }
+                                                                                }).catch(error => {
+                                                                                    Swal.fire("Error", "Something went wrong.", "error");
+                                                                                    console.error("Error:", error);
+                                                                                });
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                </script>
+
+                                                            </form>
 
                                                         </td>
                                                     </tr>
                                                 }
-
-
-
                                             </tbody>
                                         </table>
 
 
 
+
+                                        <style>
+                                            /* Pagination Styling */
+                                            .pagination .page-item .page-link {
+                                                color: rgb(207, 106, 27); /* Orange Text */
+                                                border: 1px solid rgb(207, 106, 27); /* Orange Border */
+                                                margin: 0 3px;
+                                                border-radius: 5px;
+                                                transition: all 0.2s ease-in-out;
+                                            }
+
+                                                .pagination .page-item .page-link:hover {
+                                                    background-color: rgb(207, 106, 27);
+                                                    color: #fff;
+                                                }
+
+                                            .pagination .page-item.active .page-link {
+                                                background-color: rgb(207, 106, 27);
+                                                border-color: rgb(207, 106, 27);
+                                                color: #fff;
+                                            }
+
+                                            .pagination .page-item.disabled .page-link {
+                                                color: #ccc;
+                                                background-color: #fff;
+                                                border-color: rgb(207, 106, 27);
+                                                pointer-events: none;
+                                            }
+
+                                            /* Back Button */
+                                            .custom-back-btn {
+                                                padding: 8px 16px;
+                                                background-color: rgb(207, 106, 27);
+                                                color: #fff;
+                                                border: 1px solid rgb(207, 106, 27);
+                                                border-radius: 5px;
+                                                cursor: pointer;
+                                                transition: background-color 0.2s ease-in-out;
+                                            }
+
+                                                .custom-back-btn:hover {
+                                                    background-color: #a54f10;
+                                                    border-color: #a54f10;
+                                                }
+                                        </style>
+
                                         <div class="row mb-3 align-items-center">
                                             <div class="col-sm-4">
-                                                <!-- Pagination -->
-                                                <nav aria-label="Page navigation example">
-                                                    <ul class="pagination">
+                                                <nav aria-label="Page navigation">
+                                                    <ul class="pagination mb-0">
                                                         @{
                                                             int totalPages = Convert.ToInt32(ViewBag.TotalPages);
                                                             int currentPage = Convert.ToInt32(ViewBag.PageNumber);
@@ -333,12 +299,13 @@
                                                         }
 
                                                         <!-- Previous Button -->
-                                                        <li class="page-item @(currentPage == 1 ? "disabled" : "")" style="color:gray; border:1px solid gray;">
+                                                        <li class="page-item @(currentPage == 1 ? "disabled" : "")">
                                                             <a class="page-link"
                                                                asp-controller="AdminUsers"
                                                                asp-action="List"
                                                                asp-route-pageNumber="@(currentPage - 1)"
                                                                asp-route-pageSize="@ViewBag.PageSize"
+                                                               asp-route-searchQuery="@ViewBag.SearchQuery"
                                                                asp-route-sortBy="@ViewBag.SortBy"
                                                                asp-route-sortDirection="@ViewBag.SortDirection">
                                                                 Previous
@@ -348,27 +315,28 @@
                                                         <!-- Page Numbers -->
                                                         @for (int i = startPage; i <= endPage; i++)
                                                         {
-                                                            <li class="page-item @(i == currentPage ? "active" : "")" style="color:gray; border:1px solid gray;">
+                                                            <li class="page-item @(i == currentPage ? "active" : "")">
                                                                 <a class="page-link"
                                                                    asp-controller="AdminUsers"
                                                                    asp-action="List"
                                                                    asp-route-pageNumber="@i"
                                                                    asp-route-pageSize="@ViewBag.PageSize"
+                                                                   asp-route-searchQuery="@ViewBag.SearchQuery"
                                                                    asp-route-sortBy="@ViewBag.SortBy"
-                                                                   asp-route-sortDirection="@ViewBag.SortDirection"
-                                                                   style="@(i == currentPage ? "background-color: gray; color: white;" : "")">
+                                                                   asp-route-sortDirection="@ViewBag.SortDirection">
                                                                     @i
                                                                 </a>
                                                             </li>
                                                         }
 
                                                         <!-- Next Button -->
-                                                        <li class="page-item @(currentPage == totalPages ? "disabled" : "")" style="color:gray; border:1px solid gray;">
+                                                        <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
                                                             <a class="page-link"
                                                                asp-controller="AdminUsers"
                                                                asp-action="List"
                                                                asp-route-pageNumber="@(currentPage + 1)"
                                                                asp-route-pageSize="@ViewBag.PageSize"
+                                                               asp-route-searchQuery="@ViewBag.SearchQuery"
                                                                asp-route-sortBy="@ViewBag.SortBy"
                                                                asp-route-sortDirection="@ViewBag.SortDirection">
                                                                 Next
@@ -379,18 +347,21 @@
                                             </div>
 
                                             <div class="col-sm-8 text-end">
-                                                <!-- Back Button -->
                                                 <button class="custom-back-btn" onclick="location.href='/Home/Index'">
-
                                                     <span>Back</span>
                                                 </button>
                                             </div>
                                         </div>
 
+
+
+
+
+
                                     }
                                     else
                                     {
-                                        <p class="text-muted text-center py-3">No tags found</p>
+                                        <p class="text-muted text-center py-3">No Users found</p>
                                     }
                                 </div>
 
@@ -404,13 +375,26 @@
 
 
 
+      
+
+
+
+       
+            
+            </div> <!-- end col-->
+        
+
+      
 
 
 
 
 
 
-</div>
+
+
+
+
 
 <!-- User Creation Modal -->
 <form method="post">

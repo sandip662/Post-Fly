@@ -46,6 +46,8 @@ namespace Bloggie.Web.Repositories
         {
             var query = bloggieDbContext.BlogPosts.AsQueryable();
 
+           
+
             // Filtering
             if (!string.IsNullOrWhiteSpace(searchQuery))
             {
