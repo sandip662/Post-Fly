@@ -78,64 +78,6 @@ namespace Bloggie.Web.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> details(string? searchQuery,
-     string? sortBy,
-     string? sortDirection,
-     int pageSize = 4,
-     int pageNumber = 1)
-        {
-            var totalRecords = 0;
-            if (searchQuery == null)
-            {
-
-                totalRecords = await userRepository.CountAsync();
-            }
-            else
-            {
-                totalRecords = await userRepository.SearchCountAsync(searchQuery);
-            }
-
-
-            var totalPages = Math.Ceiling((decimal)totalRecords / pageSize);
-
-            if (pageNumber > totalPages)
-            {
-                pageNumber--;
-            }
-
-            if (pageNumber < 1)
-            {
-                pageNumber++;
-            }
-
-
-            ViewBag.TotalPages = totalPages;
-            ViewBag.SearchQuery = searchQuery;
-            ViewBag.SortBy = sortBy;
-            ViewBag.SortDirection = sortDirection;
-            ViewBag.PageSize = pageSize;
-            ViewBag.PageNumber = pageNumber;
-
-            // use dbContext to read the tags
-            var users = await userRepository.GetAll(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
-
-            var usersViewModel = new UserViewModel();
-            usersViewModel.Users = new List<User>();
-
-            foreach (var user in users)
-            {
-                usersViewModel.Users.Add(new Models.ViewModels.User
-                {
-                    Id = Guid.Parse(user.Id),
-                    Username = user.UserName,
-                    EmailAddress = user.Email
-                });
-            }
-
-            return View(usersViewModel);
-        }
-
 
         [HttpPost]
         public async Task<IActionResult> List(UserViewModel request)
