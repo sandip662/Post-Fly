@@ -180,7 +180,56 @@
                                                         <a asp-area="" asp-controller="AdminTags" asp-action="Edit" asp-route-id="@tag.Id" class="text-success">
                                                             <i class="mdi mdi-square-edit-outline" data-toggle="tooltip" title="Edit" style="font-size: 18px;color:forestgreen"></i>
                                                         </a>
+                                                        <a href="javascript:void(0);"
+                                                           class="btn-delete-blog-post ms-1"
+                                                           data-id="@tag.Id"
+                                                           title="Delete">
+                                                            <i class="mdi mdi mdi-delete" style="color:red; font-size:18px;"></i>
+                                                        </a>
 
+                                                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                                                        <script>
+                                                            $(document).on('click', '.btn-delete-blog-post', function () {
+                                                                const postId = $(this).data('id');
+
+                                                                Swal.fire({
+                                                                    title: 'Are you sure?',
+                                                                    text: 'This blog post will be permanently deleted.',
+                                                                    icon: 'warning',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: '#d33',
+                                                                    cancelButtonColor: '#3085d6',
+                                                                    confirmButtonText: 'Yes, delete it!'
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        $.ajax({
+                                                                            url: '/AdminTags/Delete',
+                                                                            type: 'POST',
+                                                                            data: { Id: postId }, // Matches EditBlogPostRequest.Id
+                                                                            success: function () {
+                                                                                Swal.fire({
+                                                                                    title: 'Deleted!',
+                                                                                    text: 'The blog post has been deleted.',
+                                                                                    icon: 'success',
+                                                                                    timer: 1500,
+                                                                                    showConfirmButton: false
+                                                                                }).then(() => {
+                                                                                    window.location.href = '/AdminTags/List';
+                                                                                });
+                                                                            },
+                                                                            error: function () {
+                                                                                Swal.fire(
+                                                                                    'Error',
+                                                                                    'Something went wrong. Please try again.',
+                                                                                    'error'
+                                                                                );
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                });
+                                                            });
+                                                        </script>
                                                     </td>
                                                 </tr>
                                             }

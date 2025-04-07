@@ -194,7 +194,7 @@
                                                                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
                                                                 <a href="javascript:void(0);" class="text-danger" onclick="confirmDelete('@user.Id')">
-                                                                    <i class="mdi mdi-delete"></i>
+                                                                    <i class="mdi mdi-delete" style="font-size: 18px;"></i>
                                                                 </a>
 
                                                                 <script>
@@ -402,9 +402,17 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg rounded-4">
                 <!-- Modal Header -->
-                <div class="modal-header text-white" style="background:linear-gradient(to right, #1e90ff, #73c5ff);">
-                    <h5 class="modal-title fw-bold" id="createUserLabel">Create New User</h5>
-                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close" onclick="closeAndRefresh()"></button>
+                    <div class="modal-header text-white" style="background:rgb(187 85 5);">
+                    <h5 class="modal-title fw-bold" id="createUserLabel"style="color:white">Create New User</h5>
+                        <button type="button"
+                                aria-label="Close"
+                                onclick="location.href='/AdminUsers/List'"
+                                style="width: 36px; height: 36px; background-color: transparent; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease-in-out;"
+                                onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.1)'"
+                                onmouseout="this.style.backgroundColor='transparent'">
+                            <i class="bi bi-x-lg" style="color: white; font-size: 20px;"></i>
+                        </button>
+
 
                 </div>
 
@@ -412,22 +420,22 @@
                 <div class="modal-body p-4">
                     <!-- Username -->
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Username</label>
-                        <input type="text" class="form-control rounded-3 shadow-sm" asp-for="Username" placeholder="Enter username" required />
+                            <label class="form-label fw-semibold" style="color:rgb(207, 106, 27);">Username</label>
+                            <input type="text" class="form-control rounded-3 shadow-sm" asp-for="Username" placeholder="Enter username" required style="border: 1px solid rgb(207, 106, 27);" />
                     </div>
 
                     <!-- Email Address -->
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Email Address</label>
-                        <input type="email" class="form-control rounded-3 shadow-sm" asp-for="Email" placeholder="Enter email" required />
+                            <label class="form-label fw-semibold" style="color:rgb(207, 106, 27);">Email Address</label>
+                            <input type="email" class="form-control rounded-3 shadow-sm" asp-for="Email" placeholder="Enter email" required style="border: 1px solid rgb(207, 106, 27);" />
                     </div>
 
                     <!-- Password -->
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Password</label>
+                            <label class="form-label fw-semibold" style="color:rgb(207, 106, 27);">Password</label>
                         <div style="position: relative;">
                             <input type="password" id="passwordInput" class="form-control rounded-3 shadow-sm"
-                                   asp-for="Password" placeholder="Enter password" required />
+                                       asp-for="Password" placeholder="Enter password" required style="border: 1px solid rgb(207, 106, 27);" />
                             <i id="togglePassword" class="bi bi-eye-slash"
                                style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">
                             </i>
@@ -456,7 +464,7 @@
 
                 <!-- Modal Footer -->
                 <div class="modal-footer bg-light">
-                    <button type="submit" class="btn rounded-3" style="border-radius:22px;border:none;     background: #0675e1; color:white;">Save Changes</button>
+                        <button type="submit" class="btn rounded-3" style="border-radius:22px;border:none;     background:rgb(187 85 5);color:white;">Save Changes</button>
                 </div>
             </div>
         </div>

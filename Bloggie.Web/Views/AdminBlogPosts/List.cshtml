@@ -112,7 +112,7 @@
                                                                 <button type="submit" class="btn" style="color:rgb(207,106,27);">Search:</button>
                                                                 <input type="text" class="form-control"
                                                                        name="searchQuery" value="@ViewBag.SearchQuery"
-                                                                       style="color:rgb(207,106,27);Border: 1px solid rgb(207, 106, 27);" placeholder="Search Tags" />
+                                                                       style="color:rgb(207,106,27);Border: 1px solid rgb(207, 106, 27);" placeholder="Search BlogPosts" />
                                                             </form>
                                                         </div>
 
@@ -201,6 +201,57 @@
                                                                                 <a asp-area="" asp-controller="AdminBlogPosts" asp-action="Edit" asp-route-id="@blogPost.Id">
                                                                                     <i class="mdi mdi-square-edit-outline" data-toggle="tooltip" title="Edit" style="color:forestgreen; font-size: 18px;"></i>
                                                                                 </a>
+
+                                                                            <a href="javascript:void(0);"
+                                                                               class="btn-delete-blog-post"
+                                                                               data-id="@blogPost.Id"
+                                                                               title="Delete">
+                                                            <i class="mdi mdi mdi-delete" style="color:red; font-size:18px;"></i>
+                                                                            </a>
+                                                       
+                                                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                                                        <script>
+                                                            $(document).on('click', '.btn-delete-blog-post', function () {
+                                                                const postId = $(this).data('id');
+
+                                                                Swal.fire({
+                                                                    title: 'Are you sure?',
+                                                                    text: 'This blog post will be permanently deleted.',
+                                                                    icon: 'warning',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: '#d33',
+                                                                    cancelButtonColor: '#3085d6',
+                                                                    confirmButtonText: 'Yes, delete it!'
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        $.ajax({
+                                                                            url: '/AdminBlogPosts/Delete',
+                                                                            type: 'POST',
+                                                                            data: { Id: postId }, // Matches EditTagRequest.Id
+                                                                            success: function () {
+                                                                                Swal.fire({
+                                                                                    title: 'Deleted!',
+                                                                                    text: 'The tag has been deleted.',
+                                                                                    icon: 'success',
+                                                                                    timer: 1500,
+                                                                                    showConfirmButton: false
+                                                                                }).then(() => {
+                                                                                    window.location.href = '/AdminBlogPosts/List';
+                                                                                });
+                                                                            },
+                                                                            error: function () {
+                                                                                Swal.fire(
+                                                                                    'Error',
+                                                                                    'Something went wrong. Please try again.',
+                                                                                    'error'
+                                                                                );
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                });
+                                                            });
+                                                        </script>
 
                                                                             </td>
                                                                         </tr>
