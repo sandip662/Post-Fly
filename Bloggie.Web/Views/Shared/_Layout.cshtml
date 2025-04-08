@@ -62,7 +62,8 @@
 
 
         <!-- Topbar Start -->
-        <div class="navbar-custom" style="background: rgb(207 106 27 / 100%);">
+        <div class="navbar-custom" style="background: rgb(207 106 27 / 100%); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);">
+
             <div class="container-fluid">
                 <ul class="list-unstyled topnav-menu float-end mb-0">
 
@@ -222,7 +223,8 @@
         @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
         {
 
-            <div class="topnav" style="background: rgb(252 223 200 / 100%);border:1px solid rgb(207,106,27)">
+            <div class="topnav" style="background: rgb(252 223 200 / 100%); border: 1px solid rgb(207,106,27); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
+
                 <div class="container-fluid">
                     <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
 
@@ -306,11 +308,11 @@
 
             </div> <!-- content -->
             <!-- Footer Start -->
-            <footer class="footer" style="background: linear-gradient(176deg, #401601, #a74805); color: #ffffff; padding: 30px 20px; font-family: Arial, sans-serif; font-size: 14px;">
+          @*   <footer class="footer" style="background: linear-gradient(176deg, #0d0c0c, #393431); color: #ffffff; padding: 30px 20px; font-family: Arial, sans-serif; font-size: 14px;">
                 <div class="container-fluid" style="max-width: 1140px; margin: 0 auto;">
                     <div class="row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
 
-                        <div class="col-md-6" style="flex: 1; min-width: 250px; margin-bottom: 10px; font-size: 19px; font-weight: 500; color: #eeeeee;">
+                        <div class="col-md-6" style="flex: 1; min-width: 250px; margin-bottom: 10px; font-size: 18px; font-weight: 500; color: #eeeeee;">
                             &copy; <script>document.write(new Date().getFullYear())</script>
                             <span style="font-weight: bold; color: #ffffff;">Daily Blogs</span> &mdash; All rights reserved.
                         </div>
@@ -325,8 +327,24 @@
 
                     </div>
                 </div>
+            </footer> *@
+            <footer class="footer" style="background: linear-gradient(to right, rgb(116 51 0), rgb(198 92 15)); box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.4);">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6" style=" color: #ffffff;">
+                            &copy; <script>document.write(new Date().getFullYear())</script>
+                            <span style="font-weight: bold; color: #ffffff;">Daily Blogs</span> &mdash; All rights reserved.
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-md-end footer-links d-none d-sm-block">
+                                <a href="javascript:void(0);" style=" color: #ffffff;">About Us</a>
+                                <a href="javascript:void(0);" style=" color: #ffffff;">Help</a>
+                                <a href="javascript:void(0);" onclick="location.href='/Home/Privacy'" style=" color: #ffffff;">Privacy</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </footer>
-
 
 
 
