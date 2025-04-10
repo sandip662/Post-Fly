@@ -1,5 +1,7 @@
-﻿@model Bloggie.Web.Models.ViewModels.HomeViewModel
-
+﻿@using Microsoft.AspNetCore.Identity
+@model Bloggie.Web.Models.ViewModels.HomeViewModel
+@inject SignInManager<IdentityUser> signInManager
+@inject UserManager<IdentityUser> userManager
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -166,7 +168,7 @@
 
                         <!-- Header with Buttons -->
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h4 class="header-title mb-1" style="color: rgb(207, 106, 27); margin: 0;">
+                        <h4 class="header-title mb-1" style="color: rgb(207, 106, 27); margin: 0;font-weight:600">
                                 Latest Post
                             </h4>
                             <div style="display: flex; gap: 5px;">
@@ -403,80 +405,85 @@
 
             </div>
 
-            <div class="col-xl-3 col-lg-6 order-lg-1 order-xl-2">
-                <!-- news -->
-                <div class="card">
-                    <div class="card-body" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;border:1px solid rgb(207, 106, 27);">
-                        <div class="dropdown float-end">
-                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="mdi mdi-dots-horizontal"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item">Today</a>
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item">Yesterday</a>
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item">Last Week</a>
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item">Last Month</a>
-                            </div>
-                        </div>
+        <div class="col-xl-3 col-lg-6 order-lg-1 order-xl-2">
+            <div class="card">
+                <div class="card-body" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid rgb(207, 106, 27);">
+                    <div>
 
-                        <h4 class="header-title mb-1">Trending</h4>
+                    <h4 class="header-title mb-3" style="color: rgb(207, 106, 27); margin: 0;font-weight:600">
+                        Trending Post
+                    </h4>
+                    <div id="most-liked-blog">
+                        <p>Loading...</p>
 
-                        <div class="d-flex align-items-start mt-3">
-                            <i class="mdi mdi-trending-up me-2 font-18 text-primary"></i>
-                            <div class="w-100">
-                                <a class="mt-1 font-14 text-reset" href="javascript:void(0);">
-                                    <strong>Golden Globes:</strong>
-                                    <span class="text-muted">
-                                        The 27 Best moments from the Golden Globe Awards
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-start mt-3">
-                            <i class="mdi mdi-trending-up me-2 font-18 text-primary"></i>
-                            <div class="w-100">
-                                <a class="mt-1 font-14 text-reset" href="javascript:void(0);">
-                                    <strong>World Cricket:</strong>
-                                    <span class="text-muted">
-                                        India has won ICC T20 World Cup Yesterday
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-start mt-3">
-                            <i class="mdi mdi-trending-up me-2 font-18 text-primary"></i>
-                            <div class="w-100">
-                                <a class="mt-1 font-14 text-reset" href="javascript:void(0);">
-                                    <strong>Antartica:</strong>
-                                    <span class="text-muted">
-                                        Metling of Totten Glacier could cause high risk to areas near by sea
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-start mt-3">
-                            <i class="mdi mdi-trending-up me-2 font-18 text-primary"></i>
-                            <div class="w-100">
-                                <a class="mt-1 font-14 text-reset" href="javascript:void(0);">
-                                    <strong>Global Tournament:</strong>
-                                    <span class="text-muted">
-                                        America has won Football match Yesterday
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
-
+                    </div> 
+                    </div>
+               
+                </div>
             </div>
+        </div>
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                fetch('/Blogs/GetMostLikedBlogs') // Notice "Blogs" plural now
+                    .then(res => res.json())
+                    .then(data => {
+                        const container = document.getElementById('most-liked-blog');
+                        container.innerHTML = ''; // Clear previous content
+
+                        data.forEach(post => {
+                            const publishedDate = formatDate(post.publishedDate);
+
+                            container.innerHTML += `
+                                <a href="/Blogs?searchQuery=null&urlHandle=${post.urlHandle}" class="text-decoration-none" >
+                                    <ul class="list-unstyled" style="border: 1px solid rgb(207, 106, 27); padding:7px; border-radius:5px; margin-bottom: 10px;padding-top: 16px;height:170px">
+                                        <li class="mb-2">
+                                            <div style="display: flex; align-items: center;">
+                                                <div style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid rgb(207, 106, 27); background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-user" style="color: rgb(207, 106, 27); font-size: 20px;"></i>
+                                                </div>
+                                                <span style="margin-left: 8px; font-size: 14px; font-weight: bold; color:slategray">${post.author}</span>
+                                            </div>
+
+                                            <div>
+                                                <h4 class="mb-1" style="font-size:14px; font-weight: bold;">${post.title}</h4>
+                                            </div>
+
+                                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color:rgb(207, 106, 27); margin-top: 4px;">
+                                                <span>${publishedDate}</span>
+                                                <span class="badge" style="background-color:rgb(207, 106, 27);">${post.totalLikes} ❤</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </a>
+                            `;
+                        });
+                    })
+                    .catch(err => {
+                        document.getElementById('most-liked-blog').innerHTML = `<p>Error loading posts.</p>`;
+                        console.error(err);
+                    });
+
+                // Helper function to format the published date
+                function formatDate(published) {
+                    const publishedDate = new Date(published);
+                    const now = new Date();
+                    const diff = now - publishedDate;
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+                    if (days < 1) return "Today";
+                    if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+                    if (days < 30) return `${Math.floor(days / 7)} week${Math.floor(days / 7) > 1 ? 's' : ''} ago`;
+                    if (days < 365) return `${Math.floor(days / 30)} month${Math.floor(days / 30) > 1 ? 's' : ''} ago`;
+                    return `${Math.floor(days / 365)} year${Math.floor(days / 365) > 1 ? 's' : ''} ago`;
+                }
+            });
+        </script>
+
+
+
+        
         </div>
 
         <div class="mb-3">

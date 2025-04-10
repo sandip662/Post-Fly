@@ -3,6 +3,7 @@ using Bloggie.Web.Models.ViewModels;
 using Bloggie.Web.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 
 namespace Bloggie.Web.Controllers
 {
@@ -92,6 +93,41 @@ namespace Bloggie.Web.Controllers
 
             return View(blogDetailsViewModel);
         }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetMostLikedBlogs()
+        {
+            var blogPosts = await blogPostRepository.GetAllAsync();
+
+            // Create a list to hold posts with their like counts
+            var blogPostWithLikes = new List<(BlogPost Post, int Likes)>();
+
+            foreach (var post in blogPosts)
+            {
+                var totalLikes = await blogPostLikeRepository.GetTotalLikes(post.Id);
+                blogPostWithLikes.Add((post, totalLikes));
+            }
+
+            // Order by likes descending and take top 3
+            var top3Posts = blogPostWithLikes
+                .OrderByDescending(x => x.Likes)
+                .Take(2)
+                .Select(x => new
+                {
+                    title = x.Post.PageTitle,
+                    shortDescription = x.Post.ShortDescription,
+                    imageUrl = x.Post.FeaturedImageUrl,
+                    urlHandle = x.Post.UrlHandle,
+                    totalLikes = x.Likes,
+                    author = x.Post.Author,
+                    publishedDate = x.Post.PublishedDate
+                });
+
+            return Json(top3Posts);
+        }
+
 
 
         [HttpPost]
