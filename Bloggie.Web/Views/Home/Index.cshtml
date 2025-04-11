@@ -18,18 +18,18 @@
     }
 
     #most-liked-blog::-webkit-scrollbar-thumb {
-        background-color: rgb(207, 106, 27);
+        background-color: slategray;
         border-radius: 10px;
     }
 
         #most-liked-blog::-webkit-scrollbar-thumb:hover {
-            background-color: #b55a0d;
+            background-color: slategray;
         }
 
     /* Firefox support */
     #most-liked-blog {
         scrollbar-width: thin;
-        scrollbar-color: rgb(207, 106, 27) #f1f1f1;
+        scrollbar-color:gray lightgray;
     }
 </style>
 <style>
@@ -149,7 +149,7 @@
     {
       
     <div class="card mt-2">
-        <div class="card-body" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid rgb(207, 106, 27); padding: 10px;">
+        <div class="card-body" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid slategray; padding: 10px;">
 
           @*   <div style="background: linear-gradient(90deg, #f86b1d, #f97316); color: white; width: 100%; text-align: center; padding: 4px 0; border-radius: 3px;" class="mb-2">
                 Headline
@@ -167,9 +167,9 @@
                             {
                                 <div style="flex: 0 0 auto; width: 170px;">
                                     <a asp-controller="Blogs" asp-action="Index" asp-route-searchQuery="null" asp-route-urlHandle="@blogPost.UrlHandle" style="text-decoration: none;">
-                                        <div style="display: flex; align-items: center; border: 1px solid rgb(207, 106, 27); border-radius: 5px; padding: 5px; background-color: #fdfdfd;">
+                                        <div style="display: flex; align-items: center; border: 1px solid slategray; border-radius: 5px; padding: 5px; background-color: #fdfdfd;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                                             <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading" style="height: 43px; width: 53px; object-fit: cover; border-radius: 3px; margin-right: 6px;" />
-                                            <div style="font-size: 10px; font-weight: 600; color: rgb(207, 106, 27); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                            <div style="font-size: 10px; font-weight: 600; color: slategray; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                 @blogPost.Heading
                                             </div>
                                         </div>
@@ -219,22 +219,22 @@
 
                 <!-- start profile info -->
                 <div class="card">
-                    <div class="card-body p-2" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid rgb(207, 106, 27);">
+                <div class="card-body p-2" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid slategray">
 
                         <!-- Header with Buttons -->
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h4 class="header-title mb-1" style="color: rgb(207, 106, 27); margin: 0;font-weight:600">
+                        <h4 class="header-title mb-1" style="color: #3d4650;; margin: 0;font-weight:600">
                                 Latest Post
                             </h4>
                             <div style="display: flex; gap: 5px;">
                                 <button onclick="scrollPosts(-1)" class="btn btn-sm btn-outline-secondary p-1"
-                                        style="width: 30px; height: 28px; border:1px solid rgb(207, 106, 27);">
-                                    <i class="bi bi-chevron-up" style="color: rgb(207, 106, 27);"></i>
+                                    style="width: 30px; height: 28px; border:1px solid dimgrey;">
+                                <i class="bi bi-chevron-up" style="color: black"></i>
                                 </button>
 
                                 <button onclick="scrollPosts(1)" class="btn btn-sm btn-outline-secondary p-1"
-                                        style="width: 30px; height: 28px; border:1px solid rgb(207, 106, 27);">
-                                    <i class="bi bi-chevron-down" style="color: rgb(207, 106, 27);"></i>
+                                    style="width: 30px; height: 28px; border:1px solid dimgrey;">
+                                <i class="bi bi-chevron-down" style="color: black"></i>
                                 </button>
                             </div>
                         </div>
@@ -318,7 +318,7 @@
 
             <div class="col-xl-6 col-lg-12 order-lg-2 order-xl-1">
                 <div class="card">
-                    <div class="card-body p-1" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid rgb(207, 106, 27);">
+                    <div class="card-body p-2" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid slategray;">
                         @if (Model != null && Model.BlogPosts.Any())
                         {
                             var carouselId = "carouselBlogPosts";
@@ -338,9 +338,10 @@
                                         <div class="carousel-item @isActive" data-tags="@string.Join(",", post.Tags.Select(t => t.Name.ToLower()))">
                                             <div class="position-relative">
 
-                                                <img src="@post.FeaturedImageUrl" alt="@post.Heading"
-                                                     class="d-block w-100 img-fluid"
-                                                     style="object-fit: cover; height: 440px;" />
+                                            <img src="@post.FeaturedImageUrl" alt="@post.Heading"
+                                                 class="d-block w-100 img-fluid"
+                                                 style="object-fit: cover; height: 430px;" />
+
 
                                                 <div style="
                                                 position: absolute;
@@ -462,11 +463,11 @@
 
         <div class="col-xl-3 col-lg-6 order-lg-1 order-xl-2">
             <div class="card">
-                <div class="card-body" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid rgb(207, 106, 27);">
+                <div class="card-body" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid slategray;">
 
                     <!-- Heading and buttons in a single flex row -->
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h4 class="header-title mb-3" style="color: rgb(207, 106, 27); margin: 0; font-weight: 600;">
+                        <h4 class="header-title mb-3" style="color: #3d4650;; margin: 0; font-weight: 600;">
                             Trending Post
                         </h4>
                        
@@ -501,11 +502,11 @@
 
                             container.innerHTML += `
                                 <a href="/Blogs?searchQuery=null&urlHandle=${post.urlHandle}" class="text-decoration-none" >
-                                    <ul class="list-unstyled" style="border: 1px solid rgb(207, 106, 27); padding:7px; border-radius:5px; margin-bottom: 10px;padding-top: 16px;height:111px">
+                                                <ul class="list-unstyled" style="border: 1px solid slategray; padding:7px; border-radius:5px; margin-bottom: 10px;padding-top: 16px;height:111px;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                                         <li class="mb-2">
                                             <div style="display: flex; align-items: center;">
-                                                <div style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgb(207, 106, 27); background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
-                                                    <i class="fas fa-user" style="color: rgb(207, 106, 27); font-size: 11px;"></i>
+                                                <div style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid slategray; background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-user" style="color: slategray; font-size: 11px;"></i>
                                                 </div>
                                                 <span style="margin-left: 8px; font-size: 14px; font-weight: bold; color:slategray">${post.author}</span>
                                             </div>
@@ -514,9 +515,9 @@
                                                 <h4 class="mb-1" style="font-size:10px; font-weight: bold;">${post.title}</h4>
                                             </div>
 
-                                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color:rgb(207, 106, 27); margin-top: 4px;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color:black; margin-top: 4px;">
                                                 <span>${publishedDate}</span>
-                                                <span class="badge" style="background-color:rgb(207, 106, 27);">${post.totalLikes} ❤</span>
+                                                <span class="badge" style="background-color:slategray;">${post.totalLikes} ❤</span>
                                             </div>
                                         </li>
                                     </ul>
@@ -550,10 +551,10 @@
         
         </div>
 
-        <div class="mb-3">
+     @*    <div class="mb-3">
             <img src="~/assets/images/banner.jpg" alt="Banner Image" style="width: 100%; height: 70px; object-fit: cover; border-radius: 7px; box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.4);" />
         </div>
-
+ *@
 
      
 
@@ -568,7 +569,7 @@
                     @foreach (var blogPost in Model.BlogPosts.OrderByDescending(b => b.PublishedDate))
                     {
                         <div class="card mb-3 shadow-sm blog-post" data-tags="@string.Join(",", blogPost.Tags.Select(t => t.Name.ToLower()))">
-                            <div class="card-body" style="border: 1px solid rgb(207, 106, 27); border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <div class="card-body" style="border: 1px solid slategray; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                                 <div class="row">
                                     <!-- Blog Image -->
                                     <div class="col-sm-4">
@@ -577,16 +578,19 @@
                                     </div>
 
                                     <!-- Blog Details -->
-                                    <div class="col-sm-8">
+                                <div class="col-sm-8">
                                         <a asp-area="" asp-controller="Blogs" asp-action="Index" asp-route-urlHandle="@blogPost.UrlHandle">
-                                            <h4 style="font-size: 20px; font-weight: 700; color: #8d4d00;">@blogPost.Heading</h4>
+                                        <h4 style="font-size: 20px; font-weight: 700; color: #3d4650;">@blogPost.Heading</h4>
                                         </a>
-                                        <p class="text-muted mb-1"><strong>Author:</strong> @blogPost.Author</p>
+                                    <p class="mb-1" style="color:slategray;"><strong style="color:slategray;">
+                                        Author:</strong> @blogPost.Author
+
+                    </p>
                                         <p>@blogPost.ShortDescription</p>
                                     </div>
                                 </div>
 
-                                <hr style="border-top: 1px solid rgb(207, 106, 27);margin-top: 1rem;" />
+                            <hr style="border-top: 1px solid slategray;margin-top: 1rem;" />
 
                                 <!-- Tags & Date -->
                                 <div class="row align-items-center">
@@ -594,14 +598,14 @@
                                         <p>
                                             @foreach (var tag in blogPost.Tags)
                                             {
-                                                <a href="#" class="badge tag-filter" style="background-color: #fcdcbf; color: rgb(207, 106, 27); border: 1px solid rgb(207, 106, 27); border-radius: 5px; margin-right: 5px;">
+                                            <a href="#" class="badge tag-filter" style="background-color: white; color: #3d4650; border: 1px solid #3d4650; border-radius: 5px; margin-right: 5px;">
                                                     #@tag.Name
                                                 </a>
                                             }
                                         </p>
                                     </div>
-                                    <div class="col-md-5 text-end text-muted">
-                                        <small><strong>Published:</strong> @GetRelativeDate(blogPost.PublishedDate)</small>
+                                <div class="col-md-5 text-end" style="color:#3d4650;font-weight:600;">
+                                    <small><strong style="color:#3d4650;">Published:</strong> @GetRelativeDate(blogPost.PublishedDate)</small>
                                     </div>
                                 </div>
                             </div>
@@ -612,45 +616,45 @@
                     <style>
                         /* Pagination Styling */
                         .pagination .page-item .page-link {
-                            color: rgb(207, 106, 27); /* Orange Text */
-                            border: 1px solid rgb(207, 106, 27); /* Orange Border */
+                        color: slategray; /* Orange Text */
+                        border: 1px solid slategray; /* Orange Border */
                             margin: 0 3px;
                             border-radius: 5px;
                             transition: all 0.2s ease-in-out;
                         }
 
                             .pagination .page-item .page-link:hover {
-                                background-color: rgb(207, 106, 27);
+                            background-color: slategray;
                                 color: #fff;
                             }
 
                         .pagination .page-item.active .page-link {
-                            background-color: rgb(207, 106, 27);
-                            border-color: rgb(207, 106, 27);
+                        background-color: slategray;
+                        border-color: slategray;
                             color: #fff;
                         }
 
                         .pagination .page-item.disabled .page-link {
                             color: #ccc;
                             background-color: #fff;
-                            border-color: rgb(207, 106, 27);
+                        border-color: slategray;
                             pointer-events: none;
                         }
 
                         /* Back Button */
                         .custom-back-btn {
                             padding: 8px 16px;
-                            background-color: rgb(207, 106, 27);
+                        background-color: slategray;
                             color: #fff;
-                            border: 1px solid rgb(207, 106, 27);
+                        border: 1px solid slategray;
                             border-radius: 5px;
                             cursor: pointer;
                             transition: background-color 0.2s ease-in-out;
                         }
 
                             .custom-back-btn:hover {
-                                background-color: #a54f10;
-                                border-color: #a54f10;
+                            background-color: slategray;
+                            border-color: slategray;
                             }
                     </style>
 
@@ -726,24 +730,24 @@
 
             <div class="col-lg-4 order-lg-2 order-1">
                 <div class="card">
-                <div class="card-body" style="border:1px solid rgb(207, 106, 27); border-radius:7px;box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;">
+                <div class="card-body" style="border:1px solid slategray; border-radius:7px;box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;">
 
 
-                        <div class="row">
-                        <h5 class="mb-2 text-uppercase p-2"
+                    <div class="row">
+                        <h5 class="mb-2 p-2"
                             style="
-        border:1px solid rgb(207, 106, 27);
+        border:1px solid slategray;
         color: white;
-        background:linear-gradient(90deg, #f86b1d, #f97316);
+        background:slategray;
         border-radius:7px;
         font-weight: 600;
         letter-spacing: 0.5px;
-        box-shadow: 0 2px 6px rgba(207, 106, 27, 0.2);">
+        box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                             <i class="fas fa-share-alt" style="margin-right: 6px;"></i> Social Links
                         </h5>
 
                         <!-- Social Media Icons -->
-                        <div class="d-flex justify-content-start mb-3" style="gap: 49px; padding-left: 10px; box-shadow: 0 2px 6px rgba(207, 106, 27, 0.2);padding-bottom: 11px;padding-top: 11px;border:1px solid rgb(207, 106, 27);border-radius:7px;">
+                        <div class="d-flex justify-content-start mb-3" style="gap: 51px; padding-left: 10px; box-shadow: 0 4px 10px rgb(0 0 0 / 20%);padding-bottom: 11px;padding-top: 11px;border:1px solid slategray;border-radius:7px;">
                             <a href="https://www.facebook.com" target="_blank" style="text-decoration: none;">
                                 <i class="fab fa-facebook-f" style="font-size: 22px; color: #3b5998; border:2px solid #3b5998; padding:7px; border-radius:3px;"></i>
                             </a>
@@ -766,15 +770,15 @@
 
                     <div class="row mt-2">
 
-                        <h5 class="mb-2 text-uppercase bg-light p-2"
+                        <h5 class="mb-2  p-2"
                             style="
-        border:1px solid rgb(207, 106, 27);
+          border:1px solid slategray;
         color: white;
-        background:linear-gradient(90deg, #f86b1d, #f97316);
+        background:slategray;
         border-radius:7px;
         font-weight: 600;
         letter-spacing: 0.5px;
-        box-shadow: 0 2px 6px rgba(207, 106, 27, 0.2);">
+      box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                             Recent Post
                         </h5>
                         @if (Model != null && Model.LatestBlogPosts.Any())
@@ -788,11 +792,11 @@
                                        asp-route-searchQuery=null
                                        asp-route-urlHandle="@blogPost.UrlHandle"
                                        class="blog-post">
-                                        <ul class="list-unstyled" style="border: 1px solid rgb(207, 106, 27); padding:7px; border-radius:5px">
+                                    <ul class="list-unstyled" style="border: 1px solid slategray; padding:7px; border-radius:5px;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                                             <li class="mb-2">
                                                 <div style="display: flex; align-items: center;">
-                                                    <div style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid rgb(207, 106, 27); background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
-                                                        <i class="fas fa-user" style="color: rgb(207, 106, 27); font-size: 20px;"></i>
+                                                <div style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid slategray; background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-user" style="color: slategray; font-size: 20px;"></i>
                                                     </div>
                                                     <span style="margin-left: 8px; font-size: 14px; font-weight: bold; color:slategray">@blogPost.Author</span>
                                                 </div>
@@ -801,7 +805,7 @@
                                                     <h4 class="mb-1" style="font-size:14px; font-weight: bold;">@blogPost.Heading</h4>
                                                 </div>
 
-                                                <div class="col-md-5" style="color:rgb(207, 106, 27);">
+                                            <div class="col-md-5" style="color:slategray;">
                                                     @{
                                                         DateTime publishedDate = blogPost.PublishedDate;
                                                         DateTime now = DateTime.Now;
@@ -846,15 +850,15 @@
 
 
                         <div class="row mt-2">
-                        <h5 class="mb-2 text-uppercase bg-light p-2"
+                        <h5 class="mb-2 p-2"
                             style="
-border:1px solid rgb(207, 106, 27);
-color: white;
-background:linear-gradient(90deg, #f86b1d, #f97316);
-border-radius:7px;
-font-weight: 600;
-letter-spacing: 0.5px;
-box-shadow: 0 2px 6px rgba(207, 106, 27, 0.2);">
+                              border:1px solid slategray;
+                              color: white;
+                              background:slategray;
+                            border-radius:7px;
+                            font-weight: 600;
+                            letter-spacing: 0.5px;
+                            box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                             Recommended Tags
                         </h5>
 
@@ -903,11 +907,11 @@ box-shadow: 0 2px 6px rgba(207, 106, 27, 0.2);">
                         <div class="row mt-5">
 
 
-                            <h5 class="mb-2 text-uppercase bg-light p-2"
+                            <h5 class="mb-2 p-2"
                                 style="
-border:1px solid rgb(207, 106, 27);
-color: white;
-background:linear-gradient(90deg, #f86b1d, #f97316);
+  border:1px solid slategray;
+  color: white;
+  background:slategray;
 border-radius:7px;
 font-weight: 600;
 letter-spacing: 0.5px;

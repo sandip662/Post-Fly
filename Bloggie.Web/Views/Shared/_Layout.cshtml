@@ -62,8 +62,7 @@
 
 
         <!-- Topbar Start -->
-        <div class="navbar-custom" style="background: linear-gradient(90deg, #f86b1d, #f97316);
- box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);">
+        <div class="navbar-custom bg-dark" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);">
 
             <div class="container-fluid">
                 <ul class="list-unstyled topnav-menu float-end mb-0">
@@ -76,7 +75,7 @@
                                 <div class="input-group">
                                     <input type="search" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control"
                                            placeholder="Search..." id="top-search"
-                                           style="    background: rgb(252 134 42);color: white;border: 1px solid white;">
+                                           style=" color: white;border: 1px solid slategray;">
 
                                     <style>
                                         #top-search::placeholder {
@@ -84,7 +83,7 @@
                                             opacity: 1;
                                         }
                                     </style>
-                                    <button class="btn input-group-text" type="submit" style="background: rgb(252 134 42); color: white;border: 1px solid white;">
+                                    <button class="btn input-group-text" type="submit" style=" color: white;border: 1px solid slategray;">
                                         <i class="fe-search" style="color: white;"></i>
                                     </button>
                                 </div>
@@ -224,7 +223,7 @@
         @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
         {
 
-            <div class="topnav" style="background: rgb(252 223 200 / 100%); border: 1px solid rgb(207,106,27); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
+            <div class="topnav" style="    background: rgb(237 237 237); border: 1px solid rgb(255 255 255);box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
 
                 <div class="container-fluid">
                     <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
@@ -241,8 +240,8 @@
                             </li> *@
                                 <li class="nav-item dropdown me-1">
                                     <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button"
-                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:rgb(207,106,27)">
-                                        <i class="fe-airplay me-1" style="color:rgb(207,106,27)"></i> Tag <div class="arrow-down"></div>
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:slategray;">
+                                        <i class="fe-airplay me-1" style="color:slategray"></i> Tag <div class="arrow-down"></div>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="topnav-admin" style=" box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
                                         <a class="dropdown-item" asp-controller="AdminTags" asp-action="Add">Create Tag</a>
@@ -253,8 +252,8 @@
                                 <!-- User Dropdown -->
                                 <li class="nav-item dropdown me-1">
                                     <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button"
-                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:rgb(207,106,27)">
-                                        <i class="fe-grid me-1" style="color:rgb(207,106,27)"></i> Blog Post <div class="arrow-down"></div>
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:slategray">
+                                        <i class="fe-grid me-1" style="color:slategray"></i> Blog Post <div class="arrow-down"></div>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="topnav-admin" style=" box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
                                         <a class="dropdown-item" asp-controller="AdminBlogPosts" asp-action="Add">Create BlogPost</a>
@@ -265,8 +264,8 @@
 
                                 <li class="nav-item dropdown me-1">
                                     <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button"
-                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:rgb(207,106,27)">
-                                        <i class="fe-sidebar me-1" style="color:rgb(207,106,27)"></i> User <div class="arrow-down"></div>
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:slategray">
+                                        <i class="fe-sidebar me-1" style="color:slategray"></i> User <div class="arrow-down"></div>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="topnav-admin" style=" box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
 
@@ -329,7 +328,7 @@
                     </div>
                 </div>
             </footer> *@
-            <footer class="footer" style="background: linear-gradient(357deg, #9b3700, #c15408); box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.4);">
+            <footer class="footer" style="background: linear-gradient(357deg, #38414a, #1c2024); box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.4);">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6" style=" color: #ffffff;">
