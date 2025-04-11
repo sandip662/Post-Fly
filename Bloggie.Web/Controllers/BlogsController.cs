@@ -113,7 +113,7 @@ namespace Bloggie.Web.Controllers
             // Order by likes descending and take top 3
             var top3Posts = blogPostWithLikes
                 .OrderByDescending(x => x.Likes)
-                .Take(2)
+                .Take(5)
                 .Select(x => new
                 {
                     title = x.Post.PageTitle,
