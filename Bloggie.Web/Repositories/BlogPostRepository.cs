@@ -1,6 +1,7 @@
 ﻿using Bloggie.Web.Data;
 using Bloggie.Web.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Bloggie.Web.Repositories
@@ -140,6 +141,10 @@ namespace Bloggie.Web.Repositories
         public async Task<int> GetCountAsync()
         {
             return await bloggieDbContext.BlogPosts.CountAsync();
+        }
+        public async Task<int> CountByConditionAsync(Expression<Func<BlogPost, bool>> predicate)
+        {
+            return await bloggieDbContext.BlogPosts.CountAsync(predicate);
         }
 
     }

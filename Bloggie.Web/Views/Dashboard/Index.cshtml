@@ -93,6 +93,8 @@
 
 
     <div class="row">
+       
+        
         <div class="col-md-8 col-xl-8">
             <div class="card border-0 rounded-3 p-3" style="background: linear-gradient(to right, #ffffff, #f0f4ff);box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;">
                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -121,7 +123,39 @@
                 </div>
             </div>
         </div>
+
+
+
+
+        <div class="col-md-4 col-xl-4">
+            <div class="card border-0 rounded-3 p-3" style="background: linear-gradient(to right, #ffffff, #f0f4ff); box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; height: 460px;">
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="fw-semibold text-dark mb-0">🧭 Blog Post Insights</h5>
+                    <span class="badge bg-primary-subtle text-primary px-2 py-1">Radial Stats</span>
+                </div>
+                <small class="text-muted mb-3 d-block">Visual breakdown of blog posts created</small>
+
+                <div id="multipleRadialChart" style="height: 270px;"></div>
+
+                <div class="text-center mt-2">
+                    <small class="text-muted">Last updated: <strong>@DateTime.Now.ToString("dd MMM yyyy HH:mm")</strong></small>
+                </div>
+            </div>
+        </div>
+
+    
+       
+
+        
+
+    
     </div>
+
+
+
+
+
 
     <!-- ApexCharts CDN -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -207,6 +241,72 @@
         chart.render();
     </script>
 
+    <script>
+        const radialBarOptions = {
+            chart: {
+                height: 270, // fits in card with 380px height
+                type: "radialBar"
+            },
+            plotOptions: {
+                radialBar: {
+                    dataLabels: {
+                        name: {
+                            fontSize: "14px",
+                            color: "#2d3436",
+                            offsetY: -5
+                        },
+                        value: {
+                            fontSize: "18px",
+                            fontWeight: 600,
+                            color: "#2d3436",
+                            offsetY: 5
+                        },
+                        total: {
+                            show: true,
+                            label: "Total Posts",
+                            fontSize: "14px",
+                            color: "#636e72",
+                            formatter: function () {
+                                return (
+        @Model.PostsToday +
+        @Model.PostsThisWeek +
+        @Model.PostsThisMonth +
+        @Model.PostsThisYear
+                                );
+                            }
+                        }
+                    }
+                }
+            },
+            labels: ["Today", "This Week", "This Month", "This Year"],
+            series: [
+        @Model.PostsToday,
+        @Model.PostsThisWeek,
+        @Model.PostsThisMonth,
+        @Model.PostsThisYear
+            ],
+            colors: ["#00b894", "#0984e3", "#6c5ce7", "#fd79a8"],
+            stroke: {
+                lineCap: "round"
+            },
+            legend: {
+                show: true,
+                position: 'bottom',
+                horizontalAlign: 'center',
+                fontSize: '13px',
+                labels: {
+                    colors: '#2d3436'
+                },
+                itemMargin: {
+                    horizontal: 8,
+                    vertical: 0
+                }
+            }
+        };
+
+        const radialBarChart = new ApexCharts(document.querySelector("#multipleRadialChart"), radialBarOptions);
+        radialBarChart.render();
+    </script>
 
 
 

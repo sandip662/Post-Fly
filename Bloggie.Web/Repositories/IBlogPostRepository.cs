@@ -1,4 +1,5 @@
 ﻿using Bloggie.Web.Models.Domain;
+using System.Linq.Expressions;
 
 namespace Bloggie.Web.Repositories
 {
@@ -25,6 +26,7 @@ namespace Bloggie.Web.Repositories
         Task<int> SearchCountAsync(string searchQuery);
         Task<int> GetCountAsync();
 
+        Task<int> CountByConditionAsync(Expression<Func<BlogPost, bool>> predicate);
 
 
     }
