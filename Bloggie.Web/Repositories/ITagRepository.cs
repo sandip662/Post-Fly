@@ -21,6 +21,8 @@ namespace Bloggie.Web.Repositories
 
         Task<int> CountAsync();
         Task<int> SearchCountAsync(string searchQuery);
+        Task<int> GetCountAsync();
+
 
     }
 }

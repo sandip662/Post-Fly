@@ -230,18 +230,30 @@
 
                         <div class="collapse navbar-collapse" id="topnav-menu-content">
                             <ul class="navbar-nav">
+                                @if (signInManager.IsSignedIn(User) && User.IsInRole("SuperAdmin"))
+                                {
+                                    <li class="nav-item dropdown">
+             
+                                        <a class="nav-link dropdown-toggle arrow-none" asp-controller="Dashboard" asp-action="Index">
+                                            <i class="fe-airplay me-1"></i> Dashboards
+                                        </a>
 
-                                @*     <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button"
-                                   data-bs-toggle="dropdown" aria-haspopup="true">
-                                    <i class="fe-airplay me-1"></i> Dashboards 
-                                </a>
-
-                            </li> *@
+                                </li>
+                                }
+                               @*  <li class="nav-item dropdown me-1">
+                                    <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:slategray;">
+                                        <i class="fe-airplay me-1" style="color:slategray"></i> Admin <div class="arrow-down"></div>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="topnav-admin" style=" box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
+                                        <a class="dropdown-item" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                                       
+                                    </ul>
+                                </li> *@
                                 <li class="nav-item dropdown me-1">
                                     <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button"
                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:slategray;">
-                                        <i class="fe-airplay me-1" style="color:slategray"></i> Tag <div class="arrow-down"></div>
+                                        <i class="fe-layers me-1" style="color:slategray"></i> Tag <div class="arrow-down"></div>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="topnav-admin" style=" box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
                                         <a class="dropdown-item" asp-controller="AdminTags" asp-action="Add">Create Tag</a>

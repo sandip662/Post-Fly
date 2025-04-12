@@ -137,5 +137,10 @@ namespace Bloggie.Web.Repositories
 
             return null;
         }
+        public async Task<int> GetCountAsync()
+        {
+            return await bloggieDbContext.BlogPosts.CountAsync();
+        }
+
     }
 }

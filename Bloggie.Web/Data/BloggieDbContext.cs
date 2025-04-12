@@ -14,6 +14,7 @@ namespace Bloggie.Web.Data
 
         public DbSet<BlogPostLike> BlogPostLike { get; set; }
         public DbSet<BlogPostComment> BlogPostComment { get; set; }
+        public DbSet<Visit> Visits { get; set; }
 
     }
 }

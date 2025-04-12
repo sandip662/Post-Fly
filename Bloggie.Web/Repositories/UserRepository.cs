@@ -82,6 +82,49 @@ namespace Bloggie.Web.Repositories
             return await authDbContext.Users
                 .Where(x => x.UserName.Contains(searchQuery))
                 .CountAsync();
+       
+        
+        
         }
+
+
+
+
+   public async Task<int> GetCountAsync()
+{
+    var adminRole = await authDbContext.Roles
+        .FirstOrDefaultAsync(r => r.Name == "Admin");
+
+    if (adminRole == null)
+    {
+        // If no admin role exists, then all are users
+        return await authDbContext.Users.CountAsync();
+    }
+
+    var adminUserIds = await authDbContext.UserRoles
+        .Where(ur => ur.RoleId == adminRole.Id)
+        .Select(ur => ur.UserId)
+        .ToListAsync();
+
+    return await authDbContext.Users
+        .Where(u => !adminUserIds.Contains(u.Id))
+        .CountAsync();
+}
+
+
+        public async Task<int> GetAdminCountAsync()
+        {
+            var adminRole = await authDbContext.Roles
+                .FirstOrDefaultAsync(r => r.Name == "Admin");
+
+            if (adminRole == null)
+                return 0;
+
+            return await authDbContext.UserRoles
+                .Where(ur => ur.RoleId == adminRole.Id)
+                .CountAsync();
+        }
+
+
     }
 }
