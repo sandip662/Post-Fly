@@ -46,19 +46,31 @@ namespace Bloggie.Web.Controllers
             var weeklyVisits = await analyticsRepository.GetWeeklyVisitsAsync();
             var monthlyVisits = await analyticsRepository.GetMonthlyVisitsAsync();
 
-            // Get counts for Blog Posts created Today, This Week, This Month, This Year
+            // Dates for filtering
             var today = DateTime.UtcNow.Date;
-            var weekStart = today.AddDays(-(int)today.DayOfWeek); // Start of the week
-            var monthStart = new DateTime(today.Year, today.Month, 1); // Start of the month
-            var yearStart = new DateTime(today.Year, 1, 1); // Start of the year
-            var lastYearStart = new DateTime(today.Year - 1, 1, 1); // Start of last year
-           
+            var weekStart = today.AddDays(-(int)today.DayOfWeek); // Start of week
+            var monthStart = new DateTime(today.Year, today.Month, 1); // Start of month
+            var yearStart = new DateTime(today.Year, 1, 1); // Start of current year
+
+            // Blog post counts by time range
             var todayBlogCount = await blogPostRepository.CountByConditionAsync(x => x.PublishedDate.Date == today);
             var weeklyBlogCount = await blogPostRepository.CountByConditionAsync(x => x.PublishedDate >= weekStart);
             var monthlyBlogCount = await blogPostRepository.CountByConditionAsync(x => x.PublishedDate >= monthStart);
             var yearlyBlogCount = await blogPostRepository.CountByConditionAsync(x => x.PublishedDate >= yearStart);
 
-            // Prepare the model to pass to the view
+            // Year-wise blog post counts (last 5 years including current)
+            var yearWisePostCounts = new Dictionary<int, int>();
+            var currentYear = DateTime.UtcNow.Year;
+
+            for (int year = currentYear - 4; year <= currentYear; year++)
+            {
+                var start = new DateTime(year, 1, 1);
+                var end = new DateTime(year + 1, 1, 1);
+                var count = await blogPostRepository.CountByConditionAsync(x => x.PublishedDate >= start && x.PublishedDate < end);
+                yearWisePostCounts[year] = count;
+            }
+
+            // Prepare model
             var model = new DashboardViewModel
             {
                 BlogCount = blogCount,
@@ -71,12 +83,12 @@ namespace Bloggie.Web.Controllers
                 PostsToday = todayBlogCount,
                 PostsThisWeek = weeklyBlogCount,
                 PostsThisMonth = monthlyBlogCount,
-                PostsThisYear = yearlyBlogCount
+                PostsThisYear = yearlyBlogCount,
+                YearWisePostCounts = yearWisePostCounts
             };
 
             return View(model);
         }
-
 
 
 
