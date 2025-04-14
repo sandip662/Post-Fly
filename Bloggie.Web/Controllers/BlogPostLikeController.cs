@@ -3,6 +3,7 @@ using Bloggie.Web.Models.ViewModels;
 using Bloggie.Web.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Bloggie.Web.Controllers
 {
@@ -22,13 +23,21 @@ namespace Bloggie.Web.Controllers
         [Route("Add")]
         public async Task<IActionResult> AddLike([FromBody] AddLikeRequest addLikeRequest)
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // This claim is typically used for the user ID in JWT
+
+            // Handle case if the user ID is missing
+            if (userIdClaim == null)
+            {
+                return Unauthorized("User ID not found in the token.");
+            }
+            var userId = Guid.Parse(userIdClaim.Value);
             var model = new BlogPostLike
             {
                 BlogPostId = addLikeRequest.BlogPostId,
-                UserId = addLikeRequest.UserId
+                UserId = userId
             };
 
-            await blogPostLikeRepository.AddLikeForBlog(model);
+            var a =await blogPostLikeRepository.AddLikeForBlog(model);
 
             return Ok();
         }

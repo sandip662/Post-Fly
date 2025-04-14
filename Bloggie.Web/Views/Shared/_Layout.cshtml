@@ -38,22 +38,25 @@
 
     @RenderSection("dateStyle", false)
     <style>
-    .postfly-text {
-    font-size: 50px; /* Adjust size as needed */
-    font-weight: bold;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to right, #004a93, #f70000);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
-    }
+        .postfly-text {
+        font-size: 50px; /* Adjust size as needed */
+        font-weight: bold;
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(to right, #004a93, #f70000);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+        }
 
 
     </style>
 
 
 </head>
-
+@{
+    var a = User.Identity;
+    var b = 0;
+}
 <!-- body start -->
 <body data-theme="light" data-layout-mode="horizontal" data-topbar-color="dark" data-menu-position="fixed">
 
@@ -118,16 +121,16 @@
 
                             <i class=" mdi mdi-account-circle-outline noti-icon" style="color: white;"></i>
                             <span class="pro-user-name ms-1" style="color: white;">
-                                @(signInManager.IsSignedIn(User) ? User.Identity.Name : "Sign In") <i class="mdi mdi-chevron-down"></i>
+                                @(User.Identity != null && User.Identity.IsAuthenticated ? User.Identity.Name : "Sign In")
+                                <i class="mdi mdi-chevron-down"></i>
                             </span>
+
                         </a>
                         <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
 
 
-
-                            @if (signInManager.IsSignedIn(User))
+                            @if (User.Identity != null && User.Identity.IsAuthenticated)
                             {
-
                                 <!-- item-->
                                 <a href="/Home/Profile" class="dropdown-item notify-item">
                                     <i class="fe-user"></i>
@@ -220,7 +223,9 @@
             </div>
         </div>
         <!-- end Topbar -->
-        @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+      @*   @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        { *@
+        @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
         {
 
             <div class="topnav" style="    background: rgb(237 237 237); border: 1px solid rgb(255 255 255);box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
@@ -230,7 +235,7 @@
 
                         <div class="collapse navbar-collapse" id="topnav-menu-content">
                             <ul class="navbar-nav">
-                                @if (signInManager.IsSignedIn(User) && User.IsInRole("SuperAdmin"))
+                                @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
                                 {
                                     <li class="nav-item dropdown">
              
@@ -366,8 +371,8 @@
 
 
     </div>
-    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-    {
+   @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+ {
         <div class="right-bar">
             <div data-simplebar class="h-100">
 

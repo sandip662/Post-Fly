@@ -15,6 +15,7 @@ namespace Bloggie.Web.Repositories
 
         public async Task<BlogPostLike> AddLikeForBlog(BlogPostLike blogPostLike)
         {
+
             await bloggieDbContext.BlogPostLike.AddAsync(blogPostLike);
             await bloggieDbContext.SaveChangesAsync();
             return blogPostLike;

@@ -62,7 +62,7 @@ namespace Bloggie.Web.Controllers
             var yearWisePostCounts = new Dictionary<int, int>();
             var currentYear = DateTime.UtcNow.Year;
 
-            for (int year = currentYear - 4; year <= currentYear; year++)
+            for (int year = currentYear - 6; year <= currentYear; year++)
             {
                 var start = new DateTime(year, 1, 1);
                 var end = new DateTime(year + 1, 1, 1);

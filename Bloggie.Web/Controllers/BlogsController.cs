@@ -4,6 +4,7 @@ using Bloggie.Web.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using System.Security.Claims;
 
 namespace Bloggie.Web.Controllers
 {
@@ -40,12 +41,26 @@ namespace Bloggie.Web.Controllers
             {
                 var totalLikes = await blogPostLikeRepository.GetTotalLikes(blogPost.Id);
 
-                if (signInManager.IsSignedIn(User))
+                if (User.Identity != null && User.Identity.IsAuthenticated)
                 {
+
+                    // Try to find the user ID in the JWT claims (usually stored in "NameIdentifier" claim)
+                    var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // This claim is typically used for the user ID in JWT
+
+                    // Handle case if the user ID is missing
+                    if (userIdClaim == null)
+                    {
+                        return Unauthorized("User ID not found in the token.");
+                    }
+
+                    // Proceed if user ID is available in the claim
+                    string userId =userIdClaim.Value;
+
+
                     // Get like for this blog for this user
                     var likesForBlog = await blogPostLikeRepository.GetLikesForBlog(blogPost.Id);
 
-                    var userId = userManager.GetUserId(User);
+                   
 
                     if (userId != null)
                     {
@@ -129,26 +144,43 @@ namespace Bloggie.Web.Controllers
         }
 
 
-
         [HttpPost]
         public async Task<IActionResult> Index(BlogDetailsViewModel blogDetailsViewModel)
-        {
-            if (signInManager.IsSignedIn(User))
+         {
+            // Check if the user is authenticated
+            if (User.Identity != null && User.Identity.IsAuthenticated)
             {
+                // Try to find the user ID in the JWT claims (usually stored in "NameIdentifier" claim)
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // This claim is typically used for the user ID in JWT
+
+                // Handle case if the user ID is missing
+                if (userIdClaim == null)
+                {
+                    return Unauthorized("User ID not found in the token.");
+                }
+
+                // Proceed if user ID is available in the claim
+                var userId = Guid.Parse(userIdClaim.Value);
+
+                // Create the blog comment object
                 var domainModel = new BlogPostComment
                 {
                     BlogPostId = blogDetailsViewModel.Id,
                     Description = blogDetailsViewModel.CommentDescription,
-                    UserId = Guid.Parse(userManager.GetUserId(User)),
+                    UserId = userId,  // Use the extracted user ID from the JWT token
                     DateAdded = DateTime.Now
                 };
 
+                // Add the comment to the repository
                 await blogPostCommentRepository.AddAsync(domainModel);
-                return RedirectToAction("Index", "Blogs", 
-                    new { urlHandle = blogDetailsViewModel.UrlHandle });
+
+                // Redirect to the Blogs page with the URL handle as a parameter
+                return RedirectToAction("Index", "Blogs", new { urlHandle = blogDetailsViewModel.UrlHandle });
             }
 
-            return View();
+            // If the user is not authenticated, return the login page or show an error
+            return Unauthorized("You need to be logged in to post a comment.");
         }
+
     }
 }

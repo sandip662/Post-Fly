@@ -1,6 +1,11 @@
 ﻿using Bloggie.Web.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Text.Encodings.Web;
 
 namespace Bloggie.Web.Controllers
@@ -9,13 +14,17 @@ namespace Bloggie.Web.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
+        private readonly IConfiguration configuration;
 
-        public AccountController(UserManager<IdentityUser> userManager,
+        public AccountController(UserManager<IdentityUser> userManager, IConfiguration configuration,
             SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.configuration = configuration;
+
         }
+
 
 
         [HttpGet]
@@ -74,39 +83,67 @@ namespace Bloggie.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                TempData["ErrorMessage"] = "Invalid login details.";
+                return View(loginViewModel);
             }
 
-            var signInResult = await signInManager.PasswordSignInAsync(loginViewModel.Username,
-                loginViewModel.Password, false, false);
-
-            if (signInResult != null && signInResult.Succeeded)
+            var user = await userManager.FindByNameAsync(loginViewModel.Username);
+            if (user != null && await userManager.CheckPasswordAsync(user, loginViewModel.Password))
             {
-                if (!string.IsNullOrWhiteSpace(loginViewModel.ReturnUrl))
+                var userRoles = await userManager.GetRolesAsync(user);
+
+                var authClaims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(ClaimTypes.NameIdentifier, user.Id) // 👈 Add this line
+                    };
+
+
+                foreach (var role in userRoles)
                 {
-                    
-                    return Redirect(loginViewModel.ReturnUrl);
+                    authClaims.Add(new Claim(ClaimTypes.Role, role));
                 }
 
+                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+
+                var token = new JwtSecurityToken(
+                    issuer: configuration["Jwt:Issuer"],
+                    audience: configuration["Jwt:Audience"],
+                    expires: DateTime.Now.AddHours(3),
+                    claims: authClaims,
+                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+
+                var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+                // Save token in a cookie
+                HttpContext.Response.Cookies.Append("jwtToken", jwtToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    Expires = token.ValidTo,
+                    SameSite = SameSiteMode.Strict // Or Lax, depending on your needs
+                });
+
+                // Redirect to homepage after successful login
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                TempData["ErrorMessage"] = "⚠️ username or password incorrect.";
-            }
 
-            // Show errors
-            return View();
+            TempData["ErrorMessage"] = "Invalid username or password.";
+            return View(loginViewModel);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Logout()
+        public IActionResult Logout()
         {
-            await signInManager.SignOutAsync();
+            // Remove the JWT cookie
+            Response.Cookies.Delete("jwtToken");
+
             return RedirectToAction("Index", "Home");
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult AccessDenied()
         {
