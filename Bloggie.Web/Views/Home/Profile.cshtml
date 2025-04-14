@@ -1,11 +1,13 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> signInManager
-@inject UserManager<IdentityUser> userManager
+﻿@{
+    var username = User.Identity != null && User.Identity.IsAuthenticated
+        ? User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value
+        : null;
 
-@{
-    var user = signInManager.IsSignedIn(User) ? await userManager.GetUserAsync(User) : null;
-    
+    var email = User.Identity != null && User.Identity.IsAuthenticated
+        ? User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value
+        : null;
 }
+
 <link href="~/css/profile.css" rel="stylesheet" />
 
 <style>
@@ -13,21 +15,15 @@
         background: url('/assets/images/account.jpg') no-repeat center center fixed;
         background-size: cover;
     }
-
 </style>
 
 <body>
-
-
     <section>
         <div class="container">
             <div class="row justify-content-center">
-
-
                 <div class="col-8 col-md-6">
                     <div class="jelly-card">
                         <div class="card py-3 ">
-
                             <div class="row">
                                 <div class="col-12 col-sm-10 col-md-4 col-lg-3 jelly-bloc text-center text-md-start">
                                     <img src="~/assets/images/jelly.png" class="card-img-top card-pic slowfloat2s" alt="meduse">
@@ -36,29 +32,22 @@
                                     <div class="card-body">
                                         <h5 class="card-title" style="border: 2px solid #004b95; padding: 10px; border-radius: 8px; display: inline-flex; align-items: center; gap: 8px; background: #f8f9fa00; color: #333;">
                                             <i class="bi bi-person-circle" style="font-size: 1.2em; color: #004b95;"></i>
-                                            @user?.UserName
+                                            @username
                                         </h5>
 
                                         <div class="line"></div>
-                                        
-                                        <p class="text-dark mb-2 font-16"><strong>Full Name:</strong> <span class="ms-2">@user?.UserName</span></p>
-                                        <p class="text-dark mb-2 font-16"><strong>Email:</strong> <span class="ms-2">@user?.Email</span></p>
-                                        
-                                        <i class="star fas fa-paper-plane slowfloat3s" style="color:#004b95"></i>
 
+                                        <p class="text-dark mb-2 font-16"><strong>Full Name:</strong> <span class="ms-2">@username</span></p>
+                                        <p class="text-dark mb-2 font-16"><strong>Email:</strong> <span class="ms-2">@email</span></p>
+
+                                        <i class="star fas fa-paper-plane slowfloat3s" style="color:#004b95"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </section>
-
-
-
-
 </body>

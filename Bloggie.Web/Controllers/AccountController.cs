@@ -39,31 +39,71 @@ namespace Bloggie.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var identityUser = new IdentityUser
+                return View(registerViewModel);
+            }
+
+            var identityUser = new IdentityUser
+            {
+                UserName = registerViewModel.Username,
+                Email = registerViewModel.Email
+            };
+
+            var identityResult = await userManager.CreateAsync(identityUser, registerViewModel.Password);
+
+            if (identityResult.Succeeded)
+            {
+                // Assign the "User" role
+                var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User");
+
+                if (roleIdentityResult.Succeeded)
                 {
-                    UserName = registerViewModel.Username,
-                    Email = registerViewModel.Email
-                };
+                    // Get roles (only one in this case)
+                    var userRoles = await userManager.GetRolesAsync(identityUser);
 
-                var identityResult = await userManager.CreateAsync(identityUser, registerViewModel.Password);
+                    var authClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, identityUser.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, identityUser.Id),
+                new Claim(ClaimTypes.Email, identityUser.Email) // ✅ Include email
+            };
 
-                if (identityResult.Succeeded)
-                {
-                    // assign this user the "User" role
-                    var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User");
-
-                    if (roleIdentityResult.Succeeded)
+                    foreach (var role in userRoles)
                     {
-                        // Show success notification
-                        return RedirectToAction("Register");
+                        authClaims.Add(new Claim(ClaimTypes.Role, role));
                     }
+
+                    var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+
+                    var token = new JwtSecurityToken(
+                        issuer: configuration["Jwt:Issuer"],
+                        audience: configuration["Jwt:Audience"],
+                        expires: DateTime.Now.AddHours(3),
+                        claims: authClaims,
+                        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                    );
+
+                    var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+                    // Save token in cookie
+                    HttpContext.Response.Cookies.Append("jwtToken", jwtToken, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        Expires = token.ValidTo,
+                        SameSite = SameSiteMode.Strict
+                    });
+
+                    // ✅ Redirect to homepage or profile after successful registration
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
-            // Show error notification
-            return View();
+            // If something fails, show form again
+            ModelState.AddModelError("", "Registration failed. Please try again.");
+            return View(registerViewModel);
         }
 
         [HttpGet]
@@ -96,8 +136,10 @@ namespace Bloggie.Web.Controllers
                     {
                         new Claim(ClaimTypes.Name, user.UserName),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                         new Claim(ClaimTypes.Email, user.Email),
                         new Claim(ClaimTypes.NameIdentifier, user.Id) // 👈 Add this line
-                    };
+                    
+                };
 
 
                 foreach (var role in userRoles)
