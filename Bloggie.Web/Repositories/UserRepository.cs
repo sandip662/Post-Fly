@@ -1,5 +1,7 @@
 ﻿using Bloggie.Web.Data;
+using Bloggie.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bloggie.Web.Repositories
@@ -79,18 +81,25 @@ namespace Bloggie.Web.Repositories
 
         public async Task<int> SearchCountAsync(string searchQuery)
         {
+            
             return await authDbContext.Users
                 .Where(x => x.UserName.Contains(searchQuery))
                 .CountAsync();
-       
-        
-        
         }
 
 
+        public async Task<IdentityUser?> GetByUserId(Guid userId)
+        {
+            var user = await authDbContext.Users
+                .Where(u => u.Id == userId.ToString())
+                .FirstOrDefaultAsync();
 
+         
 
-   public async Task<int> GetCountAsync()
+            return user;
+        }
+
+        public async Task<int> GetCountAsync()
 {
     var adminRole = await authDbContext.Roles
         .FirstOrDefaultAsync(r => r.Name == "Admin");

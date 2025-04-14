@@ -54,51 +54,7 @@ namespace Bloggie.Web.Controllers
 
             if (identityResult.Succeeded)
             {
-                // Assign the "User" role
-                var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User");
-
-                if (roleIdentityResult.Succeeded)
-                {
-                    // Get roles (only one in this case)
-                    var userRoles = await userManager.GetRolesAsync(identityUser);
-
-                    var authClaims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, identityUser.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, identityUser.Id),
-                new Claim(ClaimTypes.Email, identityUser.Email) // ✅ Include email
-            };
-
-                    foreach (var role in userRoles)
-                    {
-                        authClaims.Add(new Claim(ClaimTypes.Role, role));
-                    }
-
-                    var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
-
-                    var token = new JwtSecurityToken(
-                        issuer: configuration["Jwt:Issuer"],
-                        audience: configuration["Jwt:Audience"],
-                        expires: DateTime.Now.AddHours(3),
-                        claims: authClaims,
-                        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
-
-                    var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-                    // Save token in cookie
-                    HttpContext.Response.Cookies.Append("jwtToken", jwtToken, new CookieOptions
-                    {
-                        HttpOnly = true,
-                        Secure = true,
-                        Expires = token.ValidTo,
-                        SameSite = SameSiteMode.Strict
-                    });
-
-                    // ✅ Redirect to homepage or profile after successful registration
-                    return RedirectToAction("Index", "Home");
-                }
+                return RedirectToAction("Login", "Account");
             }
 
             // If something fails, show form again

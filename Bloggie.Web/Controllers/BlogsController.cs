@@ -15,18 +15,21 @@ namespace Bloggie.Web.Controllers
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
         private readonly IBlogPostCommentRepository blogPostCommentRepository;
+        private readonly IUserRepository userRepository;
 
         public BlogsController(IBlogPostRepository blogPostRepository,
             IBlogPostLikeRepository blogPostLikeRepository,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IBlogPostCommentRepository blogPostCommentRepository)
+            IBlogPostCommentRepository blogPostCommentRepository,
+            IUserRepository userRepository)
         {
             this.blogPostRepository = blogPostRepository;
             this.blogPostLikeRepository = blogPostLikeRepository;
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.blogPostCommentRepository = blogPostCommentRepository;
+            this.userRepository = userRepository;
         }
 
 
@@ -78,11 +81,19 @@ namespace Bloggie.Web.Controllers
 
                 foreach (var blogComment in blogCommentsDomainModel)
                 {
+                    var userExist = await userRepository.GetByUserId(blogComment.UserId);
+                    string Username = "Unknown";
+                    if (userExist is not null)
+                    {
+                        Username = (await userManager.FindByIdAsync(blogComment.UserId.ToString())).UserName;
+                    }
+                   
+                    
                     blogCommentsForView.Add(new BlogComment
                     {
                         Description = blogComment.Description,
                         DateAdded = blogComment.DateAdded,
-                        Username = (await userManager.FindByIdAsync(blogComment.UserId.ToString())).UserName
+                        Username = Username
                     });
                 }
 

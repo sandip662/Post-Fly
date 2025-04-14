@@ -11,7 +11,7 @@ namespace Bloggie.Web.Repositories
              int pageNumber = 1,
              int pageSize = 100);
 
-
+        Task<IdentityUser?> GetByUserId(Guid userId);
         Task<int> CountAsync();
 
         Task<int> SearchCountAsync(string searchQuery);
