@@ -67,24 +67,26 @@ builder.Services.AddAuthentication(options =>
             }
             return Task.CompletedTask;
         },
+
         OnChallenge = context =>
         {
             context.HandleResponse();
 
-            // If not authenticated (401), redirect to login
-            if (!context.HttpContext.User.Identity.IsAuthenticated)
-            {
-                context.HttpContext.Response.Redirect("/Account/Login");
-            }
-            else
-            {
-                // If authenticated but not authorized (403), redirect to access denied
-                context.HttpContext.Response.Redirect("/Account/AccessDenied");
-            }
+            var requestPath = context.HttpContext.Request.Path + context.HttpContext.Request.QueryString;
+            var encodedReturnUrl = Uri.EscapeDataString(requestPath);
 
+            context.HttpContext.Response.Redirect($"/Account/Login?returnUrl={encodedReturnUrl}");
+            return Task.CompletedTask;
+        },
+
+        OnForbidden = context =>
+        {
+            context.Response.Redirect("/Account/AccessDenied");
             return Task.CompletedTask;
         }
     };
+
+
 
     options.TokenValidationParameters = new TokenValidationParameters
     {

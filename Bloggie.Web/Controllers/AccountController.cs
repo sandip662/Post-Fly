@@ -63,11 +63,11 @@ namespace Bloggie.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login(string ReturnUrl)
+        public IActionResult Login(string returnUrl)
         {
             var model = new LoginViewModel
             {
-                ReturnUrl = ReturnUrl
+                ReturnUrl = returnUrl // Capture the ReturnUrl from the query string
             };
 
             return View(model);
@@ -124,13 +124,16 @@ namespace Bloggie.Web.Controllers
                     SameSite = SameSiteMode.Strict // Or Lax, depending on your needs
                 });
 
-                // Redirect to homepage after successful login
-                return RedirectToAction("Index", "Home");
+                var returnUrl = loginViewModel.ReturnUrl ?? "/Home/Index";
+                return Redirect(returnUrl); // Redirect to the page the user was originally trying to access
             }
 
             TempData["ErrorMessage"] = "Invalid username or password.";
             return View(loginViewModel);
         }
+
+
+
 
         [HttpGet]
         public IActionResult Logout()
@@ -141,7 +144,7 @@ namespace Bloggie.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [AllowAnonymous]
+        
         [HttpGet]
         public IActionResult AccessDenied()
         {
