@@ -228,10 +228,10 @@
         @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
         {
 
-            <div class="topnav" style="    background: rgb(237 237 237); border: 1px solid rgb(255 255 255);box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+            <div class="topnav bordernav" style="    background: rgb(237 237 237); border: 1px solid rgb(255 255 255);box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
 
                 <div class="container-fluid">
-                    <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
+                    <nav class="navbar navbar-light navbar-expand-lg topnav-menu newtopnandrop">
 
                         <div class="collapse navbar-collapse" id="topnav-menu-content">
                             <ul class="navbar-nav">
@@ -398,19 +398,167 @@
                         <div class="alert alert-warning" role="alert">
                             <strong>Customize </strong> the overall color scheme, sidebar menu, etc.
                         </div>
+                            <style>
+                                /* General dark mode theme */
+                                .dark-mode {
+                                    background-color: #424e5a !important;
+                                    color: white !important;
+                                }
 
-                        <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Color Scheme</h6>
-                        <div class="form-check form-switch mb-1">
-                            <input type="checkbox" class="form-check-input" name="layout-color" value="light"
-                                   id="light-mode-check" checked />
-                            <label class="form-check-label" for="light-mode-check">Light Mode</label>
-                        </div>
+                                    .dark-mode a {
+                                        color: #ddd;
+                                    }
 
-                        <div class="form-check form-switch mb-1">
-                            <input type="checkbox" class="form-check-input" name="layout-color" value="dark"
-                                   id="dark-mode-check" />
-                            <label class="form-check-label" for="dark-mode-check">Dark Mode</label>
-                        </div>
+                                    .dark-mode .form-control,
+                                    .dark-mode .card,
+                                    .dark-mode .navbar,
+                                    .dark-mode .modal-content {
+                                        background-color: #4e5a66 !important;
+                                        color: white !important;
+                                    }
+
+                                /* Topnav and newtopnandrop styling */
+                                .topnav,
+                                .newtopnandrop {
+                                    background-color: rgb(237 237 237);
+                                    
+                                    color: #000;
+                                }
+
+                                .dark-mode .topnav,
+                                .dark-mode .newtopnandrop {
+                                    background-color: #424e5a !important;
+                                    color: white !important;
+                                }
+
+                                    .dark-mode .topnav a,
+                                    .dark-mode .topnav .nav-link,
+                                    .dark-mode .topnav button,
+                                    .dark-mode .topnav i,
+                                    .dark-mode .newtopnandrop a,
+                                    .dark-mode .newtopnandrop .nav-link,
+                                    .dark-mode .newtopnandrop button,
+                                    .dark-mode .newtopnandrop i {
+                                        color: white !important;
+                                    }
+
+                                /* Dropdown items */
+                                .dropdown-item {
+                                    color: #424e5a !important;
+                                }
+
+                                .dark-mode .dropdown-item {
+                                    color: white !important;
+                                    background-color: #4e5a66 !important;
+                                }
+
+                                .dropdown-item:hover {
+                                    background-color: rgba(66, 78, 90, 0.1);
+                                }
+
+                                .dark-mode .dropdown-item:hover {
+                                    background-color: rgba(255, 255, 255, 0.1);
+                                }
+
+                                /* bordernav default (light mode) */
+                                .bordernav {
+                                    border: none;
+                                }
+
+                                /* bordernav dark mode border */
+                                .dark-mode .bordernav {
+                                    border: 1px solid #424e5a !important;
+                                }
+
+                                .dark-mode h4 {
+                                    color: white !important;
+                                }
+
+                                .dark-mode .btn-outline-secondary {
+                                    color: white !important;
+                                    border-color: white !important;
+                                }
+
+                                    .dark-mode .btn-outline-secondary:hover,
+                                    .dark-mode .btn-outline-secondary:focus {
+                                        background-color: white !important;
+                                        color: #424e5a !important; /* dark background color for contrast */
+                                        border-color: white !important;
+                                    }
+
+                                .dark-mode #ulstylenew {
+                                    background: linear-gradient(182deg, #424e5a, #5b6670);
+                                    color: white !important;
+                                   
+                                }
+
+                                .dark-mode .newul {
+                                    background: linear-gradient(182deg, #424e5a, #5b6670) !important;
+                                    color: white !important;
+                                   
+                                }
+
+                                    .dark-mode .newul h4 {
+                                        color: white !important;
+                                    }
+
+                                    .dark-mode .newul span {
+                                        color: white !important;
+                                    }
+
+                                .dark-mode .bbttom {
+                                    border-bottom: 2px solid white;
+                                }
+
+                                .dark-mode strong {
+                                    color: #aecced !important;
+                                }
+
+                                .dark-mode .dc {
+                                    color: #aecced !important;
+                                }
+
+                                .dark-mode .newth {
+                                    color: #aecced !important;
+                                }
+
+                                .dark-mode span {
+                                    color: white !important;
+                                }
+
+
+
+                            </style>
+
+
+
+
+
+                            <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Color Scheme</h6>
+
+                            <div class="form-check form-switch mb-1">
+                                <input type="checkbox" class="form-check-input"
+                                       id="dark-mode-toggle" />
+                                <label class="form-check-label" for="dark-mode-toggle">Dark Mode</label>
+                            </div>
+
+                            <script>
+                                const toggle = document.getElementById('dark-mode-toggle');
+
+                                // Apply saved mode on load
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    const isDark = localStorage.getItem('darkMode') === 'true';
+                                    toggle.checked = isDark;
+                                    document.body.classList.toggle('dark-mode', isDark);
+                                });
+
+                                // Toggle on checkbox change
+                                toggle.addEventListener('change', () => {
+                                    const isDark = toggle.checked;
+                                    document.body.classList.toggle('dark-mode', isDark);
+                                    localStorage.setItem('darkMode', isDark);
+                                });
+                            </script>
 
                         <!-- Width -->
                         <h6 class="fw-medium font-14 mt-4 mb-2 pb-1">Width</h6>
