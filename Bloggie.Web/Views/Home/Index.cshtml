@@ -165,9 +165,9 @@
                         {
                             foreach (var blogPost in Model.LatestBlogPosts.Take(3))
                             {
-                                <div style="flex: 0 0 auto; width: 170px;">
+                                <div class="scr"style="flex: 0 0 auto; width: 170px;">
                                     <a asp-controller="Blogs" asp-action="Index" asp-route-searchQuery="null" asp-route-urlHandle="@blogPost.UrlHandle" style="text-decoration: none;">
-                                        <div style="display: flex; align-items: center; border: 1px solid slategray; border-radius: 5px; padding: 5px; background-color: #fdfdfd;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                                        <div class="scr" style="display: flex; align-items: center; border: 1px solid slategray; border-radius: 5px; padding: 5px; background-color: #fdfdfd;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                                             <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading" style="height: 43px; width: 53px; object-fit: cover; border-radius: 3px; margin-right: 6px;" />
                                             <div style="font-size: 10px; font-weight: 600; color: slategray; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                 @blogPost.Heading
@@ -817,7 +817,7 @@
                                                     <h4 class="mb-1" style="font-size:14px; font-weight: bold;">@blogPost.Heading</h4>
                                                 </div>
 
-                                            <div class="col-md-5" style="color:slategray;">
+                                            <div class="col-md-5 okcc" style="color:slategray;">
                                                     @{
                                                         DateTime publishedDate = blogPost.PublishedDate;
                                                         DateTime now = DateTime.Now;
@@ -1106,7 +1106,7 @@ box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                             {
                                 <div style="flex: 0 0 auto; width: 170px;">
                                     <a asp-controller="Blogs" asp-action="Index" asp-route-searchQuery="null" asp-route-urlHandle="@blogPost.UrlHandle" style="text-decoration: none;">
-                                        <div style="display: flex; align-items: center; border: 1px solid slategray; border-radius: 5px; padding: 5px; background-color: #fdfdfd;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                                        <div class="scr" style="display: flex; align-items: center; border: 1px solid slategray; border-radius: 5px; padding: 5px; background-color: #fdfdfd;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                                             <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading" style="height: 43px; width: 53px; object-fit: cover; border-radius: 3px; margin-right: 6px;" />
                                             <div style="font-size: 10px; font-weight: 600; color: slategray; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                 @blogPost.Heading
