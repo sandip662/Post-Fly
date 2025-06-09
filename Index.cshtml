@@ -1,0 +1,2063 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model Bloggie.Web.Models.ViewModels.HomeViewModel
+@inject SignInManager<IdentityUser> signInManager
+@inject UserManager<IdentityUser> userManager
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    #most-liked-blog::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #most-liked-blog::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    #most-liked-blog::-webkit-scrollbar-thumb {
+        background-color: slategray;
+        border-radius: 10px;
+    }
+
+        #most-liked-blog::-webkit-scrollbar-thumb:hover {
+            background-color: slategray;
+        }
+
+    /* Firefox support */
+    #most-liked-blog {
+        scrollbar-width: thin;
+        scrollbar-color:gray lightgray;
+    }
+</style>
+<style>
+    /* Scrollable Tag Container */
+    .tags-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 10px 0;
+    background: white;
+    }
+
+    /* Scrollable Area */
+    .tags-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding: 10px;
+    white-space: nowrap;
+    scrollbar-width: none; /* Hides scrollbar in Firefox */
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    width: 100%;
+    }
+
+    /* Hide scrollbar in WebKit browsers (Chrome, Safari) */
+    .tags-scroll::-webkit-scrollbar {
+    display: none;
+    }
+
+    /* Tag Card Styling */
+    .tag-card {
+    min-width: 130px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    background: aliceblue;
+    color: #333;
+    text-align: center;
+    scroll-snap-align: start;
+    }
+
+    /* Hover Effect */
+    .tag-card:hover {
+    transform: scale(1.05);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Arrow Buttons */
+    .scroll-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    color: black;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+    }
+
+    .left-arrow {
+    left: 10px;
+    }
+
+    .right-arrow {
+    right: 10px;
+    }
+
+</style>
+
+<style>
+
+    .custom-back-btn {
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ff9900, #ff5500);
+    border-radius: 22px;
+    cursor: pointer;
+    border: none;
+    height: 38px;
+    }
+
+    .custom-back-btn > svg {
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 20px;
+    transition: all 0.4s ease-in;
+    }
+
+    .custom-back-btn:hover > svg {
+    font-size: 1.2em;
+    transform: translateX(-5px);
+    }
+
+    .custom-back-btn:hover {
+    box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #ffffff;
+    transform: translateY(-2px);
+    }
+</style>
+
+
+
+
+
+
+
+    @if (User.Identity.IsAuthenticated)
+    {
+      
+    <div class="card mt-2">
+        <div class="card-body" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid slategray; padding: 10px;">
+
+          @*   <div style="background: linear-gradient(90deg, #f86b1d, #f97316); color: white; width: 100%; text-align: center; padding: 4px 0; border-radius: 3px;" class="mb-2">
+                Headline
+            </div> *@
+
+            <div id="scroll-container" style="width: 100%; overflow: hidden; position: relative; height: 65px;">
+                <div id="scroll-content" style="display: flex; gap: 20px; position: absolute; top: 0; left: 0; white-space: nowrap;">
+
+                    @if (Model != null && Model.LatestBlogPosts.Any())
+                    {
+                        // Repeat 4+ times depending on how many items & screen width
+                        for (int i = 0; i < 5; i++)
+                        {
+                            foreach (var blogPost in Model.LatestBlogPosts.Take(3))
+                            {
+                                <div class="scr"style="flex: 0 0 auto; width: 170px;">
+                                    <a asp-controller="Blogs" asp-action="Index" asp-route-searchQuery="null" asp-route-urlHandle="@blogPost.UrlHandle" style="text-decoration: none;">
+                                        <div class="scr" style="display: flex; align-items: center; border: 1px solid slategray; border-radius: 5px; padding: 5px; background-color: #fdfdfd;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                                            <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading" style="height: 43px; width: 53px; object-fit: cover; border-radius: 3px; margin-right: 6px;" />
+                                            <div style="font-size: 10px; font-weight: 600; color: slategray; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                @blogPost.Heading
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const content = document.getElementById("scroll-content");
+            let position = 0;
+
+            function scrollLoop() {
+                position -= 1;
+                const resetPoint = content.scrollWidth / 2;
+
+                if (Math.abs(position) >= resetPoint) {
+                    position = 0; // Restart at perfect reset point
+                }
+
+                content.style.transform = `translateX(${position}px)`;
+            }
+
+            setInterval(scrollLoop, 20); // Speed of scroll
+        });
+    </script>
+
+
+
+ 
+
+
+
+
+
+        <div class="row mt-2">
+
+            <div class="col-xl-3 col-lg-6 order-lg-1 order-xl-1">
+
+
+                <!-- start profile info -->
+                <div class="card">
+                <div class="card-body p-2" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid slategray">
+
+                        <!-- Header with Buttons -->
+                    <div class="bbttom" style="display: flex; justify-content: space-between; align-items: center;border-bottom: 2px solid #727f8d;padding-bottom: 6px; margin-bottom: 15px;">
+                        <h4 class="header-title mb-0" style="
+                            color: #3d4650;
+                            font-weight: 700;
+                            font-size: 18px;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                            margin: 0;
+                            ">
+                            <i class="fas fa-clock" style="margin-right: 6px;"></i> Latest Post
+
+                        </h4>
+                            <div style="display: flex; gap: 5px;">
+                                <button onclick="scrollPosts(-1)" class="btn btn-sm btn-outline-secondary p-1"
+                                    style="width: 30px; height: 28px; border:1px solid dimgrey;">
+                                <i class="bi bi-chevron-up" style="color: black"></i>
+                                </button>
+
+                                <button onclick="scrollPosts(1)" class="btn btn-sm btn-outline-secondary p-1"
+                                    style="width: 30px; height: 28px; border:1px solid dimgrey;">
+                                <i class="bi bi-chevron-down" style="color: black"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Scrollable Container -->
+                        <div id="postScrollContainer" style="max-height: 402px; overflow: hidden; position: relative; transition: transform 0.5s ease;">
+                            <div id="postScrollInner" style="position: relative; transition: transform 0.4s ease;">
+                                @if (Model != null && Model.LatestBlogPosts.Any())
+                                {
+                                    foreach (var blogPost in Model.LatestBlogPosts)
+                                    {
+                                        <div class="gal-box mt-3" style="position: relative;">
+                                            <a asp-area=""
+                                               asp-controller="Blogs"
+                                               asp-action="Index"
+                                               asp-route-searchQuery=null
+                                               asp-route-urlHandle="@blogPost.UrlHandle"
+                                               style="display: block; position: relative;">
+
+                                                <!-- 🖼️ Image -->
+                                                <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading"
+                                                     class="mb-2 d-flex align-self-center me-3"
+                                                     style="height: 105px; width: 100%; border-radius: 5px; object-fit: cover;" />
+
+                                                <!-- 🧠 Heading -->
+                                                <h3 style="
+                                    position: absolute;
+                                    top: 71%;
+                                    left: 0px;
+                                    transform: translateY(-50%);
+                                    margin: 0;
+                                    padding: 14px 10px;
+                                    font-size: 8px;
+                                    font-weight: 600;
+                                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                    color: white;
+                                    letter-spacing: 0.5px;
+                                    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+                                    border-radius: 5px;
+                                    overflow: hidden;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 2;
+                                    -webkit-box-orient: vertical;
+                                    text-overflow: ellipsis;">
+                                                    @blogPost.Heading
+                                                </h3>
+                                            </a>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inline Script -->
+                <script>
+                    let scrollIndex = 0;
+                    const postHeight = 130; // Height of each post block (including margin)
+                    const postsPerView = 3;
+                    const totalPosts = @Model.LatestBlogPosts.Count();
+                    const container = document.getElementById('postScrollInner');
+
+                    function scrollPosts(direction) {
+                        const maxIndex = Math.ceil(totalPosts / postsPerView) - 1;
+                        scrollIndex += direction;
+
+                        if (scrollIndex < 0) scrollIndex = 0;
+                        if (scrollIndex > maxIndex) scrollIndex = maxIndex;
+
+                        const offset = scrollIndex * postsPerView * postHeight * -1;
+                        container.style.transform = `translateY(${offset}px)`;
+                    }
+                </script>
+
+
+                <!-- end profile info -->
+
+
+            </div>
+
+            <div class="col-xl-6 col-lg-12 order-lg-2 order-xl-1">
+                <div class="card">
+                    <div class="card-body p-2" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid slategray;">
+                        @if (Model != null && Model.BlogPosts.Any())
+                        {
+                            var carouselId = "carouselBlogPosts";
+                            var blogPosts = Model.LatestBlogPosts
+                            .OrderByDescending(b => b.PublishedDate)
+                            .Take(7)
+                            .ToList();
+
+                            <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+
+                                    @for (int i = 0; i < blogPosts.Count; i++)
+                                    {
+                                        var post = blogPosts[i];
+                                        var isActive = i == 0 ? "active" : "";
+
+                                        <div class="carousel-item @isActive" data-tags="@string.Join(",", post.Tags.Select(t => t.Name.ToLower()))">
+                                            <div class="position-relative">
+
+                                            <img src="@post.FeaturedImageUrl" alt="@post.Heading"
+                                                 class="d-block w-100 img-fluid"
+                                                 style="object-fit: cover; height: 430px;" />
+
+
+                                                <div style="
+                                                position: absolute;
+                                                top: 55%;
+                                                left: 20px;
+                                                color: white;
+                                                padding: 10px 15px;
+                                                border-radius: 10px;
+                                                width: 90%;
+                                                max-width: 90%;">
+
+                                                    <!-- 🔖 Tags + Date line -->
+                                                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+                                                        @foreach (var tag in post.Tags)
+                                                        {
+                                                            <span style="
+                                                            background: @GetRandomTagColor(tag.Name);
+                                                            color: white;
+                                                            padding: 4px 10px;
+                                                            border-radius: 7px;
+                                                            font-size: 10px;
+                                                            text-transform: capitalize;
+                                                        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+                                                        border:1px solid white">
+                                                                #@tag.Name
+                                                            </span>
+                                                        }
+
+                                                        <!-- 🕒 Date with Icon -->
+                                                        <span style="display: flex; align-items: center; font-size: 0.85rem; gap: 5px; color: #eee;">
+                                                            <i class="bi bi-clock" style="font-size: 1rem;"></i> <!-- Bootstrap Icon -->
+                                                            @{
+                                                                DateTime publishedDate = post.PublishedDate;
+                                                                DateTime now = DateTime.Now;
+                                                                TimeSpan timeDifference = now - publishedDate;
+
+                                                                string formattedDate;
+
+                                                                if (timeDifference.TotalDays < 1)
+                                                                {
+                                                                    formattedDate = "Today";
+                                                                }
+                                                                else if (timeDifference.TotalDays < 7)
+                                                                {
+                                                                    int days = (int)timeDifference.TotalDays;
+                                                                    formattedDate = $"{days} day{(days > 1 ? "s" : "")} ago";
+                                                                }
+                                                                else if (timeDifference.TotalDays < 30)
+                                                                {
+                                                                    int weeks = (int)(timeDifference.TotalDays / 7);
+                                                                    formattedDate = $"{weeks} week{(weeks > 1 ? "s" : "")} ago";
+                                                                }
+                                                                else if (timeDifference.TotalDays < 365)
+                                                                {
+                                                                    int months = (int)(timeDifference.TotalDays / 30);
+                                                                    formattedDate = $"{months} month{(months > 1 ? "s" : "")} ago";
+                                                                }
+                                                                else
+                                                                {
+                                                                    int years = (int)(timeDifference.TotalDays / 365);
+                                                                    formattedDate = $"{years} year{(years > 1 ? "s" : "")} ago";
+                                                                }
+                                                            }
+                                                            @formattedDate
+                                                        </span>
+                                                    </div>
+
+                                                    <h3 style="
+                                                margin: 10px 0 5px 0;
+                                                font-size: 21px;
+                                                font-weight: 600;
+                                                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                                color: white;
+                                                letter-spacing: 0.5px;
+                                                text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+                                                overflow: hidden;
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 2;
+                                                -webkit-box-orient: vertical;
+                                                text-overflow: ellipsis;">
+                                                        @post.Heading
+                                                    </h3>
+
+
+                                                    <!-- 📄 Description -->
+                                                    <p class="mt-2 mb-2" style="
+                                                        overflow: hidden;
+                                                         font-size: 11px;
+                                                        display: -webkit-box;
+                                                        -webkit-line-clamp: 3;
+                                                        -webkit-box-orient: vertical;
+                                                        text-overflow: ellipsis;">
+                                                        @post.ShortDescription
+                                                    </p>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    }
+                                </div>
+
+                                <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+
+            </div>
+
+        <div class="col-xl-3 col-lg-6 order-lg-1 order-xl-2">
+            <div class="card">
+                <div class="card-body" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid slategray;">
+
+                    <!-- Heading and buttons in a single flex row -->
+                    <!-- Heading and buttons in a single flex row -->
+                    <div class="bbttom" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #727f8d; padding-bottom: 6px; margin-bottom: 15px;">
+                        <h4 class="header-title mb-0" style="
+                        color: #3d4650;
+                        font-weight: 700;
+                        font-size: 18px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        margin: 0;
+                        ">
+                            <i class="fas fa-fire-alt" style="margin-right: 6px;"></i> Trending Posts
+                        </h4>
+                    </div>
+
+                    <div id="most-liked-blog" style="max-height: 363px; overflow-y: auto; padding-right: 6px;">
+                        <p>Loading...</p>
+                    </div>
+
+                  
+
+
+@*                     <div id="most-liked-blog">
+                        <p>Loading...</p>
+                    </div> *@
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                fetch('/Blogs/GetMostLikedBlogs') // Notice "Blogs" plural now
+                    .then(res => res.json())
+                    .then(data => {
+                        const container = document.getElementById('most-liked-blog');
+                        container.innerHTML = ''; // Clear previous content
+
+                        data.forEach(post => {
+                            const publishedDate = formatDate(post.publishedDate);
+
+                            container.innerHTML += `
+                                <a href="/Blogs?searchQuery=null&urlHandle=${post.urlHandle}" class="text-decoration-none" >
+                                                <ul class="list-unstyled newul"  style="border: 1px solid slategray; padding:7px; border-radius:5px; margin-bottom: 10px;padding-top: 16px;height:111px;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);background:linear-gradient(182deg, #fafdff, #dcdcdc);">
+                                        <li class="mb-2" id="ulstylenew">
+                                            <div style="display: flex; align-items: center;">
+                                                <div style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid slategray; background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-user" style="color: slategray; font-size: 11px;"></i>
+                                                </div>
+                                                <span style="margin-left: 8px; font-size: 14px; font-weight: bold; color:#434d56;">${post.author}</span>
+                                            </div>
+
+                                            <div>
+                                                <h4 class="mb-1" style="font-size:10px; font-weight: bold;">${post.title}</h4>
+                                            </div>
+
+                                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color:black; margin-top: 4px;">
+                                                <span>${publishedDate}</span>
+                                                <span class="badge" style="background-color:slategray;">${post.totalLikes} ❤</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </a>
+                            `;
+                        });
+                    })
+                    .catch(err => {
+                        document.getElementById('most-liked-blog').innerHTML = `<p>Error loading posts.</p>`;
+                        console.error(err);
+                    });
+
+                // Helper function to format the published date
+                function formatDate(published) {
+                    const publishedDate = new Date(published);
+                    const now = new Date();
+                    const diff = now - publishedDate;
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+                    if (days < 1) return "Today";
+                    if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+                    if (days < 30) return `${Math.floor(days / 7)} week${Math.floor(days / 7) > 1 ? 's' : ''} ago`;
+                    if (days < 365) return `${Math.floor(days / 30)} month${Math.floor(days / 30) > 1 ? 's' : ''} ago`;
+                    return `${Math.floor(days / 365)} year${Math.floor(days / 365) > 1 ? 's' : ''} ago`;
+                }
+            });
+        </script>
+
+
+
+        
+        </div>
+
+     
+
+
+
+        <div class="row mt-2">
+
+
+            <div class="col-lg-8 order-lg-1 order-2">
+                @if (Model != null && Model.BlogPosts.Any())
+                {
+                    @foreach (var blogPost in Model.BlogPosts.OrderByDescending(b => b.PublishedDate))
+                    {
+                        <div class="card mb-3 shadow-sm blog-post" data-tags="@string.Join(",", blogPost.Tags.Select(t => t.Name.ToLower()))">
+                        <div class="card-body" style="border: 1px solid slategray; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                                <div class="row">
+                                    <!-- Blog Image -->
+                                    <div class="col-sm-4">
+                                        <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading"
+                                             style="height: 200px; width: 100%; border-radius: 8px; object-fit: cover;" />
+                                    </div>
+
+                                    <!-- Blog Details -->
+                                <div class="col-sm-8">
+                                        <a asp-area="" asp-controller="Blogs" asp-action="Index" asp-route-urlHandle="@blogPost.UrlHandle">
+                                        <h4 style="font-size: 20px; font-weight: 700; color: #3d4650;">@blogPost.Heading</h4>
+                                        </a>
+                                    <p class="mb-1 dc" style="color:slategray;">
+                                        <strong style="color:slategray;">
+                                        Author:</strong> @blogPost.Author
+
+                    </p>
+                                        <p>@blogPost.ShortDescription</p>
+                                    </div>
+                                </div>
+
+                            <hr style="border-top: 1px solid slategray;margin-top: 1rem;" />
+
+                                <!-- Tags & Date -->
+                                <div class="row align-items-center">
+                                    <div class="col-md-7">
+                                        <p>
+                                            @foreach (var tag in blogPost.Tags)
+                                            {
+                                            <a href="#" class="badge tag-filter" style="background-color: white; color: #3d4650; border: 1px solid #3d4650; border-radius: 5px; margin-right: 5px;">
+                                                    #@tag.Name
+                                                </a>
+                                            }
+                                        </p>
+                                    </div>
+                                <div class="col-md-5 text-end newth" style="color:#3d4650;font-weight:600;">
+                                    <small><strong style="color:#3d4650;">Published:</strong> @GetRelativeDate(blogPost.PublishedDate)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                    <style>
+                        /* Pagination Styling */
+                        .pagination .page-item .page-link {
+                        color: slategray; /* Orange Text */
+                        border: 1px solid slategray; /* Orange Border */
+                            margin: 0 3px;
+                            border-radius: 5px;
+                            transition: all 0.2s ease-in-out;
+                        }
+
+                            .pagination .page-item .page-link:hover {
+                            background-color: slategray;
+                                color: #fff;
+                            }
+
+                        .pagination .page-item.active .page-link {
+                        background-color: slategray;
+                        border-color: slategray;
+                            color: #fff;
+                        }
+
+                        .pagination .page-item.disabled .page-link {
+                            color: #ccc;
+                            background-color: #fff;
+                        border-color: slategray;
+                            pointer-events: none;
+                        }
+
+                        /* Back Button */
+                        .custom-back-btn {
+                            padding: 8px 16px;
+                        background-color: slategray;
+                            color: #fff;
+                        border: 1px solid slategray;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            transition: background-color 0.2s ease-in-out;
+                        }
+
+                            .custom-back-btn:hover {
+                            background-color: slategray;
+                            border-color: slategray;
+                            }
+                    </style>
+
+                    <div class="row mb-3 align-items-center">
+                        <div class="col-sm-4">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination mb-0">
+                                    @{
+                                        int totalPages = Convert.ToInt32(ViewBag.TotalPages);
+                                        int currentPage = Convert.ToInt32(ViewBag.PageNumber);
+                                        int startPage = Math.Max(1, currentPage - 2);
+                                        int endPage = Math.Min(totalPages, currentPage + 2);
+                                    }
+
+                                    <!-- Previous Button -->
+                                    <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                                        <a class="page-link"
+                                           asp-controller="Home"
+                                           asp-action="Index"
+                                           asp-route-pageNumber="@(currentPage - 1)"
+                                           asp-route-pageSize="@ViewBag.PageSize"
+                                           asp-route-searchQuery="@ViewBag.SearchQuery"
+                                           asp-route-sortBy="@ViewBag.SortBy"
+                                           asp-route-sortDirection="@ViewBag.SortDirection">
+                                            Previous
+                                        </a>
+                                    </li>
+
+                                    <!-- Page Numbers -->
+                                    @for (int i = startPage; i <= endPage; i++)
+                                    {
+                                        <li class="page-item @(i == currentPage ? "active" : "")">
+                                            <a class="page-link"
+                                               asp-controller="Home"
+                                               asp-action="Index"
+                                               asp-route-pageNumber="@i"
+                                               asp-route-pageSize="@ViewBag.PageSize"
+                                               asp-route-searchQuery="@ViewBag.SearchQuery"
+                                               asp-route-sortBy="@ViewBag.SortBy"
+                                               asp-route-sortDirection="@ViewBag.SortDirection">
+                                                @i
+                                            </a>
+                                        </li>
+                                    }
+
+                                    <!-- Next Button -->
+                                    <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                                        <a class="page-link"
+                                           asp-controller="Home"
+                                           asp-action="Index"
+                                           asp-route-pageNumber="@(currentPage + 1)"
+                                           asp-route-pageSize="@ViewBag.PageSize"
+                                           asp-route-searchQuery="@ViewBag.SearchQuery"
+                                           asp-route-sortBy="@ViewBag.SortBy"
+                                           asp-route-sortDirection="@ViewBag.SortDirection">
+                                            Next
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                        
+                    </div>
+
+                }
+            </div>
+
+           
+
+
+
+
+            <div class="col-lg-4 order-lg-2 order-1">
+                <div class="card">
+                <div class="card-body" style="border:1px solid slategray; border-radius:7px;box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;">
+
+
+                    <div class="row">
+                        <h5 class="mb-2 p-2"
+                            style="
+        border:1px solid slategray;
+        color: white;
+      background: linear-gradient(182deg, #3c444c, #b4bdc7);
+        border-radius:7px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                            <i class="fas fa-share-alt" style="margin-right: 6px;"></i> Social Links
+                        </h5>
+
+                        <!-- Social Media Icons -->
+                        <div class="d-flex justify-content-start mb-3" style="gap: 51px; padding-left: 10px; box-shadow: 0 4px 10px rgb(0 0 0 / 20%);padding-bottom: 11px;padding-top: 11px;border:1px solid slategray;border-radius:7px;">
+                            <a href="https://www.facebook.com" target="_blank" style="text-decoration: none;">
+                                <i class="fab fa-facebook-f" style="font-size: 22px; color: #3b5998; border:2px solid #3b5998; padding:7px; border-radius:3px;"></i>
+                            </a>
+                            <a href="https://www.twitter.com" target="_blank" style="text-decoration: none;">
+                                <i class="fab fa-twitter" style="font-size: 22px; color: #1da1f2;border:2px solid #1da1f2; padding:7px; border-radius:3px;"></i>
+                            </a>
+                            <a href="https://www.linkedin.com" target="_blank" style="text-decoration: none;">
+                                <i class="fab fa-linkedin-in" style="font-size: 22px; color: #0077b5;border:2px solid #0077b5; padding:7px; border-radius:3px;"></i>
+                            </a>
+                            <a href="https://www.instagram.com" target="_blank" style="text-decoration: none;">
+                                <i class="fab fa-instagram" style="font-size: 22px; color: #e1306c;border:2px solid #e1306c; padding:7px; border-radius:3px;"></i>
+                            </a>
+                        </div>
+
+
+                     
+
+
+                        </div>
+
+                    <div class="row mt-2">
+
+                        <h5 class="mb-2  p-2"
+                            style="
+          border:1px solid slategray;
+        color: white;
+        background: linear-gradient(182deg, #3c444c, #b4bdc7);
+        border-radius:7px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                            Recent Post
+                        </h5>
+                        @if (Model != null && Model.LatestBlogPosts.Any())
+                            {
+                                int count = 0;
+                                foreach (var blogPost in Model.LatestBlogPosts)
+                                {
+                                    <a asp-area=""
+                                       asp-controller="Blogs"
+                                       asp-action="Index"
+                                       asp-route-searchQuery=null
+                                       asp-route-urlHandle="@blogPost.UrlHandle"
+                                       class="blog-post">
+                                    <ul class="list-unstyled" style="border: 1px solid slategray; padding:7px; border-radius:5px;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                                            <li class="mb-2">
+                                                <div style="display: flex; align-items: center;">
+                                                <div style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid slategray; background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-user" style="color: slategray; font-size: 20px;"></i>
+                                                    </div>
+                                                    <span style="margin-left: 8px; font-size: 14px; font-weight: bold; color:slategray" class="yuuklk">@blogPost.Author</span>
+                                                </div>
+
+                                                <div>
+                                                    <h4 class="mb-1" style="font-size:14px; font-weight: bold;">@blogPost.Heading</h4>
+                                                </div>
+
+                                            <div class="col-md-5 okcc" style="color:slategray;">
+                                                    @{
+                                                        DateTime publishedDate = blogPost.PublishedDate;
+                                                        DateTime now = DateTime.Now;
+                                                        TimeSpan timeDifference = now - publishedDate;
+
+                                                        string formattedDate;
+
+                                                        if (timeDifference.TotalDays < 1)
+                                                        {
+                                                            formattedDate = "Today";
+                                                        }
+                                                        else if (timeDifference.TotalDays < 7)
+                                                        {
+                                                            int days = (int)timeDifference.TotalDays;
+                                                            formattedDate = $"{days} day{(days > 1 ? "s" : "")} ago";
+                                                        }
+                                                        else if (timeDifference.TotalDays < 30)
+                                                        {
+                                                            int weeks = (int)(timeDifference.TotalDays / 7);
+                                                            formattedDate = $"{weeks} week{(weeks > 1 ? "s" : "")} ago";
+                                                        }
+                                                        else if (timeDifference.TotalDays < 365)
+                                                        {
+                                                            int months = (int)(timeDifference.TotalDays / 30);
+                                                            formattedDate = $"{months} month{(months > 1 ? "s" : "")} ago";
+                                                        }
+                                                        else
+                                                        {
+                                                            int years = (int)(timeDifference.TotalDays / 365);
+                                                            formattedDate = $"{years} year{(years > 1 ? "s" : "")} ago";
+                                                        }
+                                                    }
+                                                    @formattedDate
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </a>
+                                    count++;
+                                }
+                            }
+                        </div>
+
+
+                        <div class="row mt-2">
+                        <h5 class="mb-2 p-2"
+                            style="
+                              border:1px solid slategray;
+                              color: white;
+                            background: linear-gradient(182deg, #3c444c, #b4bdc7);
+                            border-radius:7px;
+                            font-weight: 600;
+                            letter-spacing: 0.5px;
+                            box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                            Recommended Tags
+                        </h5>
+
+                        @{
+                            // Define a list of color styles
+                            var tagColors = new List<string>
+                    {
+                    "#ffb347", // orange
+                    "#87ceeb", // sky blue
+                    "#90ee90", // light green
+                    "#dda0dd", // plum
+                    "#f08080", // light coral
+                    "#f4a460", // sandy brown
+                    "#a3d5ff", // soft blue
+                    "#ffc0cb", // pink
+                    "#ffd700", // gold
+                    "#b0e0e6"  // powder blue
+                    };
+
+                            var random = new Random();
+                        }
+                        <div class="d-flex flex-wrap">
+                            @if (Model != null && Model.Tags.Any())
+                            {
+                                foreach (var tag in Model.Tags)
+                                {
+                                    // Pick a random color for each tag
+                                    var bgColor = tagColors[random.Next(tagColors.Count)];
+                                    var textColor = "#002d5a"; // Optional: Adjust for contrast
+                                    var borderColor = textColor;
+
+                                    <a href="#" class="badge tag-filter"
+                                       style="background: @bgColor; color: @textColor; border: 1px solid @borderColor; border-radius: 5px; margin: 3px">
+                                        #@tag.Name
+                                    </a>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-muted">No tags available</p>
+                            }
+                        </div>
+
+                        </div>
+
+                        <div class="row mt-5">
+
+
+                            <h5 class="mb-2 p-2"
+                                style="
+  border:1px solid slategray;
+  color: white;
+ background: linear-gradient(182deg, #3c444c, #b4bdc7);
+border-radius:7px;
+font-weight: 600;
+letter-spacing: 0.5px;
+box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                                Reading List
+                            </h5>
+                            <div class="d-flex flex-wrap">
+
+
+                                <p style="font-size:15px">
+                                    Click the heading on any story to easily add it to your reading list or a custom list that you can share.
+                                </p>
+
+                                <p style="font-size:12px">
+                                    Help
+
+                                    Status
+
+                                    About
+
+                                    Careers
+
+                                    Press
+
+                                    Blog
+
+                                    Privacy
+
+                                    Terms
+
+                                    Text to speech
+
+                                    Teams
+                                </p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div> <!-- end card-->
+                <!-- Recommended Tags Section -->
+
+            </div>
+
+
+        </div>
+
+
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const blogPosts = document.querySelectorAll(".blog-post");
+                const tagLinks = document.querySelectorAll(".badge");
+
+                tagLinks.forEach(tag => {
+                    tag.addEventListener("click", function (event) {
+                        event.preventDefault(); // Prevent default link behavior
+
+                        let selectedTag = tag.textContent.trim().replace("#", "").toLowerCase();
+                        let found = false; // Flag to check if any post is displayed
+
+                        blogPosts.forEach(post => {
+                            let tagsAttr = post.getAttribute("data-tags");
+
+                            if (tagsAttr) { // Ensure data-tags attribute exists
+                                let tags = tagsAttr.toLowerCase().split(",");
+
+                                if (tags.includes(selectedTag)) {
+                                    post.style.display = "block";
+                                    found = true;
+                                } else {
+                                    post.style.display = "none";
+                                }
+                            }
+                        });
+
+                              if (!found) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "No Posts Found",
+                    text: "There are no blog posts available for this tag.",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "OK"
+                });
+            }
+
+                    });
+                });
+
+                // Show all posts when clicking the "Show All" button
+                const showAllBtn = document.getElementById("showAllPosts");
+                if (showAllBtn) {
+                    showAllBtn.addEventListener("click", function () {
+                        blogPosts.forEach(post => {
+                            post.style.display = "block";
+                        });
+                    });
+                }
+            });
+
+        </script>
+
+
+
+
+  
+    }
+
+
+
+    else
+    {
+@*         <div class="row align-items-center g-5 p-4">
+
+            <!-- Text Section -->
+            <div class="col-12">
+                <h1 class="display-4 lh-1 text-dark"
+                    style="font-size: 90px; font-family:monospace;
+                           line-height: 1.2; color: rgba(0, 0, 0, 0.9);font-weight:540;">
+                    Dev Insights
+                </h1>
+            </div>
+
+
+
+            <div class="col-12" style="margin-top: 6px;">
+                <h2 class="fw-bold text-dark"
+                    style="font-size: 40px; font-family: 'Courier New', monospace;
+                           line-height: 1.2; color: rgba(0, 0, 0, 0.8);">
+                    Code, Frameworks & Tech Trends
+                </h2>
+
+
+            </div>
+
+
+
+            <div class="col-12">
+                <p class="lead text-muted" style="font-size: 18px; line-height: 1.6; max-width: 630px;margin-top: -54px;">
+                    Dive into the latest in programming, frameworks, AI, and tech innovations.
+                    Stay ahead with expert insights, tutorials, and hands-on guides.
+                </p>
+                <a href="Account/Login" class="btn btn-lg mt-3"
+                   style="border-radius: 50px; padding: 12px 30px; font-size: 18px;
+                          background-color: #1e1e1e; color: white; text-transform: uppercase;
+                          font-weight: bold;">
+                    Start Exploring
+                </a>
+            </div>
+
+        </div> *@
+
+        <!-- Full-Width Tag Scroller with Arrows -->
+
+
+
+    <div class="card">
+        <div class="card-body" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid slategray; padding: 10px;margin-top: 1px;">
+
+            @*   <div style="background: linear-gradient(90deg, #f86b1d, #f97316); color: white; width: 100%; text-align: center; padding: 4px 0; border-radius: 3px;" class="mb-2">
+                Headline
+            </div> *@
+
+            <div id="scroll-container" style="width: 100%; overflow: hidden; position: relative; height: 65px;">
+                <div id="scroll-content" style="display: flex; gap: 20px; position: absolute; top: 0; left: 0; white-space: nowrap;">
+
+                    @if (Model != null && Model.LatestBlogPosts.Any())
+                    {
+                        // Repeat 4+ times depending on how many items & screen width
+                        for (int i = 0; i < 5; i++)
+                        {
+                            foreach (var blogPost in Model.LatestBlogPosts.Take(3))
+                            {
+                                <div style="flex: 0 0 auto; width: 170px;">
+                                    <a asp-controller="Blogs" asp-action="Index" asp-route-searchQuery="null" asp-route-urlHandle="@blogPost.UrlHandle" style="text-decoration: none;">
+                                        <div class="scr" style="display: flex; align-items: center; border: 1px solid slategray; border-radius: 5px; padding: 5px; background-color: #fdfdfd;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                                            <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading" style="height: 43px; width: 53px; object-fit: cover; border-radius: 3px; margin-right: 6px;" />
+                                            <div style="font-size: 10px; font-weight: 600; color: slategray; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                @blogPost.Heading
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const content = document.getElementById("scroll-content");
+            let position = 0;
+
+            function scrollLoop() {
+                position -= 1;
+                const resetPoint = content.scrollWidth / 2;
+
+                if (Math.abs(position) >= resetPoint) {
+                    position = 0; // Restart at perfect reset point
+                }
+
+                content.style.transform = `translateX(${position}px)`;
+            }
+
+            setInterval(scrollLoop, 20); // Speed of scroll
+        });
+    </script>
+
+
+
+
+    <div class="row mt-2">
+
+        <div class="col-xl-3 col-lg-6 order-lg-1 order-xl-1">
+
+
+            <!-- start profile info -->
+            <div class="card">
+                <div class="card-body p-2" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid slategray">
+
+                    <!-- Header with Buttons -->
+                    <div class="bbttom" style="display: flex; justify-content: space-between; align-items: center;border-bottom: 2px solid #727f8d;padding-bottom: 6px; margin-bottom: 15px;">
+                        <h4 class="header-title mb-0" style="
+                            color: #3d4650;
+                            font-weight: 700;
+                            font-size: 18px;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                            margin: 0;
+                                ">
+                            <i class="fas fa-clock" style="margin-right: 6px;"></i> Latest Post
+
+                        </h4>
+                        <div style="display: flex; gap: 5px;">
+                            <button onclick="scrollPosts(-1)" class="btn btn-sm btn-outline-secondary p-1"
+                                    style="width: 30px; height: 28px; border:1px solid dimgrey;">
+                                <i class="bi bi-chevron-up" style="color: black"></i>
+                            </button>
+
+                            <button onclick="scrollPosts(1)" class="btn btn-sm btn-outline-secondary p-1"
+                                    style="width: 30px; height: 28px; border:1px solid dimgrey;">
+                                <i class="bi bi-chevron-down" style="color: black"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Scrollable Container -->
+                    <div id="postScrollContainer" style="max-height: 402px; overflow: hidden; position: relative; transition: transform 0.5s ease;">
+                        <div id="postScrollInner" style="position: relative; transition: transform 0.4s ease;">
+                            @if (Model != null && Model.LatestBlogPosts.Any())
+                            {
+                                foreach (var blogPost in Model.LatestBlogPosts)
+                                {
+                                    <div class="gal-box mt-3" style="position: relative;">
+                                        <a asp-area=""
+                                           asp-controller="Blogs"
+                                           asp-action="Index"
+                                           asp-route-searchQuery=null
+                                           asp-route-urlHandle="@blogPost.UrlHandle"
+                                           style="display: block; position: relative;">
+
+                                            <!-- 🖼️ Image -->
+                                            <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading"
+                                                 class="mb-2 d-flex align-self-center me-3"
+                                                 style="height: 105px; width: 100%; border-radius: 5px; object-fit: cover;" />
+
+                                            <!-- 🧠 Heading -->
+                                            <h3 style="
+                                    position: absolute;
+                                    top: 71%;
+                                    left: 0px;
+                                    transform: translateY(-50%);
+                                    margin: 0;
+                                    padding: 14px 10px;
+                                    font-size: 8px;
+                                    font-weight: 600;
+                                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                    color: white;
+                                    letter-spacing: 0.5px;
+                                    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+                                    border-radius: 5px;
+                                    overflow: hidden;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 2;
+                                    -webkit-box-orient: vertical;
+                                    text-overflow: ellipsis;">
+                                                @blogPost.Heading
+                                            </h3>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inline Script -->
+            <script>
+                let scrollIndex = 0;
+                const postHeight = 130; // Height of each post block (including margin)
+                const postsPerView = 3;
+                const totalPosts = @Model.LatestBlogPosts.Count();
+                const container = document.getElementById('postScrollInner');
+
+                function scrollPosts(direction) {
+                    const maxIndex = Math.ceil(totalPosts / postsPerView) - 1;
+                    scrollIndex += direction;
+
+                    if (scrollIndex < 0) scrollIndex = 0;
+                    if (scrollIndex > maxIndex) scrollIndex = maxIndex;
+
+                    const offset = scrollIndex * postsPerView * postHeight * -1;
+                    container.style.transform = `translateY(${offset}px)`;
+                }
+            </script>
+
+
+            <!-- end profile info -->
+
+
+        </div>
+
+        <div class="col-xl-6 col-lg-12 order-lg-2 order-xl-1">
+            <div class="card">
+                <div class="card-body p-2" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid slategray;">
+                    @if (Model != null && Model.BlogPosts.Any())
+                    {
+                        var carouselId = "carouselBlogPosts";
+                        var blogPosts = Model.LatestBlogPosts
+                        .OrderByDescending(b => b.PublishedDate)
+                        .Take(7)
+                        .ToList();
+
+                        <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+
+                                @for (int i = 0; i < blogPosts.Count; i++)
+                                {
+                                    var post = blogPosts[i];
+                                    var isActive = i == 0 ? "active" : "";
+
+                                    <div class="carousel-item @isActive" data-tags="@string.Join(",", post.Tags.Select(t => t.Name.ToLower()))">
+                                        <div class="position-relative">
+
+                                            <img src="@post.FeaturedImageUrl" alt="@post.Heading"
+                                                 class="d-block w-100 img-fluid"
+                                                 style="object-fit: cover; height: 430px;" />
+
+
+                                            <div style="
+                                                position: absolute;
+                                                top: 55%;
+                                                left: 20px;
+                                                color: white;
+                                                padding: 10px 15px;
+                                                border-radius: 10px;
+                                                width: 90%;
+                                                max-width: 90%;">
+
+                                                <!-- 🔖 Tags + Date line -->
+                                                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+                                                    @foreach (var tag in post.Tags)
+                                                    {
+                                                        <span style="
+                                                            background: @GetRandomTagColor(tag.Name);
+                                                            color: white;
+                                                            padding: 4px 10px;
+                                                            border-radius: 7px;
+                                                            font-size: 10px;
+                                                            text-transform: capitalize;
+                                                        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+                                                        border:1px solid white">
+                                                            #@tag.Name
+                                                        </span>
+                                                    }
+
+                                                    <!-- 🕒 Date with Icon -->
+                                                    <span style="display: flex; align-items: center; font-size: 0.85rem; gap: 5px; color: #eee;">
+                                                        <i class="bi bi-clock" style="font-size: 1rem;"></i> <!-- Bootstrap Icon -->
+                                                        @{
+                                                            DateTime publishedDate = post.PublishedDate;
+                                                            DateTime now = DateTime.Now;
+                                                            TimeSpan timeDifference = now - publishedDate;
+
+                                                            string formattedDate;
+
+                                                            if (timeDifference.TotalDays < 1)
+                                                            {
+                                                                formattedDate = "Today";
+                                                            }
+                                                            else if (timeDifference.TotalDays < 7)
+                                                            {
+                                                                int days = (int)timeDifference.TotalDays;
+                                                                formattedDate = $"{days} day{(days > 1 ? "s" : "")} ago";
+                                                            }
+                                                            else if (timeDifference.TotalDays < 30)
+                                                            {
+                                                                int weeks = (int)(timeDifference.TotalDays / 7);
+                                                                formattedDate = $"{weeks} week{(weeks > 1 ? "s" : "")} ago";
+                                                            }
+                                                            else if (timeDifference.TotalDays < 365)
+                                                            {
+                                                                int months = (int)(timeDifference.TotalDays / 30);
+                                                                formattedDate = $"{months} month{(months > 1 ? "s" : "")} ago";
+                                                            }
+                                                            else
+                                                            {
+                                                                int years = (int)(timeDifference.TotalDays / 365);
+                                                                formattedDate = $"{years} year{(years > 1 ? "s" : "")} ago";
+                                                            }
+                                                        }
+                                                        @formattedDate
+                                                    </span>
+                                                </div>
+
+                                                <h3 style="
+                                                margin: 10px 0 5px 0;
+                                                font-size: 21px;
+                                                font-weight: 600;
+                                                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                                color: white;
+                                                letter-spacing: 0.5px;
+                                                text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+                                                overflow: hidden;
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 2;
+                                                -webkit-box-orient: vertical;
+                                                text-overflow: ellipsis;">
+                                                    @post.Heading
+                                                </h3>
+
+
+                                                <!-- 📄 Description -->
+                                                <p class="mt-2 mb-2" style="
+                                                        overflow: hidden;
+                                                         font-size: 11px;
+                                                        display: -webkit-box;
+                                                        -webkit-line-clamp: 3;
+                                                        -webkit-box-orient: vertical;
+                                                        text-overflow: ellipsis;">
+                                                    @post.ShortDescription
+                                                </p>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+
+                            <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-xl-3 col-lg-6 order-lg-1 order-xl-2">
+            <div class="card">
+                <div class="card-body" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; border:1px solid slategray;">
+
+                    <!-- Heading and buttons in a single flex row -->
+                    <!-- Heading and buttons in a single flex row -->
+                    <div class="bbttom" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #727f8d; padding-bottom: 6px; margin-bottom: 15px;">
+                        <h4 class="header-title mb-0" style="
+                        color: #3d4650;
+                        font-weight: 700;
+                        font-size: 18px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        margin: 0;
+                            ">
+                            <i class="fas fa-fire-alt" style="margin-right: 6px;"></i> Trending Posts
+                        </h4>
+                    </div>
+
+                    <div id="most-liked-blog" style="max-height: 363px; overflow-y: auto; padding-right: 6px;">
+                        <p>Loading...</p>
+                    </div>
+
+
+
+
+                    @*                     <div id="most-liked-blog">
+                        <p>Loading...</p>
+                    </div> *@
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                fetch('/Blogs/GetMostLikedBlogs') // Notice "Blogs" plural now
+                    .then(res => res.json())
+                    .then(data => {
+                        const container = document.getElementById('most-liked-blog');
+                        container.innerHTML = ''; // Clear previous content
+
+                        data.forEach(post => {
+                            const publishedDate = formatDate(post.publishedDate);
+
+                            container.innerHTML += `
+                                <a href="/Blogs?searchQuery=null&urlHandle=${post.urlHandle}" class="text-decoration-none" >
+                                                <ul class="list-unstyled" style="border: 1px solid slategray; padding:7px; border-radius:5px; margin-bottom: 10px;padding-top: 16px;height:111px;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);background:linear-gradient(182deg, #fafdff, #dcdcdc);">
+                                        <li class="mb-2">
+                                            <div style="display: flex; align-items: center;">
+                                                <div style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid slategray; background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-user" style="color: slategray; font-size: 11px;"></i>
+                                                </div>
+                                                <span style="margin-left: 8px; font-size: 14px; font-weight: bold; color:#434d56;">${post.author}</span>
+                                            </div>
+
+                                            <div>
+                                                <h4 class="mb-1" style="font-size:10px; font-weight: bold;">${post.title}</h4>
+                                            </div>
+
+                                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color:black; margin-top: 4px;">
+                                                <span>${publishedDate}</span>
+                                                <span class="badge" style="background-color:slategray;">${post.totalLikes} ❤</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </a>
+                            `;
+                        });
+                    })
+                    .catch(err => {
+                        document.getElementById('most-liked-blog').innerHTML = `<p>Error loading posts.</p>`;
+                        console.error(err);
+                    });
+
+                // Helper function to format the published date
+                function formatDate(published) {
+                    const publishedDate = new Date(published);
+                    const now = new Date();
+                    const diff = now - publishedDate;
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+                    if (days < 1) return "Today";
+                    if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+                    if (days < 30) return `${Math.floor(days / 7)} week${Math.floor(days / 7) > 1 ? 's' : ''} ago`;
+                    if (days < 365) return `${Math.floor(days / 30)} month${Math.floor(days / 30) > 1 ? 's' : ''} ago`;
+                    return `${Math.floor(days / 365)} year${Math.floor(days / 365) > 1 ? 's' : ''} ago`;
+                }
+            });
+        </script>
+
+
+
+
+    </div>
+
+
+
+
+    <div class="row mt-2">
+
+
+        <div class="col-lg-8 order-lg-1 order-2">
+            @if (Model != null && Model.BlogPosts.Any())
+            {
+                @foreach (var blogPost in Model.BlogPosts.OrderByDescending(b => b.PublishedDate))
+                {
+                    <div class="card mb-3 shadow-sm blog-post" data-tags="@string.Join(",", blogPost.Tags.Select(t => t.Name.ToLower()))">
+                        <div class="card-body" style="border: 1px solid slategray; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                            <div class="row">
+                                <!-- Blog Image -->
+                                <div class="col-sm-4">
+                                    <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading"
+                                         style="height: 200px; width: 100%; border-radius: 8px; object-fit: cover;" />
+                                </div>
+
+                                <!-- Blog Details -->
+                                <div class="col-sm-8">
+                                    <a asp-area="" asp-controller="Blogs" asp-action="Index" asp-route-urlHandle="@blogPost.UrlHandle">
+                                        <h4 style="font-size: 20px; font-weight: 700; color: #3d4650;">@blogPost.Heading</h4>
+                                    </a>
+                                    <p class="mb-1" style="color:slategray;">
+                                        <strong style="color:slategray;">
+                                            Author:
+                                        </strong> @blogPost.Author
+
+                                    </p>
+                                    <p>@blogPost.ShortDescription</p>
+                                </div>
+                            </div>
+
+                            <hr style="border-top: 1px solid slategray;margin-top: 1rem;" />
+
+                            <!-- Tags & Date -->
+                            <div class="row align-items-center">
+                                <div class="col-md-7">
+                                    <p>
+                                        @foreach (var tag in blogPost.Tags)
+                                        {
+                                            <a href="#" class="badge tag-filter" style="background-color: white; color: #3d4650; border: 1px solid #3d4650; border-radius: 5px; margin-right: 5px;">
+                                                #@tag.Name
+                                            </a>
+                                        }
+                                    </p>
+                                </div>
+                                <div class="col-md-5 text-end newth" style="color:#3d4650;font-weight:600;">
+                                    <small><strong style="color:#3d4650;">Published:</strong> @GetRelativeDate(blogPost.PublishedDate)</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+                <style>
+                    /* Pagination Styling */
+                    .pagination .page-item .page-link {
+                        color: slategray; /* Orange Text */
+                        border: 1px solid slategray; /* Orange Border */
+                        margin: 0 3px;
+                        border-radius: 5px;
+                        transition: all 0.2s ease-in-out;
+                    }
+
+                        .pagination .page-item .page-link:hover {
+                            background-color: slategray;
+                            color: #fff;
+                        }
+
+                    .pagination .page-item.active .page-link {
+                        background-color: slategray;
+                        border-color: slategray;
+                        color: #fff;
+                    }
+
+                    .pagination .page-item.disabled .page-link {
+                        color: #ccc;
+                        background-color: #fff;
+                        border-color: slategray;
+                        pointer-events: none;
+                    }
+
+                    /* Back Button */
+                    .custom-back-btn {
+                        padding: 8px 16px;
+                        background-color: slategray;
+                        color: #fff;
+                        border: 1px solid slategray;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        transition: background-color 0.2s ease-in-out;
+                    }
+
+                        .custom-back-btn:hover {
+                            background-color: slategray;
+                            border-color: slategray;
+                        }
+                </style>
+
+                <div class="row mb-3 align-items-center">
+                    <div class="col-sm-4">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination mb-0">
+                                @{
+                                    int totalPages = Convert.ToInt32(ViewBag.TotalPages);
+                                    int currentPage = Convert.ToInt32(ViewBag.PageNumber);
+                                    int startPage = Math.Max(1, currentPage - 2);
+                                    int endPage = Math.Min(totalPages, currentPage + 2);
+                                }
+
+                                <!-- Previous Button -->
+                                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                                    <a class="page-link"
+                                       asp-controller="Home"
+                                       asp-action="Index"
+                                       asp-route-pageNumber="@(currentPage - 1)"
+                                       asp-route-pageSize="@ViewBag.PageSize"
+                                       asp-route-searchQuery="@ViewBag.SearchQuery"
+                                       asp-route-sortBy="@ViewBag.SortBy"
+                                       asp-route-sortDirection="@ViewBag.SortDirection">
+                                        Previous
+                                    </a>
+                                </li>
+
+                                <!-- Page Numbers -->
+                                @for (int i = startPage; i <= endPage; i++)
+                                {
+                                    <li class="page-item @(i == currentPage ? "active" : "")">
+                                        <a class="page-link"
+                                           asp-controller="Home"
+                                           asp-action="Index"
+                                           asp-route-pageNumber="@i"
+                                           asp-route-pageSize="@ViewBag.PageSize"
+                                           asp-route-searchQuery="@ViewBag.SearchQuery"
+                                           asp-route-sortBy="@ViewBag.SortBy"
+                                           asp-route-sortDirection="@ViewBag.SortDirection">
+                                            @i
+                                        </a>
+                                    </li>
+                                }
+
+                                <!-- Next Button -->
+                                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                                    <a class="page-link"
+                                       asp-controller="Home"
+                                       asp-action="Index"
+                                       asp-route-pageNumber="@(currentPage + 1)"
+                                       asp-route-pageSize="@ViewBag.PageSize"
+                                       asp-route-searchQuery="@ViewBag.SearchQuery"
+                                       asp-route-sortBy="@ViewBag.SortBy"
+                                       asp-route-sortDirection="@ViewBag.SortDirection">
+                                        Next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+
+                </div>
+
+            }
+        </div>
+
+
+
+
+
+
+        <div class="col-lg-4 order-lg-2 order-1">
+            <div class="card">
+                <div class="card-body" style="border:1px solid slategray; border-radius:7px;box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;">
+
+
+                    <div class="row">
+                        <h5 class="mb-2 p-2"
+                            style="
+        border:1px solid slategray;
+        color: white;
+        background: linear-gradient(182deg, #3c444c, #b4bdc7);
+        border-radius:7px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                            <i class="fas fa-share-alt" style="margin-right: 6px;"></i> Social Links
+                        </h5>
+
+                        <!-- Social Media Icons -->
+                        <div class="d-flex justify-content-start mb-3" style="gap: 51px; padding-left: 10px; box-shadow: 0 4px 10px rgb(0 0 0 / 20%);padding-bottom: 11px;padding-top: 11px;border:1px solid slategray;border-radius:7px;">
+                            <a href="https://www.facebook.com" target="_blank" style="text-decoration: none;">
+                                <i class="fab fa-facebook-f" style="font-size: 22px; color: #3b5998; border:2px solid #3b5998; padding:7px; border-radius:3px;"></i>
+                            </a>
+                            <a href="https://www.twitter.com" target="_blank" style="text-decoration: none;">
+                                <i class="fab fa-twitter" style="font-size: 22px; color: #1da1f2;border:2px solid #1da1f2; padding:7px; border-radius:3px;"></i>
+                            </a>
+                            <a href="https://www.linkedin.com" target="_blank" style="text-decoration: none;">
+                                <i class="fab fa-linkedin-in" style="font-size: 22px; color: #0077b5;border:2px solid #0077b5; padding:7px; border-radius:3px;"></i>
+                            </a>
+                            <a href="https://www.instagram.com" target="_blank" style="text-decoration: none;">
+                                <i class="fab fa-instagram" style="font-size: 22px; color: #e1306c;border:2px solid #e1306c; padding:7px; border-radius:3px;"></i>
+                            </a>
+                        </div>
+
+
+
+
+
+                    </div>
+
+                    <div class="row mt-2">
+
+                        <h5 class="mb-2  p-2"
+                            style="
+          border:1px solid slategray;
+        color: white;
+       background: linear-gradient(182deg, #3c444c, #b4bdc7);
+        border-radius:7px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                            Recent Post
+                        </h5>
+                        @if (Model != null && Model.LatestBlogPosts.Any())
+                        {
+                            int count = 0;
+                            foreach (var blogPost in Model.LatestBlogPosts)
+                            {
+                                <a asp-area=""
+                                   asp-controller="Blogs"
+                                   asp-action="Index"
+                                   asp-route-searchQuery=null
+                                   asp-route-urlHandle="@blogPost.UrlHandle"
+                                   class="blog-post">
+                                    <ul class="list-unstyled" style="border: 1px solid slategray; padding:7px; border-radius:5px;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                                        <li class="mb-2">
+                                            <div style="display: flex; align-items: center;">
+                                                <div style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid slategray; background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-user" style="color: slategray; font-size: 20px;"></i>
+                                                </div>
+                                                <span style="margin-left: 8px; font-size: 14px; font-weight: bold; color:slategray">@blogPost.Author</span>
+                                            </div>
+
+                                            <div>
+                                                <h4 class="mb-1" style="font-size:14px; font-weight: bold;">@blogPost.Heading</h4>
+                                            </div>
+
+                                            <div class="col-md-5" style="color:slategray;">
+                                                @{
+                                                    DateTime publishedDate = blogPost.PublishedDate;
+                                                    DateTime now = DateTime.Now;
+                                                    TimeSpan timeDifference = now - publishedDate;
+
+                                                    string formattedDate;
+
+                                                    if (timeDifference.TotalDays < 1)
+                                                    {
+                                                        formattedDate = "Today";
+                                                    }
+                                                    else if (timeDifference.TotalDays < 7)
+                                                    {
+                                                        int days = (int)timeDifference.TotalDays;
+                                                        formattedDate = $"{days} day{(days > 1 ? "s" : "")} ago";
+                                                    }
+                                                    else if (timeDifference.TotalDays < 30)
+                                                    {
+                                                        int weeks = (int)(timeDifference.TotalDays / 7);
+                                                        formattedDate = $"{weeks} week{(weeks > 1 ? "s" : "")} ago";
+                                                    }
+                                                    else if (timeDifference.TotalDays < 365)
+                                                    {
+                                                        int months = (int)(timeDifference.TotalDays / 30);
+                                                        formattedDate = $"{months} month{(months > 1 ? "s" : "")} ago";
+                                                    }
+                                                    else
+                                                    {
+                                                        int years = (int)(timeDifference.TotalDays / 365);
+                                                        formattedDate = $"{years} year{(years > 1 ? "s" : "")} ago";
+                                                    }
+                                                }
+                                                @formattedDate
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </a>
+                                count++;
+                            }
+                        }
+                    </div>
+
+
+                    <div class="row mt-2">
+                        <h5 class="mb-2 p-2"
+                            style="
+                              border:1px solid slategray;
+                              color: white;
+                              background:slategray;
+                            border-radius:7px;
+                            font-weight: 600;
+                            letter-spacing: 0.5px;
+                            box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
+                            Recommended Tags
+                        </h5>
+
+                        @{
+                            // Define a list of color styles
+                            var tagColors = new List<string>
+                    {
+                    "#ffb347", // orange
+                    "#87ceeb", // sky blue
+                    "#90ee90", // light green
+                    "#dda0dd", // plum
+                    "#f08080", // light coral
+                    "#f4a460", // sandy brown
+                    "#a3d5ff", // soft blue
+                    "#ffc0cb", // pink
+                    "#ffd700", // gold
+                    "#b0e0e6"  // powder blue
+                    };
+
+                            var random = new Random();
+                        }
+                        <div class="d-flex flex-wrap">
+                            @if (Model != null && Model.Tags.Any())
+                            {
+                                foreach (var tag in Model.Tags)
+                                {
+                                    // Pick a random color for each tag
+                                    var bgColor = tagColors[random.Next(tagColors.Count)];
+                                    var textColor = "#002d5a"; // Optional: Adjust for contrast
+                                    var borderColor = textColor;
+
+                                    <a href="#" class="badge tag-filter"
+                                       style="background: @bgColor; color: @textColor; border: 1px solid @borderColor; border-radius: 5px; margin: 3px">
+                                        #@tag.Name
+                                    </a>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-muted">No tags available</p>
+                            }
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-5">
+
+
+                        <h5 class="mb-2 p-2"
+                            style="
+  border:1px solid slategray;
+  color: white;
+  background: linear-gradient(182deg, #3c444c, #b4bdc7);
+border-radius:7px;
+font-weight: 600;
+letter-spacing: 0.5px;
+box-shadow: 0 2px 6px rgba(207, 106, 27, 0.2);">
+                            Reading List
+                        </h5>
+                        <div class="d-flex flex-wrap">
+
+
+                            <p style="font-size:15px">
+                                Click the heading on any story to easily add it to your reading list or a custom list that you can share.
+                            </p>
+
+                            <p style="font-size:12px">
+                                Help
+
+                                Status
+
+                                About
+
+                                Careers
+
+                                Press
+
+                                Blog
+
+                                Privacy
+
+                                Terms
+
+                                Text to speech
+
+                                Teams
+                            </p>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div> <!-- end card-->
+            <!-- Recommended Tags Section -->
+
+        </div>
+
+
+    </div>
+
+
+
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+        <script>
+        @functions {
+        private string GetRelativeDate(DateTime publishedDate)
+        {
+            var now = DateTime.Now;
+            var timeDifference = now - publishedDate;
+
+            if (timeDifference.TotalDays < 1)
+                return "Today";
+            else if (timeDifference.TotalDays < 7)
+                return $"{(int)timeDifference.TotalDays} day{(timeDifference.TotalDays > 1 ? "s" : "")} ago";
+            else if (timeDifference.TotalDays < 30)
+                return $"{(int)(timeDifference.TotalDays / 7)} week{(timeDifference.TotalDays / 7 > 1 ? "s" : "")} ago";
+            else if (timeDifference.TotalDays < 365)
+                return $"{(int)(timeDifference.TotalDays / 30)} month{(timeDifference.TotalDays / 30 > 1 ? "s" : "")} ago";
+            else
+                return $"{(int)(timeDifference.TotalDays / 365)} year{(timeDifference.TotalDays / 365 > 1 ? "s" : "")} ago";
+        }
+    }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const blogPosts = document.querySelectorAll(".blog-post");
+                const tagLinks = document.querySelectorAll(".badge");
+
+                tagLinks.forEach(tag => {
+                    tag.addEventListener("click", function (event) {
+                        event.preventDefault(); // Prevent default link behavior
+
+                        let selectedTag = tag.textContent.trim().replace("#", "").toLowerCase();
+                        let found = false; // Flag to check if any post is displayed
+
+                        blogPosts.forEach(post => {
+                            let tagsAttr = post.getAttribute("data-tags");
+
+                            if (tagsAttr) { // Ensure data-tags attribute exists
+                                let tags = tagsAttr.toLowerCase().split(",");
+
+                                if (tags.includes(selectedTag)) {
+                                    post.style.display = "block";
+                                    found = true;
+                                } else {
+                                    post.style.display = "none";
+                                }
+                            }
+                        });
+
+                              if (!found) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "No Posts Found",
+                    text: "There are no blog posts available for this tag.",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "OK"
+                });
+            }
+
+                    });
+                });
+
+                // Show all posts when clicking the "Show All" button
+                const showAllBtn = document.getElementById("showAllPosts");
+                if (showAllBtn) {
+                    showAllBtn.addEventListener("click", function () {
+                        blogPosts.forEach(post => {
+                            post.style.display = "block";
+                        });
+                    });
+                }
+            });
+
+        </script>
+
+
+
+
+        <script>
+
+
+
+            @functions {
+            private string GetRandomTagColor(string tagName)
+            {
+                var colors = new[] {
+                    "#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF", "#9D4EDD", "#F99417"
+                };
+                return colors[Math.Abs(tagName.GetHashCode()) % colors.Length];
+            }
+        }
+
+       
+    </script>
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
