@@ -1043,47 +1043,8 @@ box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
 
     else
     {
-@*         <div class="row align-items-center g-5 p-4">
-
-            <!-- Text Section -->
-            <div class="col-12">
-                <h1 class="display-4 lh-1 text-dark"
-                    style="font-size: 90px; font-family:monospace;
-                           line-height: 1.2; color: rgba(0, 0, 0, 0.9);font-weight:540;">
-                    Dev Insights
-                </h1>
-            </div>
 
 
-
-            <div class="col-12" style="margin-top: 6px;">
-                <h2 class="fw-bold text-dark"
-                    style="font-size: 40px; font-family: 'Courier New', monospace;
-                           line-height: 1.2; color: rgba(0, 0, 0, 0.8);">
-                    Code, Frameworks & Tech Trends
-                </h2>
-
-
-            </div>
-
-
-
-            <div class="col-12">
-                <p class="lead text-muted" style="font-size: 18px; line-height: 1.6; max-width: 630px;margin-top: -54px;">
-                    Dive into the latest in programming, frameworks, AI, and tech innovations.
-                    Stay ahead with expert insights, tutorials, and hands-on guides.
-                </p>
-                <a href="Account/Login" class="btn btn-lg mt-3"
-                   style="border-radius: 50px; padding: 12px 30px; font-size: 18px;
-                          background-color: #1e1e1e; color: white; text-transform: uppercase;
-                          font-weight: bold;">
-                    Start Exploring
-                </a>
-            </div>
-
-        </div> *@
-
-        <!-- Full-Width Tag Scroller with Arrows -->
 
 
 
@@ -1452,8 +1413,8 @@ box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
 
                             container.innerHTML += `
                                 <a href="/Blogs?searchQuery=null&urlHandle=${post.urlHandle}" class="text-decoration-none" >
-                                                <ul class="list-unstyled" style="border: 1px solid slategray; padding:7px; border-radius:5px; margin-bottom: 10px;padding-top: 16px;height:111px;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);background:linear-gradient(182deg, #fafdff, #dcdcdc);">
-                                        <li class="mb-2">
+                                                <ul class="list-unstyled newul"  style="border: 1px solid slategray; padding:7px; border-radius:5px; margin-bottom: 10px;padding-top: 16px;height:111px;box-shadow: 0 4px 10px rgb(0 0 0 / 20%);background:linear-gradient(182deg, #fafdff, #dcdcdc);">
+                                        <li class="mb-2" id="ulstylenew">
                                             <div style="display: flex; align-items: center;">
                                                 <div style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid slategray; background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
                                                     <i class="fas fa-user" style="color: slategray; font-size: 11px;"></i>
@@ -1526,7 +1487,7 @@ box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                                     <a asp-area="" asp-controller="Blogs" asp-action="Index" asp-route-urlHandle="@blogPost.UrlHandle">
                                         <h4 style="font-size: 20px; font-weight: 700; color: #3d4650;">@blogPost.Heading</h4>
                                     </a>
-                                    <p class="mb-1" style="color:slategray;">
+                                    <p class="mb-1 dc" style="color:slategray;">
                                         <strong style="color:slategray;">
                                             Author:
                                         </strong> @blogPost.Author
@@ -1684,7 +1645,7 @@ box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                             style="
         border:1px solid slategray;
         color: white;
-        background: linear-gradient(182deg, #3c444c, #b4bdc7);
+      background: linear-gradient(182deg, #3c444c, #b4bdc7);
         border-radius:7px;
         font-weight: 600;
         letter-spacing: 0.5px;
@@ -1720,7 +1681,7 @@ box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                             style="
           border:1px solid slategray;
         color: white;
-       background: linear-gradient(182deg, #3c444c, #b4bdc7);
+        background: linear-gradient(182deg, #3c444c, #b4bdc7);
         border-radius:7px;
         font-weight: 600;
         letter-spacing: 0.5px;
@@ -1744,14 +1705,14 @@ box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                                                 <div style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid slategray; background: linear-gradient(to right, #f0f8fff7, #eef1f6); display: flex; align-items: center; justify-content: center;">
                                                     <i class="fas fa-user" style="color: slategray; font-size: 20px;"></i>
                                                 </div>
-                                                <span style="margin-left: 8px; font-size: 14px; font-weight: bold; color:slategray">@blogPost.Author</span>
+                                                <span style="margin-left: 8px; font-size: 14px; font-weight: bold; color:slategray" class="yuuklk">@blogPost.Author</span>
                                             </div>
 
                                             <div>
                                                 <h4 class="mb-1" style="font-size:14px; font-weight: bold;">@blogPost.Heading</h4>
                                             </div>
 
-                                            <div class="col-md-5" style="color:slategray;">
+                                            <div class="col-md-5 okcc" style="color:slategray;">
                                                 @{
                                                     DateTime publishedDate = blogPost.PublishedDate;
                                                     DateTime now = DateTime.Now;
@@ -1800,7 +1761,7 @@ box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                             style="
                               border:1px solid slategray;
                               color: white;
-                              background:slategray;
+                            background: linear-gradient(182deg, #3c444c, #b4bdc7);
                             border-radius:7px;
                             font-weight: 600;
                             letter-spacing: 0.5px;
@@ -1857,11 +1818,11 @@ box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                             style="
   border:1px solid slategray;
   color: white;
-  background: linear-gradient(182deg, #3c444c, #b4bdc7);
+ background: linear-gradient(182deg, #3c444c, #b4bdc7);
 border-radius:7px;
 font-weight: 600;
 letter-spacing: 0.5px;
-box-shadow: 0 2px 6px rgba(207, 106, 27, 0.2);">
+box-shadow: 0 4px 10px rgb(0 0 0 / 20%);">
                             Reading List
                         </h5>
                         <div class="d-flex flex-wrap">
